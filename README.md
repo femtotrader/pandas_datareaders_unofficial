@@ -10,6 +10,8 @@ see http://pandas.pydata.org/pandas-docs/stable/remote_data.html
 
 This project is an unofficial rewrite of DataReaders using [requests](http://www.python-requests.org/) also called "HTTP for Humans".
 
+see https://github.com/pydata/pandas/issues/6456
+
 Thanks to [requests-cache](https://readthedocs.org/projects/requests-cache/) we can now use SQLite as cache db to avoid too much requests to remote servers.
 
     import requests_cache
