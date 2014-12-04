@@ -30,4 +30,4 @@ Thanks to [requests-cache](https://readthedocs.org/projects/requests-cache/) we 
     data = MyDataReader("GoogleFinanceDaily").get(symbol, start_date, end_date)
     print(data)
 
-This is still very experimental. Not every DataReaders are functionnal.
+This is still very experimental. Not every DataReaders are functional.
