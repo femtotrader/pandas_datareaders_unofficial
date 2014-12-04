@@ -16,6 +16,7 @@ Thanks to [requests-cache](https://readthedocs.org/projects/requests-cache/) we 
 
     import requests_cache
     expire_after = 60*5 # seconds
+    filename = 'req_cache'
     requests_cache.install_cache(filename, backend='sqlite', expire_after=expire_after)
     
     symbol = ["GOOG", "AAPL", "MSFT"]
