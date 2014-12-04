@@ -8,7 +8,7 @@ easy and intuitive.
 DataReaders are objects to fetch data from remote source (Google Finance, Yahoo Finance, FRED, FamaFrench, World Bank...)
 see http://pandas.pydata.org/pandas-docs/stable/remote_data.html
 
-This project is an unofficial rewrite of DataReaders using [requests](http://www.python-requests.org/) also called "HTTP for Humans".
+This project is an unofficial rewrite of DataReaders using [requests](http://www.python-requests.org/) also called "HTTP for Humans". But it can be easy to use classic `urlopen` using this code.
 
 see https://github.com/pydata/pandas/issues/8713
 
