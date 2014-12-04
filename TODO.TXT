@@ -1,0 +1,14 @@
+see pb unzip memory FamaFrench
+
+see WorldBank - class
+
+see _get_multi de FRED
+    essayer de mutualiser le code dans DataReaderBase
+    si on récupére pour un symbol une série
+    pour plusieurs symbols on doit récupérer un DataFrame (c'est le cas pour FRED)
+
+    si on récupère pour un symbol un DataFrame
+    pour plusieurs symbols on doit récupérer un Panel (c'est le cas pour Google Finance Daily ou Yahoo
+
+see Yahoo Options
+see Yahoo Quotes
