@@ -1,7 +1,8 @@
 Pandas DataReaders with support of requests and requests-cache
 
-## What is it ?
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/femtotrader/pandas_datareaders?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+## What is it ?
 [**pandas**](http://pandas.pydata.org/) is a Python package providing fast, flexible, and expressive data
 structures designed to make working with "relational" or "labeled" data both
 easy and intuitive.
