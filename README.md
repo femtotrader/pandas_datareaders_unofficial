@@ -6,6 +6,7 @@ structures designed to make working with "relational" or "labeled" data both
 easy and intuitive.
 
 DataReaders are objects to fetch data from remote source (Google Finance, Yahoo Finance, FRED, FamaFrench, World Bank...)
+see http://pandas.pydata.org/pandas-docs/stable/remote_data.html
 
 This project is an unofficial rewrite of DataReaders using [requests](http://www.python-requests.org/) also called "HTTP for Humans".
 
@@ -21,3 +22,5 @@ Thanks to [requests-cache](https://readthedocs.org/projects/requests-cache/) we 
     start_date = end_date - datetime.timedelta(days=num_days)
     data = MyDataReader("GoogleFinanceDaily").get(symbol, start_date, end_date)
     print(data)
+
+This is still very experimental. Not every DataReaders are functionnal.
