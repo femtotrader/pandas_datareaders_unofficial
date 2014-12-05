@@ -15,8 +15,13 @@
 * Yahoo Quotes
 
 * Yahoo Query Language YQL
+
   https://developer.yahoo.com/yql/
+  
   https://github.com/pydata/pandas/issues/7104
+  
   https://github.com/femtotrader/StockScraper/blob/master/stockretriever.py
+  
   https://www.datatables.org/
+  
   https://github.com/project-fondue/python-yql (see forks)
