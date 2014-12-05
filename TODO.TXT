@@ -18,3 +18,4 @@ see Yahoo Quotes
 see Yahoo Query Language YQL
     https://developer.yahoo.com/yql/
     https://github.com/pydata/pandas/issues/7104
+    https://github.com/femtotrader/StockScraper/blob/master/stockretriever.py
