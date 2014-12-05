@@ -14,3 +14,7 @@ see _get_multi de FRED
 
 see Yahoo Options
 see Yahoo Quotes
+
+see Yahoo QL YQL
+    https://developer.yahoo.com/yql/
+    https://github.com/pydata/pandas/issues/7104
