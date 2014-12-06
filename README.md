@@ -1,4 +1,4 @@
-Pandas DataReaders with support of requests and requests-cache
+Pandas DataReaders with support of `requests` and `requests-cache`
 
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/femtotrader/pandas_datareaders?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -9,7 +9,16 @@ Pandas DataReaders with support of requests and requests-cache
 structures designed to make working with "relational" or "labeled" data both
 easy and intuitive.
 
-DataReaders are objects to fetch data from remote source (Google Finance, Yahoo Finance, FRED, FamaFrench, World Bank...)
+DataReaders are objects to fetch data from remote source:
+
+* [Google Finance](https://www.google.com/finance)
+* [Yahoo Finance](https://finance.yahoo.com)
+* [Federal Reserve Economic Data - FRED - St. Louis Fed](http://research.stlouisfed.org/fred2/)
+* [Fama-French](http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html)
+* [World Bank](http://data.worldbank.org/)
+* ...
+
+
 see http://pandas.pydata.org/pandas-docs/stable/remote_data.html
 
 This project is an unofficial rewrite of DataReaders using [requests](http://www.python-requests.org/) also called "HTTP for Humans". But it can be easy to use classic `urlopen` using this code.
