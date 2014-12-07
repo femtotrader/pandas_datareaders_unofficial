@@ -148,7 +148,6 @@ class DataReaderGoogleFinanceOptions(DataReaderBase):
             del data[typ]
 
         for i, expiration in enumerate(data['expirations']):
-            data['expirations'][i] = ymd_to_date(**expiration)
             params = {
                 'q': symbol,
                 'output': output,
@@ -212,7 +211,8 @@ class DataReaderGoogleFinanceOptions(DataReaderBase):
         data['underlying_id'] = int(data['underlying_id'])
         data['expiry'] = ymd_to_date(**data['expiry'])
 
-            
+        for i, expiration in enumerate(data['expirations']):
+            data['expirations'][i] = ymd_to_date(**expiration)            
 
         #for col in ['Volume']:
         #    df[col] = df[col].fillna(0)
