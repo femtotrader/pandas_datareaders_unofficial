@@ -18,7 +18,7 @@
 * Google Options
   http://www.google.com/finance/option_chain?q=AAPL&expd=4&expm=4&expy=2014&output=json
   see https://github.com/makmac213/python-google-option-chain
-  see draft/gopt.py
+  see draft/gopt.py http://www.drtomstarke.com/index.php/option-chains-from-google-finance-api
 
 * Yahoo Quotes
 
