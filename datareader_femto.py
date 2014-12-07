@@ -29,6 +29,7 @@ from StringIO import StringIO
 from datareaders.base import DataReaderBase
 
 from datareaders.google_finance import DataReaderGoogleFinanceDaily, DataReaderGoogleFinanceIntraday
+from datareaders.google_finance_options import DataReaderGoogleFinanceOptions
 from datareaders.yahoo_finance import DataReaderYahooFinanceDaily
 from datareaders.yahoo_finance_options import DataReaderYahooFinanceOptions
 from datareaders.fred import DataReaderFRED
@@ -76,6 +77,8 @@ class DataReaderFactory(object):
         self.add('GoogleFinanceDaily', DataReaderGoogleFinanceDaily)
 
         self.add('GoogleFinanceIntraday', DataReaderGoogleFinanceIntraday)
+
+        self.add('GoogleFinanceOptions', DataReaderGoogleFinanceOptions)
 
         self.add('yahoo', DataReaderYahooFinanceDaily)
         self.add('YahooFinanceDaily', DataReaderYahooFinanceDaily)
