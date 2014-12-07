@@ -12,6 +12,13 @@
   for several symbols, we must return a Panel (this is the case for Google or Yahoo Finance Daily)
 
 * Yahoo Options
+  current version is using lxml to parse web page
+  maybe there is better to do (YQL ?)
+
+* Google Options
+  http://www.google.com/finance/option_chain?q=AAPL&expd=4&expm=4&expy=2014&output=json
+  see https://github.com/makmac213/python-google-option-chain
+
 * Yahoo Quotes
 
 * Yahoo Query Language YQL

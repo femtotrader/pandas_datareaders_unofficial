@@ -20,11 +20,18 @@ def test_yahoo_finance_options():
     symbol = 'aapl'
     #symbol = ["AAPL", 'F']
 
-    #data = MyDataReader("YahooFinanceDaily").get(symbol, start, end)
+    #data = MyDataReader("YahooFinanceOptions").get(symbol) # get all data
     #print(data)
     #print(type(data))
     #print(data.dtypes)
 
+    #data = MyDataReader("YahooFinanceOptions").Options(symbol).get() # get all data
+    option = MyDataReader("YahooFinanceOptions").get(symbol)
+    data = option.get_all_data() # get all data
+    print(data)
+    #data = option.get_call_data(expiry=expiry) # get call data
+
+    """
     aapl = Options(symbol, 'yahoo')
     data = aapl.get_all_data()
 
@@ -44,6 +51,7 @@ def test_yahoo_finance_options():
 
     data = aapl.get_near_stock_price(expiry=aapl.expiry_dates[0:3])
     print(data.iloc[0:5:, 0:5])
+    """
 
     #diff = f-data
     

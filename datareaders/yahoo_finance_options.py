@@ -2,24 +2,24 @@
 # -*- coding: utf-8 -*-
 
 from datareaders.base import DataReaderBase
-from datareaders.tools import COL, _get_dates
+from datareaders.tools import COL, _get_dates, RemoteDataError
+from pandas.util.testing import _network_error_classes
 import pandas as pd
 from StringIO import StringIO
 import logging
 import traceback
-
+import datetime 
 
 # Items needed for options class
-CUR_MONTH = dt.datetime.now().month
-CUR_YEAR = dt.datetime.now().year
-CUR_DAY = dt.datetime.now().day
-
+dt_now = datetime.datetime.now()
+CUR_MONTH = dt_now.month
+CUR_YEAR = dt_now.year
+CUR_DAY = dt_now.day
 
 def _two_char(s):
     return '{0:0>2}'.format(s)
 
-
-class DataReaderYahooFinanceOptions(DataReaderBase):
+class Options(object):
     """
     ***Experimental***
     This class fetches call/put data for a given stock/expiry month.
@@ -65,9 +65,11 @@ class DataReaderYahooFinanceOptions(DataReaderBase):
     _OPTIONS_BASE_URL = 'http://finance.yahoo.com/q/op?s={sym}'
     _FINANCE_BASE_URL = 'http://finance.yahoo.com'
 
-    #def __init__(self, symbol):
-    #    """ Instantiates options_data with a ticker saved as symbol """
-    #    self.symbol = symbol.upper()
+    def __init__(self, symbol, datareader):
+        """ Instantiates options_data with a ticker saved as symbol """
+        self.symbol = symbol.upper()
+
+        self.datareader = datareader
 
     def get_options_data(self, month=None, year=None, expiry=None):
         """
@@ -128,12 +130,12 @@ class DataReaderYahooFinanceOptions(DataReaderBase):
         the year, month and day for the expiry of the options.
 
         """
-        return concat([f(month, year, expiry)
+        return pd.concat([f(month, year, expiry)
                        for f in (self.get_put_data,
                                  self.get_call_data)]).sortlevel()
 
-    def _get_option_frames_from_yahoo(self, expiry):
-        url = self._yahoo_url_from_expiry(expiry)
+    def _get_option_frames(self, expiry):
+        url = self._url_from_expiry(expiry)
         option_frames = self._option_frames_from_url(url)
         frame_name = '_frames' + self._expiry_to_string(expiry)
         setattr(self, frame_name, option_frames)
@@ -145,17 +147,17 @@ class DataReaderYahooFinanceOptions(DataReaderBase):
         d1 = _two_char(expiry.day)
         return str(expiry.year)[-2:] + m1 + d1
 
-    def _yahoo_url_from_expiry(self, symbol, expiry):
+    def _url_from_expiry(self, expiry):
         try:
             expiry_links = self._expiry_links
 
         except AttributeError:
-            _, expiry_links = self._get_expiry_dates_and_links(symbol)
+            _, expiry_links = self._get_expiry_dates_and_links()
 
         return self._FINANCE_BASE_URL + expiry_links[expiry]
 
     def _option_frames_from_url(self, url):
-        frames = read_html(url)
+        frames = pd.read_html(url)
         nframes = len(frames)
         frames_req = max(self._TABLE_LOC.values())
         if nframes < frames_req:
@@ -188,7 +190,7 @@ class DataReaderYahooFinanceOptions(DataReaderBase):
             quote_time_text = root.xpath('.//*[@class="time_rtq Fz-m"]')[0].getchildren()[1].getchildren()[0].text
             ##TODO: Enable timezone matching when strptime can match EST with %Z
             quote_time_text = quote_time_text.split(' ')[0]
-            quote_time = dt.datetime.strptime(quote_time_text, "%I:%M%p")
+            quote_time = datetime.datetime.strptime(quote_time_text, "%I:%M%p")
 
             quote_time = quote_time.replace(year=CUR_YEAR, month=CUR_MONTH, day=CUR_DAY)
         except ValueError:
@@ -202,7 +204,7 @@ class DataReaderYahooFinanceOptions(DataReaderBase):
         try:
             frames = getattr(self, frame_name)
         except AttributeError:
-            frames = self._get_option_frames_from_yahoo(expiry)
+            frames = self._get_option_frames(expiry)
 
         option_data = frames[name]
         if expiry != self.expiry_dates[0]:
@@ -438,7 +440,7 @@ class DataReaderYahooFinanceOptions(DataReaderBase):
             #No arguments passed, provide next expiry
             year = CUR_YEAR
             month = CUR_MONTH
-            expiry = dt.date(year, month, 1)
+            expiry = datetime.date(year, month, 1)
             expiry = [self._validate_expiry(expiry)]
 
         else:
@@ -454,7 +456,7 @@ class DataReaderYahooFinanceOptions(DataReaderBase):
         If the expiry date does not have options that expire on that day, return next expiry"""
 
         expiry_dates = self.expiry_dates
-        expiry = to_datetime(expiry)
+        expiry = pd.to_datetime(expiry)
         if hasattr(expiry, 'date'):
             expiry = expiry.date()
 
@@ -517,7 +519,7 @@ class DataReaderYahooFinanceOptions(DataReaderBase):
 
         """
         warnings.warn("get_forward_data() is deprecated", FutureWarning)
-        end_date = dt.date.today() + MonthEnd(months)
+        end_date = datetime.date.today() + MonthEnd(months)
         dates = (date for date in self.expiry_dates if date <= end_date.date())
         data = self._get_data_in_date_range(dates, call=call, put=put)
         if near:
@@ -567,13 +569,13 @@ class DataReaderYahooFinanceOptions(DataReaderBase):
         try:
             expiry_dates = self.expiry_dates
         except AttributeError:
-            expiry_dates, _ = self._get_expiry_dates_and_links(symbol)
+            expiry_dates, _ = self._get_expiry_dates_and_links()
 
         return self._get_data_in_date_range(dates=expiry_dates, call=call, put=put)
 
     def _get_data_in_date_range(self, dates, call=True, put=True):
 
-        to_ret = Series({'calls': call, 'puts': put})
+        to_ret = pd.Series({'calls': call, 'puts': put})
         to_ret = to_ret[to_ret].index
         data = []
 
@@ -586,20 +588,20 @@ class DataReaderYahooFinanceOptions(DataReaderBase):
                     frame = self._get_option_data(expiry=expiry_date, name=name)
                 data.append(frame)
 
-        return concat(data).sortlevel()
+        return pd.concat(data).sortlevel()
 
-    #@property
-    def expiry_dates(self, symbol):
+    @property
+    def expiry_dates(self):
         """
         Returns a list of available expiry dates
         """
         try:
             expiry_dates = self._expiry_dates
         except AttributeError:
-            expiry_dates, _ = self._get_expiry_dates_and_links(symbol)
+            expiry_dates, _ = self._get_expiry_dates_and_links()
         return expiry_dates
 
-    def _get_expiry_dates_and_links(self, symbol):
+    def _get_expiry_dates_and_links(self):
         """
         Gets available expiry dates.
 
@@ -610,7 +612,7 @@ class DataReaderYahooFinanceOptions(DataReaderBase):
         Dict of datetime.date objects as keys and corresponding links
         """
 
-        url = self._OPTIONS_BASE_URL.format(sym=symbol)
+        url = self._OPTIONS_BASE_URL.format(sym=self.symbol)
         root = self._parse_url(url)
 
         try:
@@ -618,7 +620,7 @@ class DataReaderYahooFinanceOptions(DataReaderBase):
         except IndexError:
             raise RemoteDataError('Expiry dates not available')
 
-        expiry_dates = [dt.datetime.strptime(element.text, "%B %d, %Y").date() for element in links]
+        expiry_dates = [datetime.datetime.strptime(element.text, "%B %d, %Y").date() for element in links]
         links = [element.attrib['data-selectbox-link'] for element in links]
 
         if len(expiry_dates) == 0:
@@ -635,13 +637,18 @@ class DataReaderYahooFinanceOptions(DataReaderBase):
 
         """
         try:
-            from lxml.html import parse
+            #import lxml
+            from lxml.html import parse, fromstring
         except ImportError:
             raise ImportError("Please install lxml if you want to use the "
                               "{0!r} class".format(self.__class__.__name__))
         try:
-            doc = parse(url)
+            response = self.datareader.s.get(url)
+            doc = fromstring(response.content)
+            #print(response.content)
+            #doc = parse(url)
         except _network_error_classes:
+            #print(traceback.format_exc())
             raise RemoteDataError("Unable to parse URL "
                                   "{0!r}".format(url))
         else:
@@ -651,7 +658,7 @@ class DataReaderYahooFinanceOptions(DataReaderBase):
                                       "element".format(url))
         return root
 
-    def _process_data(self, symbol, frame, type):
+    def _process_data(self, frame, type):
         """
         Adds columns for Expiry, IsNonstandard (ie: deliverable is not 100 shares)
         and Tag (the tag indicating what is actually deliverable, None if standard).
@@ -660,12 +667,12 @@ class DataReaderYahooFinanceOptions(DataReaderBase):
         frame.columns = ['Strike', 'Symbol', 'Last', 'Bid', 'Ask', 'Chg', 'PctChg', 'Vol', 'Open_Int', 'IV']
         frame["Rootexp"] = frame.Symbol.str[0:-9]
         frame["Root"] = frame.Rootexp.str[0:-6]
-        frame["Expiry"] = to_datetime(frame.Rootexp.str[-6:])
+        frame["Expiry"] = pd.to_datetime(frame.Rootexp.str[-6:])
         #Removes dashes in equity ticker to map to option ticker.
         #Ex: BRK-B to BRKB140517C00100000
-        frame["IsNonstandard"] = frame['Root'] != symbol.replace('-', '')
+        frame["IsNonstandard"] = frame['Root'] != self.symbol.replace('-', '')
         del frame["Rootexp"]
-        frame["Underlying"] = symbol
+        frame["Underlying"] = self.symbol
         try:
             frame['Underlying_Price'] = self.underlying_price
             frame["Quote_Time"] = self.quote_time
@@ -678,3 +685,6 @@ class DataReaderYahooFinanceOptions(DataReaderBase):
 
         return frame
 
+class DataReaderYahooFinanceOptions(DataReaderBase):
+    def _get_one(self, symbol):
+        return(Options(symbol, self))

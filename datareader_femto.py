@@ -29,7 +29,8 @@ from StringIO import StringIO
 from datareaders.base import DataReaderBase
 
 from datareaders.google_finance import DataReaderGoogleFinanceDaily, DataReaderGoogleFinanceIntraday
-from datareaders.yahoo_finance import DataReaderYahooFinanceDaily, DataReaderYahooFinanceOptions
+from datareaders.yahoo_finance import DataReaderYahooFinanceDaily
+from datareaders.yahoo_finance_options import DataReaderYahooFinanceOptions
 from datareaders.fred import DataReaderFRED
 from datareaders.fama_french import DataReaderFamaFrench
 from datareaders.world_bank import DataReaderWorldBank

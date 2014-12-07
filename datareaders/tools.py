@@ -30,6 +30,9 @@ class COL():
 class RemoteDataError(PandasError, IOError):
     pass
 
+class SymbolWarning(UserWarning):
+    pass
+
 DATETIME_START_DEFAULT = datetime.datetime(2010, 1, 1)
 
 def _sanitize_dates(start_date, end_date):
