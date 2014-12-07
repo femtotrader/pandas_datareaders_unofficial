@@ -25,3 +25,6 @@
   https://www.datatables.org/
   
   https://github.com/project-fondue/python-yql (see forks)
+
+
+* use chunsize

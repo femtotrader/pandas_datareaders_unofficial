@@ -54,17 +54,5 @@ http://www.gummy-stuff.org/Yahoo-data.htm
 
     """
 
-
-class DataReaderYahooFinanceOptions(DataReaderBase):
-    pass
-    """
-    url = 'http://finance.yahoo.com/q/op?s={sym}'
-    params = {
-        's': sym
-    }
-
-    _FINANCE_BASE_URL = 'http://finance.yahoo.com'
-    """
-
 #class DataReaderYahooFinanceIntraday(DataReaderBase): #???
 #    pass
