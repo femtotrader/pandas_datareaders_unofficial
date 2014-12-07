@@ -17,18 +17,18 @@ import requests_cache
 expire_after = 60*5 # seconds
 
 def test_yahoo_finance_options():
-    #symbol = 'NASDAQ:AAPL'
+    symbol = 'NASDAQ:AAPL'
     #symbol = 'NASDAQ:GOOG'
-    symbol = ['NASDAQ:AAPL', 'NASDAQ:GOOG']
+    #symbol = ['NASDAQ:AAPL', 'NASDAQ:GOOG'] # ToFix: get returns now a dict not a DataFrame
 
     option = MyDataReader("GoogleFinanceOptions").get(symbol)
     print(option)
-    print(option.dtypes)
+    #print(option['options'].dtypes)
     #option = option.rename(items={
     #    'NASDAQ:AAPL': 'NASDAQ_AAPL',
     #    'NASDAQ:GOOG': 'NASDAQ_GOOG'
     #})
-    option.to_excel("google_options.xls")
+    option['options'].to_excel("google_options.xls")
     #data = option.get_all_data() # get all data
     #print(data)
     #data = option.get_call_data(expiry=expiry) # get call data

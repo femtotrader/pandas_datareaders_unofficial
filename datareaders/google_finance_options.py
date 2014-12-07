@@ -8,12 +8,41 @@ import pandas as pd
 from StringIO import StringIO
 import logging
 import traceback
-
+import datetime
 
 import json
 import token, tokenize
 
 from StringIO import StringIO
+
+
+def ymd_to_date(y, m, d):
+    """
+    Returns date
+
+    >>> expiration = {u'd': 1, u'm': 12, u'y': 2014}
+    >>> ymd_to_date(**expiration)
+    datetime.date(2014, 12, 1)
+
+    >>> ymd_to_date(2014, 3, 1)
+    datetime.date(2014, 3, 1)
+
+    """
+    return(datetime.date(year=y, month=m, day=d))
+
+def date_to_ymd(date):
+    """
+    Returns dict like {'y': ..., 'm': ..., 'd': ...}
+
+    >>> date_to_ymd(datetime.date(year=2010, month=1, day=3))
+    {'y': 2010, 'm': 1, 'd': 3}
+    """
+    d = {
+        'y': date.year,
+        'm': date.month,
+        'd': date.day
+    }
+    return(d)
 
 
 """
@@ -24,9 +53,12 @@ from StringIO import StringIO
 
 """
 
-# using below solution fixes the json output from google
-# http://stackoverflow.com/questions/4033633/handling-lazy-json-in-python-expecting-property-name
-def fixLazyJson (in_text):
+def fix_lazy_json(in_text):
+    """
+    Handle lazy JSON - to fix expecting property name
+    this function fixes the json output from google
+    http://stackoverflow.com/questions/4033633/handling-lazy-json-in-python-expecting-property-name
+    """
     tokengen = tokenize.generate_tokens(StringIO(in_text).readline)
 
     result = []
@@ -56,15 +88,13 @@ def fixLazyJson (in_text):
 
     return tokenize.untokenize(result)
 
-
 def json_decode(json_string):
     try:
         ret = json.loads(json_string)
     except:
-        json_string = fixLazyJson(json_string)
+        json_string = fix_lazy_json(json_string)
         ret = json.loads(json_string)
     return ret
-
 
 class DataReaderGoogleFinanceOptions(DataReaderBase):
     """
@@ -76,24 +106,36 @@ class DataReaderGoogleFinanceOptions(DataReaderBase):
     def _get_one(self, name, *args, **kwargs):
         return(self._get_one_raw(name, 'All', 'json'))
 
-    def _get_one_raw(self, symb, typ='All', output='json', y='2014', m='12', d='1'):
+    def _get_one_raw(self, symbol, typ='All', output='json', y='2014', m='12', d='1'):
         url = "https://www.google.com/finance/option_chain"
 
         #http://www.google.com/finance/option_chain?cid=358464&expd=21&expm=4&expy=2012&output=json
 
         params = {
-            'q': symb,
+            'q': symbol,
             'type': typ,
             'output': output,
         }
 
-        #params = {
-        #    'q': symb,
-        #    'output': output,
-        #    'expy': y,
-        #    'expm': m,
-        #    'expd': d,
-        #}
+        """
+        params = {
+            'q': symbol,
+            'output': output,
+            'expy': y,
+            'expm': m,
+            'expd': d,
+        }
+        """
+
+        """
+        params = {
+            'q': symbol,
+            'output': output,
+            'expy': 2015,
+            'expm': 1,
+            'expd': 2,
+        }
+        """
 
         data = self._get_content(url, params)
 
@@ -102,8 +144,26 @@ class DataReaderGoogleFinanceOptions(DataReaderBase):
         for typ in [u'puts', u'calls']:
             df_typ = pd.DataFrame(data[typ])
             df_typ['Type'] = typ
-            lst.append(df_typ)            
+            lst.append(df_typ)    
+            del data[typ]
 
+        for i, expiration in enumerate(data['expirations']):
+            data['expirations'][i] = ymd_to_date(**expiration)
+            params = {
+                'q': symbol,
+                'output': output,
+                'expy': expiration['y'],
+                'expm': expiration['m'],
+                'expd': expiration['d'],
+            }
+            data = self._get_content(url, params)
+            for typ in [u'puts', u'calls']:
+                df_typ = pd.DataFrame(data[typ])
+                df_typ['Type'] = typ
+                lst.append(df_typ)
+                del data[typ]
+            lst.append(df_typ)
+      
         df = pd.concat(lst, axis=0, ignore_index=True)
 
         d_cols = {
@@ -147,15 +207,24 @@ class DataReaderGoogleFinanceOptions(DataReaderBase):
 
         df['Expiry'] = pd.to_datetime(df['Expiry'])
         
+        data['options'] = df
+
+        data['underlying_id'] = int(data['underlying_id'])
+        data['expiry'] = ymd_to_date(**data['expiry'])
+
+            
+
         #for col in ['Volume']:
         #    df[col] = df[col].fillna(0)
 
         #d = {}
         #d["options"] = df
         #return(d)
-        return(df)
+
+        return(data)
 
     def _get_content(self, url, params):
+        #response = requests.get(url, params=params)
         response = self.s.get(url, params=params)
         if response.status_code == 200:
             content_json = response.content
@@ -163,6 +232,10 @@ class DataReaderGoogleFinanceOptions(DataReaderBase):
             return(data)
 
     def _get_multi(self, names, *args, **kwargs):
+        """
+        ToFix
+        """
+
         lst_data = []
         lst_failed = []
 
@@ -180,3 +253,7 @@ class DataReaderGoogleFinanceOptions(DataReaderBase):
         df = df.set_index(['Symbol', 'Type', 'cid'])
 
         return(df)
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
