@@ -1,5 +1,6 @@
 import requests
 import requests_cache
+import pandas as pd
 
 def get_opt_quote(ticker_symbol):
     chain = []
@@ -14,6 +15,13 @@ def get_opt_quote(ticker_symbol):
     k = fix_json(dat)
     opts = eval(k)
     exp = opts['expirations']
+
+    #df = pd.DataFrame(dat)
+    #print(df)
+    del opts['puts']
+    del opts['calls']
+    print(opts)
+
     for expiry in exp:
         print(expiry)
         params = {

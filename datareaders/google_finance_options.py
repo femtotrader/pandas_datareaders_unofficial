@@ -16,6 +16,14 @@ import token, tokenize
 from StringIO import StringIO
 
 
+"""
+{'expirations': [{'y': 2014, 'm': 12, 'd': 12}, {'y': 2014, 'm': 12, 'd': 20}, {'y': 2014, 'm': 12, 'd': 26}, {'y': 2015, 'm': 1, 'd': 2}, {'y': 2015, 'm': 1, 'd': 9}, {'y': 2015, 'm': 1, 'd': 17}, {'y': 2015, 'm': 1, 'd': 23}, {'y': 2015, 'm': 2, 'd': 20}, {'y': 2015, 'm': 3, 'd': 20}, {'y': 2015, 'm': 6, 'd': 19}, {'y': 2016, 'm': 1, 'd': 15}, {'y': 2017, 'm': 1, 'd': 20}],
+'expiry': {'y': 2014, 'm': 12, 'd': 12},
+'underlying_price': 525.26001,
+'underlying_id': '304466804484872'}
+
+"""
+
 # using below solution fixes the json output from google
 # http://stackoverflow.com/questions/4033633/handling-lazy-json-in-python-expecting-property-name
 def fixLazyJson (in_text):
@@ -142,6 +150,9 @@ class DataReaderGoogleFinanceOptions(DataReaderBase):
         #for col in ['Volume']:
         #    df[col] = df[col].fillna(0)
 
+        #d = {}
+        #d["options"] = df
+        #return(d)
         return(df)
 
     def _get_content(self, url, params):
