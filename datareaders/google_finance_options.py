@@ -85,6 +85,27 @@ class DataReaderGoogleFinanceOptions(DataReaderBase):
 
         df = pd.concat(lst, axis=0, ignore_index=True)
 
+        """
+        d_cols = {
+            "a": "ask",
+            "b": "bid",
+            "c": "change",
+            "cid": "identity code",
+            "cp": "cp"
+            "cs": change direction.  "chg" = up, "chr" = down, "chg"?
+            "e":  # I think this tells us something about what country where the stock is traded. "OPRA" means USA.
+            "expiry": expiration date for this option
+            "name": I don't know.  I have never seen a value for this
+            "oi": open interest. How many of these are currently being held by others. 
+                See, http://www.investopedia.com/terms/o/openinterest.asp
+            "p": price, last
+            "s": option code.
+                 Basically, Stock Symbol + 7 if mini option + date + "C" or "P" + price
+            "strike": "strike price for this option"
+            "vol": "the volume of options traded."
+        }
+        """
+
         for col in ['a', 'b', 'c', 'cp', 'p', 'strike']:
             df[col] = df[col].map(to_float)
 
