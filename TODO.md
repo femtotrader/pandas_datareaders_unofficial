@@ -34,4 +34,4 @@
   https://github.com/project-fondue/python-yql (see forks)
 
 
-* use chunsize
+* use chunksize
