@@ -62,18 +62,31 @@ class DataReaderGoogleFinanceOptions(DataReaderBase):
     """
     see https://www.google.com/finance/option_chain
     https://github.com/makmac213/python-google-option-chain
+    http://www.drtomstarke.com/index.php/option-chains-from-google-finance-api
     """
 
     def _get_one(self, name, *args, **kwargs):
         return(self._get_one_raw(name, 'All', 'json'))
 
-    def _get_one_raw(self, symb, typ='All', output='json'):
+    def _get_one_raw(self, symb, typ='All', output='json', y='2014', m='12', d='1'):
         url = "https://www.google.com/finance/option_chain"
+
+        #http://www.google.com/finance/option_chain?cid=358464&expd=21&expm=4&expy=2012&output=json
+
         params = {
             'q': symb,
             'type': typ,
-            'output': output
+            'output': output,
         }
+
+        #params = {
+        #    'q': symb,
+        #    'output': output,
+        #    'expy': y,
+        #    'expm': m,
+        #    'expd': d,
+        #}
+
         data = self._get_content(url, params)
 
         d = {}
@@ -84,6 +97,18 @@ class DataReaderGoogleFinanceOptions(DataReaderBase):
             lst.append(df_typ)            
 
         df = pd.concat(lst, axis=0, ignore_index=True)
+
+        d_cols = {
+            "a": "Ask",
+            "b": "Bid",
+            "p": "Last",
+            "strike": "Strike",
+            "expiry": "Expiry",
+            "vol": "Volume",
+            "name": "Name"
+        }
+
+        df = df.rename(columns=d_cols)
 
         """
         d_cols = {
@@ -106,14 +131,17 @@ class DataReaderGoogleFinanceOptions(DataReaderBase):
         }
         """
 
-        for col in ['a', 'b', 'c', 'cp', 'p', 'strike']:
+        for col in ['Ask', 'Bid', 'c', 'cp', 'Last', 'Strike']:
             df[col] = df[col].map(to_float)
 
-        for col in ['vol', 'oi', 'cid']:
+        for col in ['Volume', 'oi', 'cid']:
             df[col] = df[col].map(to_int)
 
-        df['expiry'] = pd.to_datetime(df['expiry'])
+        df['Expiry'] = pd.to_datetime(df['Expiry'])
         
+        #for col in ['Volume']:
+        #    df[col] = df[col].fillna(0)
+
         return(df)
 
     def _get_content(self, url, params):
