@@ -644,15 +644,11 @@ class Options(object):
                               "{0!r} class".format(self.__class__.__name__))
         try:
             response = self.datareader.s.get(url)
-            doc = fromstring(response.content)
-            #print(response.content)
-            #doc = parse(url)
+            root = fromstring(response.content)
         except _network_error_classes:
-            #print(traceback.format_exc())
             raise RemoteDataError("Unable to parse URL "
                                   "{0!r}".format(url))
         else:
-            root = doc.getroot()
             if root is None:
                 raise RemoteDataError("Parsed URL {0!r} has no root"
                                       "element".format(url))

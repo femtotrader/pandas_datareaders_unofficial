@@ -16,7 +16,16 @@ from pandas.io.data import Options
 import requests_cache
 expire_after = 60*5 # seconds
 
-def test_yahoo_finance_options():
+def test_google_finance_options():
+
+    filename = "google_finance_options"
+
+    if expire_after>=0:
+        requests_cache.install_cache(filename, backend='sqlite', expire_after=expire_after) # expiration seconds
+        logging.info("Installing cache '%s.sqlite' with expire_after=%d (seconds)" % (filename, expire_after))
+    if expire_after==0:
+        logging.warning("expire_after==0 no cache expiration!")
+
     symbol = 'NASDAQ:AAPL'
     #symbol = 'NASDAQ:GOOG'
     #symbol = ['NASDAQ:AAPL', 'NASDAQ:GOOG'] # ToFix: get returns now a dict not a DataFrame

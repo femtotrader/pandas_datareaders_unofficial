@@ -18,6 +18,14 @@ expire_after = 60*5 # seconds
 
 def test_yahoo_finance_daily():
 
+    filename = "yahoo_finance"
+
+    if expire_after>=0:
+        requests_cache.install_cache(filename, backend='sqlite', expire_after=expire_after) # expiration seconds
+        logging.info("Installing cache '%s.sqlite' with expire_after=%d (seconds)" % (filename, expire_after))
+    if expire_after==0:
+        logging.warning("expire_after==0 no cache expiration!")
+
     start = datetime.datetime(2010, 1, 1)
     end = datetime.datetime(2013, 1, 27)
 

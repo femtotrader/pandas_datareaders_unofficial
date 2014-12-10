@@ -84,12 +84,26 @@ def main(expire_after):
     print(data)
     """
 
+    # Yahoo Finance Options
+    symbol = "AAPL"
+    option = MyDataReader("YahooFinanceOptions").get(symbol)
+    data = option.get_all_data() # get all data
+    print(data)
+    #data = option.get_call_data(expiry=expiry) # get call data
+
+
+    """
+    # Google Finance Options
+    """
+
+    """
+    # FamaFrench
     name = "5_Industry_Portfolios"
     #name = "10_Industry_Portfolios"
     #name = ["5_Industry_Portfolios", "10_Industry_Portfolios"]
     data = MyDataReader("FamaFrench").get(name)
     print(data)
-
+    """
 
     #fig = charting.figure(1)
     #df.tail(50).ohlc_plot()
