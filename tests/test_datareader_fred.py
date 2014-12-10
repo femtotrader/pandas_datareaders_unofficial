@@ -14,7 +14,7 @@ from datareader_femto import *
 import pandas.io.data as web
 
 import requests_cache
-expire_after = 60*5 # seconds
+expire_after = 60*60 # seconds - 0:no cache - None:no cache expiration
 
 import logging
 #import logging.config

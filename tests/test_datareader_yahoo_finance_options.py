@@ -14,7 +14,7 @@ from datareader_femto import *
 from pandas.io.data import Options
 
 import requests_cache
-expire_after = 60*5 # seconds
+expire_after = 60*60 # seconds - 0:no cache - None:no cache expiration
 
 def test_yahoo_finance_options():
 

@@ -21,7 +21,7 @@ class DataReaderGoogleFinanceDaily(DataReaderBase):
             "output": "csv"
         }
 
-        response = self.s.get(url, params=params)
+        response = self.session.get(url, params=params)
         data = response.text
 
         df = pd.read_csv(StringIO(data), sep=',', index_col=0, parse_dates=True, na_values='-')
@@ -76,7 +76,7 @@ class DataReaderGoogleFinanceIntraday(DataReaderBase):
         #period = to_offset(s_period)
         #period_s = period.delta.total_seconds() # 1H=3600s - number of seconds
 
-        response = self.s.get(url, params=params)
+        response = self.session.get(url, params=params)
         data = response.text
 
         df = pd.read_csv(StringIO(data), sep=',', skiprows=7, header=None, names=COL.LST_ALL())

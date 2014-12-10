@@ -25,7 +25,7 @@ class DataReaderYahooFinanceDaily(DataReaderBase):
             'ignore': '.csv',
         }
 
-        response = self.s.get(url, params=params)
+        response = self.session.get(url, params=params)
         data = response.text
 
         df = pd.read_csv(StringIO(data), sep=',', index_col=0, parse_dates=True)

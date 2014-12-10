@@ -69,12 +69,12 @@ class DataReaderBase(object):
 
         if expire_after==0:
             logging.debug("Requests without cache")
-            self.s = RequestsSessionWithLog()
+            self.session = RequestsSessionWithLog()
         else:
             logging.info("Installing cache '%s.sqlite' with expire_after=%s (seconds)" % (cache_name, expire_after))
             if expire_after is None:
                 logging.warning("expire_after is None - no cache expiration!")
-            self.s = RequestsCachedSessionWithLog(cache_name, backend, expire_after)
+            self.session = RequestsCachedSessionWithLog(cache_name, backend, expire_after)
 
         try:
             self.max_retries = kwargs['max_retries']
@@ -88,8 +88,8 @@ class DataReaderBase(object):
 
         a = requests.adapters.HTTPAdapter(max_retries=self.max_retries)
         b = requests.adapters.HTTPAdapter(max_retries=self.max_retries)
-        self.s.mount('http://', a)
-        self.s.mount('https://', b)
+        self.session.mount('http://', a)
+        self.session.mount('https://', b)
 
     def get(self, name, *args, **kwargs):
         if isinstance(name, basestring):

@@ -16,9 +16,11 @@ import logging
 import traceback
 
 class DataReaderWorldBank(DataReaderBase):
-    pass
+    _cached_series = None
     """
+    BASE_URL = 'http://api.worldbank.org'
     url = ''
+
     """
 
 # This list of country codes was pulled from wikipedia during October 2014.
@@ -126,7 +128,7 @@ def download(country=['MX', 'CA', 'US'], indicator=['NY.GDP.MKTP.CD', 'NY.GNS.IC
     
     """
 
-    if type(country) == str:
+    if isinstance(country, basestring):
         country = [country]
 
     bad_countries = np.setdiff1d(country, country_codes)
@@ -140,7 +142,7 @@ def download(country=['MX', 'CA', 'US'], indicator=['NY.GDP.MKTP.CD', 'NY.GNS.IC
             warnings.warn('Non-standard ISO country codes: %s' % tmp)
 
     # Work with a list of indicators
-    if type(indicator) == str:
+    if isinstance(indicator, basestring):
         indicator = [indicator]
         
     # Download
@@ -178,7 +180,7 @@ def download(country=['MX', 'CA', 'US'], indicator=['NY.GDP.MKTP.CD', 'NY.GNS.IC
 def _get_data(indicator="NY.GNS.ICTR.GN.ZS", country='US',
               start=2002, end=2005):
     
-    if type(country) == str:
+    if isinstance(country, basestring):
         country = [country]
     
     countries = ';'.join(country)
@@ -187,6 +189,17 @@ def _get_data(indicator="NY.GNS.ICTR.GN.ZS", country='US',
     url = ("http://api.worldbank.org/countries/" + countries + "/indicators/" +
            indicator + "?date=" + str(start) + ":" + str(end) +
            "&per_page=25000&format=json")
+
+    """
+    endpoint = "/countries/{countries}/indicators/{indicator}"
+        .format(countries=countries, indicator=indicator)
+    url = self.BASE_URL + endpoint
+    params = {
+        'date': "%s:%s" % (start, end),
+        'per_page': 25000,
+        'format': 'json'
+    }
+    """
 
     # Download
     with urlopen(url) as response:
@@ -227,6 +240,14 @@ def get_countries():
     '''Query information about countries
     '''
     url = 'http://api.worldbank.org/countries/?per_page=1000&format=json'
+    endpoint = '/countries'
+    """
+    url = self.BASE_URL + endpoint
+    params = {
+        'per_page': 1000,
+        'format': 'json'
+    }
+    """
     with urlopen(url) as response:
         data = response.read()
     data = json.loads(data)[1]
@@ -242,6 +263,14 @@ def get_indicators():
     '''Download information about all World Bank data series
     '''
     url = 'http://api.worldbank.org/indicators?per_page=50000&format=json'
+    """
+    endpoint = '/indicators'
+    url = self.BASE_URL + endpoint
+    params = {
+        'per_page': 50000,
+        'format': 'json'
+    }
+    """
     with urlopen(url) as response:
         data = response.read()
     data = json.loads(data)[1]

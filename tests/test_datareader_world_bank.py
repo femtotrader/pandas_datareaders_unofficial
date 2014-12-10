@@ -14,7 +14,7 @@ from datareader_femto import *
 import pandas.io.data as web
 
 import requests_cache
-expire_after = 60*5 # seconds
+expire_after = 60*60 # seconds - 0:no cache - None:no cache expiration
 
 import logging
 #import logging.config
@@ -29,14 +29,16 @@ def test_datareader_world_bank():
     dat = wb.search('gdp.*capita.*const')
     print(dat.iloc[:,:2])
 
-    dat = wb.download(indicator='NY.GDP.PCAP.KD', country=['US', 'CA', 'MX'], start=2005, end=2008)
+    dat = wb.download(indicator=u'NY.GDP.PCAP.KD', country=['US', 'CA', 'MX'], start=2005, end=2008)
     print(dat)
 
+    assert(isinstance(wb.country_codes, list))
+
     """
-    wb = MyDataReader("WorldBank", expire_after=expire_after)
-    data = wb.search('gdp.*capita.*const')
+    world_bank = MyDataReader("WorldBank", expire_after=expire_after)
+    data = world_bank.search('gdp.*capita.*const')
     print(dat.iloc[:,:2])
 
-    dat = wb.download(indicator='NY.GDP.PCAP.KD', country=['US', 'CA', 'MX'], start=2005, end=2008)
+    dat = world_bank.download(indicator='NY.GDP.PCAP.KD', country=['US', 'CA', 'MX'], start=2005, end=2008)
     print(dat)
     """

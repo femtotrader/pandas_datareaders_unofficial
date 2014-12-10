@@ -71,6 +71,7 @@ class Options(object):
         self.symbol = symbol.upper()
 
         self.datareader = datareader
+        self.session = self.datareader.session
 
     def get_options_data(self, month=None, year=None, expiry=None):
         """
@@ -183,8 +184,8 @@ class Options(object):
 
     def _get_underlying_price(self, url, params):
         root = self._parse_url(url, params)
-        underlying_price = float(root.xpath('.//*[@class="time_rtq_ticker Fz-30 Fw-b"]')[0]\
-            .getchildren()[0].text)
+        underlying_price = root.xpath('.//*[@class="time_rtq_ticker Fz-30 Fw-b"]')[0]\
+            .getchildren()[0].text
 
         #Gets the time of the quote, note this is actually the time of the underlying price.
         try:
@@ -646,7 +647,7 @@ class Options(object):
             raise ImportError("Please install lxml if you want to use the "
                               "{0!r} class".format(self.__class__.__name__))
         try:
-            response = self.datareader.s.get(url, params=params)
+            response = self.session.get(url, params=params)
             root = fromstring(response.content)
         except _network_error_classes:
             raise RemoteDataError("Unable to parse URL "
