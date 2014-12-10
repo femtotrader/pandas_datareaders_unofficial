@@ -688,3 +688,8 @@ class Options(object):
 class DataReaderYahooFinanceOptions(DataReaderBase):
     def _get_one(self, symbol):
         return(Options(symbol, self))
+
+    def _get_multi(self, symbols):
+        raise(NotImplementedError("Can't get several options at once"))
+
+#class YahooFinanceOptions #list of options

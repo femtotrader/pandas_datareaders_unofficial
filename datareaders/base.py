@@ -11,6 +11,7 @@ import traceback
 from urllib import urlencode
 
 import pandas as pd
+from tools import RemoteDataError
 
 #see http://requests-cache.readthedocs.org/en/latest/user_guide.html#usage
 #cache_name='cache', backend=None, expire_after=None, allowable_codes=(200, ), allowable_methods=('GET', ), **backend_options
