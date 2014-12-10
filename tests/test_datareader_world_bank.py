@@ -31,3 +31,12 @@ def test_datareader_world_bank():
 
     dat = wb.download(indicator='NY.GDP.PCAP.KD', country=['US', 'CA', 'MX'], start=2005, end=2008)
     print(dat)
+
+    """
+    wb = MyDataReader("WorldBank", expire_after=expire_after)
+    data = wb.search('gdp.*capita.*const')
+    print(dat.iloc[:,:2])
+
+    dat = wb.download(indicator='NY.GDP.PCAP.KD', country=['US', 'CA', 'MX'], start=2005, end=2008)
+    print(dat)
+    """
