@@ -42,4 +42,5 @@
 
 * Fix caching mechanism using requests_cache monkey patch method
 and my own requests Session (RequestsSessionWithLog)
-for now I'm using
+for now I'm using RequestsCachedSessionWithLog and I'm passing paramaters
+to DataReaders

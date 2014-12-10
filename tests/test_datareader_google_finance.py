@@ -29,7 +29,8 @@ def test_google_finance_daily():
 
     symbol = "F"
 
-    data = MyDataReader("GoogleFinanceDaily", expire_after=expire_after).get(symbol, start, end)
+    dr_gfd = MyDataReader("GoogleFinanceDaily", expire_after=expire_after)
+    data = dr_gfd.get(symbol, start, end)
     print(data)
     print(type(data))
     print(data.dtypes)

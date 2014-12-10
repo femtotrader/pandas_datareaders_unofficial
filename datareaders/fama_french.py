@@ -13,10 +13,7 @@ class DataReaderFamaFrench(DataReaderBase):
     def _get_one(self, name, *args, **kwargs):
         url = 'http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/{name}.zip'.format(name=name)
 
-        #raise(NotImplementedError)
-
         response = self.s.get(url)
-        #raw = response.text
         raw = response.text
         if response.status_code!=200:
             raise IOError("Failed to get the data. Check that {0!r} is "
