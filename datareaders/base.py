@@ -17,11 +17,10 @@ class RequestsSessionWithLog(requests.Session):
             params = kwargs['params']
         except:
             params = {}
-        logging.debug("Request to '%s' with '%s'" % (url, params))
-        if params!={}:
-            logging.debug(url+'?'+urlencode(params))
+        if params=={}:
+            logging.debug("Request to '%s'" % url)
         else:
-            logging.debug(url)
+            logging.debug("Request to '%s' with '%s' using '%s'" % (url, params, url+'?'+urlencode(params)))
         response = super(RequestsSessionWithLog, self).get(url, **kwargs)
         return(response)
 

@@ -7,6 +7,7 @@ import pandas as pd
 from StringIO import StringIO
 import logging
 import traceback
+import requests
 
 class DataReaderFRED(DataReaderBase):
     def _get_one(self, name, *args, **kwargs):
@@ -23,6 +24,7 @@ class DataReaderFRED(DataReaderBase):
             "{name}/downloaddata/{name}.csv".format(name=name)
 
         response = self.s.get(url)
+        #response = requests.get(url)
         data = response.text
         if response.status_code!=200:
             raise IOError("Failed to get the data. Check that {0!r} is "

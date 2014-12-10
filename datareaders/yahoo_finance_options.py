@@ -62,7 +62,8 @@ class Options(object):
     """
 
     _TABLE_LOC = {'calls': 1, 'puts': 2}
-    _OPTIONS_BASE_URL = 'http://finance.yahoo.com/q/op?s={sym}'
+    #_OPTIONS_BASE_URL = 'http://finance.yahoo.com/q/op?s={sym}'
+    _OPTIONS_BASE_URL = 'http://finance.yahoo.com/q/op'
     _FINANCE_BASE_URL = 'http://finance.yahoo.com'
 
     def __init__(self, symbol, datareader):
@@ -135,8 +136,8 @@ class Options(object):
                                  self.get_call_data)]).sortlevel()
 
     def _get_option_frames(self, expiry):
-        url = self._url_from_expiry(expiry)
-        option_frames = self._option_frames_from_url(url)
+        (url, params) = self._url_from_expiry(expiry)
+        option_frames = self._option_frames_from_url(url, params)
         frame_name = '_frames' + self._expiry_to_string(expiry)
         setattr(self, frame_name, option_frames)
         return option_frames
@@ -154,9 +155,9 @@ class Options(object):
         except AttributeError:
             _, expiry_links = self._get_expiry_dates_and_links()
 
-        return self._FINANCE_BASE_URL + expiry_links[expiry]
+        return(self._FINANCE_BASE_URL + expiry_links[expiry], {})
 
-    def _option_frames_from_url(self, url):
+    def _option_frames_from_url(self, url, params):
         frames = pd.read_html(url)
         nframes = len(frames)
         frames_req = max(self._TABLE_LOC.values())
@@ -165,7 +166,7 @@ class Options(object):
 
         if not hasattr(self, 'underlying_price'):
             try:
-                self.underlying_price, self.quote_time = self._get_underlying_price(url)
+                self.underlying_price, self.quote_time = self._get_underlying_price(url, params)
             except IndexError:
                 self.underlying_price, self.quote_time = np.nan, np.nan
 
@@ -180,8 +181,8 @@ class Options(object):
 
         return {'calls': calls, 'puts': puts}
 
-    def _get_underlying_price(self, url):
-        root = self._parse_url(url)
+    def _get_underlying_price(self, url, params):
+        root = self._parse_url(url, params)
         underlying_price = float(root.xpath('.//*[@class="time_rtq_ticker Fz-30 Fw-b"]')[0]\
             .getchildren()[0].text)
 
@@ -612,8 +613,10 @@ class Options(object):
         Dict of datetime.date objects as keys and corresponding links
         """
 
-        url = self._OPTIONS_BASE_URL.format(sym=self.symbol)
-        root = self._parse_url(url)
+        #url = self._OPTIONS_BASE_URL.format(sym=self.symbol)
+        url = self._OPTIONS_BASE_URL
+        params = {'s': self.symbol}
+        root = self._parse_url(url, params)
 
         try:
             links = root.xpath('//*[@id="options_menu"]/form/select/option')
@@ -631,7 +634,7 @@ class Options(object):
         self._expiry_dates = expiry_dates
         return expiry_dates, expiry_links
 
-    def _parse_url(self, url):
+    def _parse_url(self, url, params):
         """
         Downloads and parses a URL, returns xml root.
 
@@ -643,7 +646,7 @@ class Options(object):
             raise ImportError("Please install lxml if you want to use the "
                               "{0!r} class".format(self.__class__.__name__))
         try:
-            response = self.datareader.s.get(url)
+            response = self.datareader.s.get(url, params=params)
             root = fromstring(response.content)
         except _network_error_classes:
             raise RemoteDataError("Unable to parse URL "

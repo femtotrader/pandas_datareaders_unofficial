@@ -69,7 +69,6 @@ def main(expire_after):
     print(data.dtypes)
     """
 
-    """
     # FRED
     start = datetime.datetime(2010, 1, 1)
     end = datetime.datetime(2013, 1, 27)
@@ -82,15 +81,15 @@ def main(expire_after):
 
     data = MyDataReader("FRED").get(name, start, end)
     print(data)
-    """
 
+    """
     # Yahoo Finance Options
     symbol = "AAPL"
     option = MyDataReader("YahooFinanceOptions").get(symbol)
     data = option.get_all_data() # get all data
     print(data)
     #data = option.get_call_data(expiry=expiry) # get call data
-
+    """
 
     """
     # Google Finance Options
