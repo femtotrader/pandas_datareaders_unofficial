@@ -96,9 +96,9 @@ class DataReaderFactory(object):
     def add(self, name, cls):
         self._d_factory[name.lower()] = cls
 
-    def factory(self, name):
+    def factory(self, name, *args, **kwargs):
         try:
-            return(self._d_factory[name.lower()]())
+            return(self._d_factory[name.lower()](*args, **kwargs))
         except:
             logging.error(traceback.format_exc())
             raise(NotImplementedError("DataReader '%s' not implemented" % name))
@@ -108,7 +108,7 @@ class DataReaderFactory(object):
 #def MyDataReader(name):
 #    return(DATA_READER_FACTORY.factory(name))
 
-def MyDataReader(name):
-    return(DataReaderFactory().factory(name))
+def MyDataReader(name, *args, **kwargs):
+    return(DataReaderFactory().factory(name, *args, **kwargs))
 
 

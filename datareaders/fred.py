@@ -23,8 +23,8 @@ class DataReaderFRED(DataReaderBase):
         url = "http://research.stlouisfed.org/fred2/series/" \
             "{name}/downloaddata/{name}.csv".format(name=name)
 
-        response = self.s.get(url)
         #response = requests.get(url)
+        response = self.s.get(url)
         data = response.text
         if response.status_code!=200:
             raise IOError("Failed to get the data. Check that {0!r} is "

@@ -3,6 +3,7 @@
 
 from abc import ABCMeta, abstractmethod
 import requests
+import requests_cache
 
 import logging
 import traceback
@@ -11,7 +12,13 @@ from urllib import urlencode
 
 import pandas as pd
 
+#see http://requests-cache.readthedocs.org/en/latest/user_guide.html#usage
+#cache_name='cache', backend=None, expire_after=None, allowable_codes=(200, ), allowable_methods=('GET', ), **backend_options
+
 class RequestsSessionWithLog(requests.Session):
+    #def __init__(self):
+    #    super(RequestsSessionWithLog, self).__init__()
+
     def get(self, url, **kwargs):
         try:
             params = kwargs['params']
@@ -24,6 +31,19 @@ class RequestsSessionWithLog(requests.Session):
         response = super(RequestsSessionWithLog, self).get(url, **kwargs)
         return(response)
 
+class RequestsCachedSessionWithLog(requests_cache.CachedSession):
+    def get(self, url, **kwargs):
+        try:
+            params = kwargs['params']
+        except:
+            params = {}
+        if params=={}:
+            logging.debug("Request to '%s'" % url)
+        else:
+            logging.debug("Request to '%s' with '%s' using '%s'" % (url, params, url+'?'+urlencode(params)))
+        response = super(requests_cache.CachedSession, self).get(url, **kwargs)
+        return(response)
+
 class DataReaderBase(object):
     __metaclass__ = ABCMeta
 
@@ -31,8 +51,28 @@ class DataReaderBase(object):
     #PAUSE_DEFAULT = 0.001
     CHUNKSIZE_DEFAULT = 25
 
-    def __init__(self, *args, **kwargs):
-        self.s = RequestsSessionWithLog()
+    def __init__(self, *args, **kwargs):        
+        try:
+            cache_name = kwargs['cache_name']
+        except:
+            cache_name = 'cache'
+
+        try:
+            backend = kwargs['backend']
+        except:
+            backend = None
+
+        try:
+            expire_after = kwargs['expire_after']
+        except:
+            expire_after = 0 # 0: no cache - None: no cache expiration
+
+        if expire_after==0:
+            self.s = RequestsSessionWithLog()
+        else:
+            self.s = RequestsCachedSessionWithLog(cache_name, backend, expire_after)
+
+        #print(self.s)
 
         try:
             self.max_retries = kwargs['max_retries']

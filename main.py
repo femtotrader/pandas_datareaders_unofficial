@@ -24,13 +24,12 @@ from datareader_femto import *
 @click.command()
 @click.option('--expire_after', default=60*15, help=u"Cache expiration (-1: no cache, 0: no expiration, d: d seconds expiration cache)")
 def main(expire_after):
-    filename = os.path.join(basepath, "request_cache")
-
-    if expire_after>=0:
-        requests_cache.install_cache(filename, backend='sqlite', expire_after=expire_after) # expiration seconds
-        logging.info("Installing cache '%s.sqlite' with expire_after=%d (seconds)" % (filename, expire_after))
-    if expire_after==0:
-        logging.warning("expire_after==0 no cache expiration!")
+    #filename = os.path.join(basepath, "request_cache")
+    #if expire_after>=0:
+    #    requests_cache.install_cache(filename, backend='sqlite', expire_after=expire_after) # expiration seconds
+    #    logging.info("Installing cache '%s.sqlite' with expire_after=%d (seconds)" % (filename, expire_after))
+    #if expire_after==0:
+    #    logging.warning("expire_after==0 no cache expiration!")
 
     """
     # Google Finance Daily
@@ -79,7 +78,7 @@ def main(expire_after):
     name = ["CPIAUCSL", "CPILFESL"]
     #name = ["CPIAUCSL", "CPILFESL", "ERROR"]
 
-    data = MyDataReader("FRED").get(name, start, end)
+    data = MyDataReader("FRED", expire_after=5*60).get(name, start, end)
     print(data)
 
     """
