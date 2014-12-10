@@ -70,6 +70,9 @@ class DataReaderBase(object):
         if expire_after==0:
             self.s = RequestsSessionWithLog()
         else:
+            logging.info("Installing cache '%s.sqlite' with expire_after=%d (seconds)" % (cache_name, expire_after))
+            if expire_after is None:
+                logging.warning("expire_after is None - no cache expiration!")
             self.s = RequestsCachedSessionWithLog(cache_name, backend, expire_after)
 
         #print(self.s)
