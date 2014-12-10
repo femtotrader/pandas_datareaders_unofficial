@@ -22,23 +22,14 @@ import logging
 
 def test_famafrench():
 
-    filename = "famafrench"
-
-    if expire_after>=0:
-        requests_cache.install_cache(filename, backend='sqlite', expire_after=expire_after) # expiration seconds
-        logging.info("Installing cache '%s.sqlite' with expire_after=%d (seconds)" % (filename, expire_after))
-    if expire_after==0:
-        logging.warning("expire_after==0 no cache expiration!")
-
-
     #name = "5_Industry_Portfolios"
     name = "10_Industry_Portfolios"
     #name = ["5_Industry_Portfolios", "10_Industry_Portfolios"]
 
-    ip = web.DataReader(name, "famafrench")
-
-    print(ip)
-
-    data = MyDataReader("FamaFrench").get(name)
-
+    data = MyDataReader("FamaFrench", expire_after=expire_after).get(name)
     print(data)
+
+    print("="*5 + "Pandas original DataReader" + "="*5)
+
+    ip = web.DataReader(name, "famafrench")
+    print(ip)

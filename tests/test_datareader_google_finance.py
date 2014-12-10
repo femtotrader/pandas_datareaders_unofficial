@@ -24,24 +24,17 @@ from datareaders.tools import to_float, to_int
 
 def test_google_finance_daily():
 
-    filename = "google_finance"
-
-    if expire_after>=0:
-        requests_cache.install_cache(filename, backend='sqlite', expire_after=expire_after) # expiration seconds
-        logging.info("Installing cache '%s.sqlite' with expire_after=%d (seconds)" % (filename, expire_after))
-    if expire_after==0:
-        logging.warning("expire_after==0 no cache expiration!")
-
-
     start = datetime.datetime(2010, 1, 1)
     end = datetime.datetime(2013, 1, 27)
 
     symbol = "F"
 
-    data = MyDataReader("GoogleFinanceDaily").get(symbol, start, end)
+    data = MyDataReader("GoogleFinanceDaily", expire_after=expire_after).get(symbol, start, end)
     print(data)
     print(type(data))
     print(data.dtypes)
+
+    print("="*5 + "Pandas original DataReader" + "="*5)
 
     f = web.DataReader(symbol, 'google', start, end)
     print(f)

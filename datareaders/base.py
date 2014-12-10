@@ -68,14 +68,13 @@ class DataReaderBase(object):
             expire_after = 0 # 0: no cache - None: no cache expiration
 
         if expire_after==0:
+            logging.debug("Requests without cache")
             self.s = RequestsSessionWithLog()
         else:
-            logging.info("Installing cache '%s.sqlite' with expire_after=%d (seconds)" % (cache_name, expire_after))
+            logging.info("Installing cache '%s.sqlite' with expire_after=%s (seconds)" % (cache_name, expire_after))
             if expire_after is None:
                 logging.warning("expire_after is None - no cache expiration!")
             self.s = RequestsCachedSessionWithLog(cache_name, backend, expire_after)
-
-        #print(self.s)
 
         try:
             self.max_retries = kwargs['max_retries']

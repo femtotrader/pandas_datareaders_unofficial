@@ -18,24 +18,20 @@ expire_after = 60*5 # seconds
 
 def test_yahoo_finance_options():
 
-    filename = "yahoo_finance_options"
-
-    if expire_after>=0:
-        requests_cache.install_cache(filename, backend='sqlite', expire_after=expire_after) # expiration seconds
-        logging.info("Installing cache '%s.sqlite' with expire_after=%d (seconds)" % (filename, expire_after))
-    if expire_after==0:
-        logging.warning("expire_after==0 no cache expiration!")
+    #filename = "yahoo_finance_options"
+    #if expire_after>=0:
+    #    requests_cache.install_cache(filename, backend='sqlite', expire_after=expire_after) # expiration seconds
+    #    logging.info("Installing cache '%s.sqlite' with expire_after=%d (seconds)" % (filename, expire_after))
+    #if expire_after==0:
+    #    logging.warning("expire_after==0 no cache expiration!")
     
     symbol = 'AAPL'
     #symbol = ["AAPL", 'F']
     
-    """
-    #data = MyDataReader("YahooFinanceOptions").Options(symbol).get() # get all data
-    option = MyDataReader("YahooFinanceOptions").get(symbol)
+    option = MyDataReader("YahooFinanceOptions", expire_after=expire_after).get(symbol)
     data = option.get_all_data() # get all data
     print(data)
     #data = option.get_call_data(expiry=expiry) # get call data
-    """
 
     """
     aapl = Options(symbol, 'yahoo')

@@ -44,15 +44,6 @@ def date_to_ymd(date):
     }
     return(d)
 
-
-"""
-{'expirations': [{'y': 2014, 'm': 12, 'd': 12}, {'y': 2014, 'm': 12, 'd': 20}, {'y': 2014, 'm': 12, 'd': 26}, {'y': 2015, 'm': 1, 'd': 2}, {'y': 2015, 'm': 1, 'd': 9}, {'y': 2015, 'm': 1, 'd': 17}, {'y': 2015, 'm': 1, 'd': 23}, {'y': 2015, 'm': 2, 'd': 20}, {'y': 2015, 'm': 3, 'd': 20}, {'y': 2015, 'm': 6, 'd': 19}, {'y': 2016, 'm': 1, 'd': 15}, {'y': 2017, 'm': 1, 'd': 20}],
-'expiry': {'y': 2014, 'm': 12, 'd': 12},
-'underlying_price': 525.26001,
-'underlying_id': '304466804484872'}
-
-"""
-
 def fix_lazy_json(in_text):
     """
     Handle lazy JSON - to fix expecting property name
@@ -232,27 +223,18 @@ class DataReaderGoogleFinanceOptions(DataReaderBase):
             return(data)
 
     def _get_multi(self, names, *args, **kwargs):
-        """
-        ToFix
-        """
-
-        lst_data = []
+        d_data = {}
         lst_failed = []
 
         for name in names:
             try:
-                df_one = self._get_one(name, *args, **kwargs)
-                df_one['Symbol'] = name
-                lst_data.append(df_one)
+                data_one = self._get_one(name, *args, **kwargs)
+                d_data[name] = data_one
             except IOError:
                 logging.warning("Failed to read symbol: {0!r}, replacing with 'NaN.".format(name))
-                lst_failed.append(sym)
-
-        df = pd.concat(lst_data, axis=0)
-        #df = df.sort(['Symbol', 'Type', 'strike'])
-        df = df.set_index(['Symbol', 'Type', 'cid'])
-
-        return(df)
+                d_data[name] = None
+                lst_failed.append(name)
+        return(d_data)
 
 if __name__ == "__main__":
     import doctest

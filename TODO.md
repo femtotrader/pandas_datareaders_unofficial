@@ -40,4 +40,6 @@
 * CBOE - Option Chain Download
   http://www.cboe.com/DelayedQuote/QuoteTableDownload.aspx
 
-* Fix caching mechanism using requests_cache and own requests Session (RequestsSessionWithLog)
+* Fix caching mechanism using requests_cache monkey patch method
+and my own requests Session (RequestsSessionWithLog)
+for now I'm using

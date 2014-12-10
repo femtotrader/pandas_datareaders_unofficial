@@ -24,13 +24,7 @@ from datareaders import world_bank as wb
 
 def test_datareader_world_bank():
 
-    filename = "wb"
-
-    if expire_after>=0:
-        requests_cache.install_cache(filename, backend='sqlite', expire_after=expire_after) # expiration seconds
-        logging.info("Installing cache '%s.sqlite' with expire_after=%d (seconds)" % (filename, expire_after))
-    if expire_after==0:
-        logging.warning("expire_after==0 no cache expiration!")
+    print("="*5 + "Pandas original DataReader" + "="*5)
 
     dat = wb.search('gdp.*capita.*const')
     print(dat.iloc[:,:2])
