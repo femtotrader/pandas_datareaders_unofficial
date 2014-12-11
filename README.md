@@ -27,16 +27,13 @@ see https://github.com/pydata/pandas/issues/8713
 
 Thanks to [requests-cache](https://readthedocs.org/projects/requests-cache/) we can now use SQLite as cache db to avoid too much requests to remote servers.
 
-    import requests_cache
-    expire_after = 60*5 # seconds
-    filename = 'req_cache'
-    requests_cache.install_cache(filename, backend='sqlite', expire_after=expire_after)
+    expire_after = 60*5 # seconds - 0: no cache - None: no cache expiration
     
     symbol = ["GOOG", "AAPL", "MSFT"]
     end_date = datetime.datetime.now()
     num_days = 200
     start_date = end_date - datetime.timedelta(days=num_days)
-    data = MyDataReader("GoogleFinanceDaily").get(symbol, start_date, end_date)
+    data = MyDataReader("GoogleFinanceDaily", expire_after=expire_after).get(symbol, start_date, end_date)
     print(data)
 
 This is still very experimental. Not every DataReaders are functional.
