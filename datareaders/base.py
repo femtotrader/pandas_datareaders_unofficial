@@ -2,8 +2,20 @@
 # -*- coding: utf-8 -*-
 
 #from abc import ABCMeta, abstractmethod
-import requests
-import requests_cache
+
+try:
+    import requests
+except ImportError:
+    _HAS_REQUESTS = False
+else:
+    _HAS_REQUESTS = True
+
+try:
+    import requests_cache
+except ImportError:
+    _HAS_REQUESTS_CACHE = False
+else:
+    _HAS_REQUESTS_CACHE = True
 
 import logging
 import traceback
@@ -70,10 +82,15 @@ class DataReaderBase(object):
         except:
             expire_after = 0 # 0: no cache - None: no cache expiration
 
+        if not _HAS_REQUESTS:
+            raise ImportError("requests not found, please install it")
+
         if expire_after==0:
             logging.debug("Requests without cache")
             self.session = RequestsSessionWithLog()
         else:
+            if not _HAS_REQUESTS_CACHE:
+                raise ImportError("requests_cache not found, please install it")
             logging.info("Installing cache '%s.sqlite' with expire_after=%s (seconds)" % (cache_name, expire_after))
             if expire_after is None:
                 logging.warning("expire_after is None - no cache expiration!")
