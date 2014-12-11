@@ -159,7 +159,10 @@ class Options(object):
         return(self._url(expiry_links[expiry]), {})
 
     def _option_frames_from_url(self, url, params):
-        frames = pd.read_html(url)
+        #frames = pd.read_html(url) # session should be passed to have a cache mechanism
+        response = self.session.get(url)
+        data = response.content
+        frames = pd.read_html(StringIO(data))
         nframes = len(frames)
         frames_req = max(self._TABLE_LOC.values())
         if nframes < frames_req:
