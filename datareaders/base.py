@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from abc import ABCMeta, abstractmethod
+#from abc import ABCMeta, abstractmethod
 import requests
 import requests_cache
 
@@ -46,7 +46,7 @@ class RequestsCachedSessionWithLog(requests_cache.CachedSession):
         return(response)
 
 class DataReaderBase(object):
-    __metaclass__ = ABCMeta
+    #__metaclass__ = ABCMeta
 
     MAX_RETRIES_DEFAULT = 3
     #PAUSE_DEFAULT = 0.001
@@ -98,7 +98,7 @@ class DataReaderBase(object):
         else:
             return(self._get_multi(name, *args, **kwargs))
 
-    @abstractmethod
+    #@abstractmethod
     def _get_one(self, name, *args, **kwargs):
         raise(NotImplementedError)
 
