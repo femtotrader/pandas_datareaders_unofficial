@@ -329,7 +329,6 @@ class DataReaderWorldBank(DataReaderBase):
         topics:
         """
         # Create cached list of series if it does not exist
-        #global _cached_series
         if type(self._cached_series) is not pandas.core.frame.DataFrame:
             self._cached_series = self.get_indicators()
         data = self._cached_series[field]
