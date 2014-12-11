@@ -62,16 +62,16 @@ class Options(object):
     """
 
     _TABLE_LOC = {'calls': 1, 'puts': 2}
-    #_OPTIONS_BASE_URL = 'http://finance.yahoo.com/q/op?s={sym}'
-    _OPTIONS_BASE_URL = 'http://finance.yahoo.com/q/op'
-    _FINANCE_BASE_URL = 'http://finance.yahoo.com'
+    BASE_URL = 'http://finance.yahoo.com'
 
     def __init__(self, symbol, datareader):
         """ Instantiates options_data with a ticker saved as symbol """
         self.symbol = symbol.upper()
 
         self.datareader = datareader
+        self.datareader.BASE_URL = self.BASE_URL
         self.session = self.datareader.session
+        self._url = self.datareader._url
 
     def get_options_data(self, month=None, year=None, expiry=None):
         """
@@ -156,7 +156,7 @@ class Options(object):
         except AttributeError:
             _, expiry_links = self._get_expiry_dates_and_links()
 
-        return(self._FINANCE_BASE_URL + expiry_links[expiry], {})
+        return(self._url(expiry_links[expiry]), {})
 
     def _option_frames_from_url(self, url, params):
         frames = pd.read_html(url)
@@ -614,8 +614,7 @@ class Options(object):
         Dict of datetime.date objects as keys and corresponding links
         """
 
-        #url = self._OPTIONS_BASE_URL.format(sym=self.symbol)
-        url = self._OPTIONS_BASE_URL
+        url = self._url('/q/op')
         params = {'s': self.symbol}
         root = self._parse_url(url, params)
 

@@ -25,10 +25,10 @@ def test_yahoo_finance_options():
     #if expire_after==0:
     #    logging.warning("expire_after==0 no cache expiration!")
     
-    #symbol = 'AAPL'
+    symbol = 'AAPL'
     #symbol = 'F'
     #symbol = '^spxpm'
-    symbol = ["AAPL", 'F']
+    #symbol = ["AAPL", 'F']
     
     option = MyDataReader("YahooFinanceOptions", expire_after=expire_after).get(symbol)
     data = option.get_all_data() # get all data

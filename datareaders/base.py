@@ -52,6 +52,8 @@ class DataReaderBase(object):
     #PAUSE_DEFAULT = 0.001
     CHUNKSIZE_DEFAULT = 25
 
+    BASE_URL = ""
+
     def __init__(self, *args, **kwargs):        
         try:
             cache_name = kwargs['cache_name']
@@ -128,3 +130,6 @@ class DataReaderBase(object):
             # cannot construct a panel with just 1D nans indicating no data
             raise RemoteDataError("No data fetched using "
                                   "{0!r}".format(type(self).__name__))
+
+    def _url(self, endpoint='/'):
+        return(self.BASE_URL + endpoint)

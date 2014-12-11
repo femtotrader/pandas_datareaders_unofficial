@@ -26,8 +26,8 @@ def test_famafrench():
     name = "10_Industry_Portfolios"
     #name = ["5_Industry_Portfolios", "10_Industry_Portfolios"]
 
-    data = MyDataReader("FamaFrench", expire_after=expire_after).get(name)
-    print(data)
+    #data = MyDataReader("FamaFrench", expire_after=expire_after).get(name)
+    #print(data)
 
     print("="*5 + "Pandas original DataReader" + "="*5)
 
