@@ -32,20 +32,6 @@ class DataReaderYahooFinanceDaily(DataReaderBase):
 
         return(df)
 
-
-    """
-    def _get_raw(self, symbol):
-
-        params = {
-            's': symbol,
-            'l1': last,
-            'p2': change_pct,
-            'r': PE,
-            't1': time,
-            's7': short_ratio
-        }
-    """
-
 import pandas.compat as compat
 from collections import defaultdict
 from pandas.io.common import urlopen
@@ -58,7 +44,10 @@ class DataReaderYahooFinanceQuotes(DataReaderBase):
     BASE_URL = 'http://finance.yahoo.com'
 
     def _get_one(self, symbol, *args, **kwargs):
-
+        """
+        Get current Yahoo Quote for a symbol
+        Returns a DataFrame
+        """
         # for codes see: http://www.gummy-stuff.org/Yahoo-data.htm
         request = ''.join(compat.itervalues(self._yahoo_codes))  # code request string
         header = list(self._yahoo_codes.keys())
@@ -67,14 +56,15 @@ class DataReaderYahooFinanceQuotes(DataReaderBase):
 
         url = self._YAHOO_QUOTE_URL + 's=%s&f=%s' % (symbol, request)
 
-        """
-        url = self._url('/d/quotes.csv')
-        params = {
-            's': symbol,
-            'f': request
-        }
-        """
+        #url = self._url('/d/quotes.csv')
+        #params = {
+        #    's': symbol,
+        #    'f': request
+        #}
 
+        # ToFix: AttributeError: '_Store' object has no attribute 'read'
+        # see https://github.com/kennethreitz/requests/issues/2378
+        # https://github.com/reclosedev/requests-cache/issues/33
         #print(url) #http://finance.yahoo.com/d/quotes.csv?s=AAPL+F&f=l1srs7t1p2
         with urlopen(url) as resp:
             lines = resp.readlines()
@@ -85,6 +75,7 @@ class DataReaderYahooFinanceQuotes(DataReaderBase):
 
         #for line in response.iter_lines():
         for line in lines:
+            print(line)
             fields = line.decode('utf-8').strip().split(',')
             for i, field in enumerate(fields):
                 if field[-2:] == '%"':
@@ -102,6 +93,10 @@ class DataReaderYahooFinanceQuotes(DataReaderBase):
         return pd.DataFrame(data, index=idx)
 
     def _get_multi(self, symbols, *args, **kwargs):
+        """
+        Get current Yahoo Quote for several symbols
+        Returns a DataFrame
+        """
         if isinstance(symbols, compat.string_types):
             sym_list = symbols
         else:
@@ -111,16 +106,23 @@ class DataReaderYahooFinanceQuotes(DataReaderBase):
 
 
     """
+
+        params = {
+            's': symbol,
+            'l1': last,
+            'p2': change_pct,
+            'r': PE,
+            't1': time,
+            's7': short_ratio
+        }
+
+
 _YAHOO_QUOTE_URL = 'http://finance.yahoo.com/d/quotes.csv?'
 http://www.gummy-stuff.org/Yahoo-data.htm
 http://www.jarloo.com/yahoo_finance/
     """
 
 #def get_quote_yahoo(symbols):
-    """
-    Get current yahoo quote
-    Returns a DataFrame
-    """
     """
     if isinstance(symbols, compat.string_types):
         sym_list = symbols

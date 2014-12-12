@@ -14,7 +14,8 @@ class DataReaderFamaFrench(DataReaderBase):
         url = 'http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/{name}.zip'.format(name=name)
 
         response = self.session.get(url)
-        raw = response.text
+        #raw = response.text # returns unicode
+        raw = response.content # returns bytes
         if response.status_code!=200:
             raise IOError("Failed to get the data. Check that {0!r} is "
                           "a valid FamaFrench dataset.".format(name))
