@@ -30,7 +30,7 @@ from datareaders.base import DataReaderBase
 
 from datareaders.google_finance import DataReaderGoogleFinanceDaily, DataReaderGoogleFinanceIntraday
 from datareaders.google_finance_options import DataReaderGoogleFinanceOptions
-from datareaders.yahoo_finance import DataReaderYahooFinanceDaily
+from datareaders.yahoo_finance import DataReaderYahooFinanceDaily, DataReaderYahooFinanceQuotes
 from datareaders.yahoo_finance_options import DataReaderYahooFinanceOptions
 from datareaders.fred import DataReaderFRED
 from datareaders.fama_french import DataReaderFamaFrench
@@ -82,6 +82,8 @@ class DataReaderFactory(object):
 
         self.add('yahoo', DataReaderYahooFinanceDaily)
         self.add('YahooFinanceDaily', DataReaderYahooFinanceDaily)
+
+        self.add('YahooFinanceQuotes', DataReaderYahooFinanceQuotes)
 
         self.add('YahooFinanceOptions', DataReaderYahooFinanceOptions)
 

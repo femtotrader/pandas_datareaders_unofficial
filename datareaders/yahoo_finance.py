@@ -35,8 +35,6 @@ class DataReaderYahooFinanceDaily(DataReaderBase):
 
     """
     def _get_raw(self, symbol):
-        _yahoo_codes = {'symbol': 's', 'last': 'l1', 'change_pct': 'p2', 'PE': 'r',
-                'time': 't1', 'short_ratio': 's7'}
 
         params = {
             's': symbol,
@@ -48,10 +46,87 @@ class DataReaderYahooFinanceDaily(DataReaderBase):
         }
     """
 
+import pandas.compat as compat
+from collections import defaultdict
+from pandas.io.common import urlopen
+
+class DataReaderYahooFinanceQuotes(DataReaderBase):
+    _yahoo_codes = {'symbol': 's', 'last': 'l1', 'change_pct': 'p2', 'PE': 'r',
+                'time': 't1', 'short_ratio': 's7'}
+
+    _YAHOO_QUOTE_URL = 'http://finance.yahoo.com/d/quotes.csv?'
+    BASE_URL = 'http://finance.yahoo.com'
+
+    def _get_one(self, symbol, *args, **kwargs):
+
+        # for codes see: http://www.gummy-stuff.org/Yahoo-data.htm
+        request = ''.join(compat.itervalues(self._yahoo_codes))  # code request string
+        header = list(self._yahoo_codes.keys())
+
+        data = defaultdict(list)
+
+        url = self._YAHOO_QUOTE_URL + 's=%s&f=%s' % (symbol, request)
+
+        """
+        url = self._url('/d/quotes.csv')
+        params = {
+            's': symbol,
+            'f': request
+        }
+        """
+
+        #print(url) #http://finance.yahoo.com/d/quotes.csv?s=AAPL+F&f=l1srs7t1p2
+        with urlopen(url) as resp:
+            lines = resp.readlines()
+        #print(lines) #['111.62,"AAPL",17.36,1.90,"4:00pm","-0.29%"\r\n', '15.28,"F",9.91,2.10,"4:00pm","+0.79%"\r\n']
+        #response = self.session.get(url, params=params, stream=True)
+        #lines = response.content
+        #print(lines)
+
+        #for line in response.iter_lines():
+        for line in lines:
+            fields = line.decode('utf-8').strip().split(',')
+            for i, field in enumerate(fields):
+                if field[-2:] == '%"':
+                    v = float(field.strip('"%'))
+                elif field[0] == '"':
+                    v = field.strip('"')
+                else:
+                    try:
+                        v = float(field)
+                    except ValueError:
+                        v = field
+                data[header[i]].append(v)
+
+        idx = data.pop('symbol')
+        return pd.DataFrame(data, index=idx)
+
+    def _get_multi(self, symbols, *args, **kwargs):
+        if isinstance(symbols, compat.string_types):
+            sym_list = symbols
+        else:
+            sym_list = '+'.join(symbols)
+        return(self._get_one(sym_list, *args, **kwargs))
+
+
+
     """
 _YAHOO_QUOTE_URL = 'http://finance.yahoo.com/d/quotes.csv?'
 http://www.gummy-stuff.org/Yahoo-data.htm
 http://www.jarloo.com/yahoo_finance/
+    """
+
+#def get_quote_yahoo(symbols):
+    """
+    Get current yahoo quote
+    Returns a DataFrame
+    """
+    """
+    if isinstance(symbols, compat.string_types):
+        sym_list = symbols
+    else:
+        sym_list = '+'.join(symbols)
+
     """
 
 
