@@ -33,3 +33,9 @@ def test_famafrench():
 
     ip = web.DataReader(name, "famafrench")
     print(ip)
+
+    diff = {}
+    for key, val in ip.items():
+        diff[key] = data[key] - ip[key]
+        diff[key] = diff[key].sum().sum()
+        assert(diff[key]==0.0)

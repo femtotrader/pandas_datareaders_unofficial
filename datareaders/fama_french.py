@@ -1,17 +1,21 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from datareaders.base import DataReaderBase
-#import zipfile
-from pandas.io.common import ZipFile, urlencode, urlopen
-import pandas as pd
+
 import logging
 import traceback
+
+from datareaders.base import DataReaderBase
+
+import pandas as pd
 import numpy as np
+
 import tempfile
 
+from pandas.io.common import ZipFile
+
 from pandas.compat import(
-    StringIO, bytes_to_str, range, lmap, zip
+    StringIO, range, lmap, zip
 )
 
 class DataReaderFamaFrench(DataReaderBase):
