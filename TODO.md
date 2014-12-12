@@ -50,6 +50,10 @@ and my own requests Session (RequestsSessionWithLog)
 for now I'm using RequestsCachedSessionWithLog and I'm passing paramaters
 to DataReaders
 
+requests-cache https://github.com/reclosedev/requests-cache
+or CacheControl https://github.com/ionrock/cachecontrol
+see https://github.com/kennethreitz/requests/issues/2378
+
 
 * Other data provider to consider
 http://www.eoddata.com/download.aspx

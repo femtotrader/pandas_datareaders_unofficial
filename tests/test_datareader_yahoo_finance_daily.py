@@ -29,6 +29,8 @@ def test_yahoo_finance_daily():
     print(type(data))
     print(data.dtypes)
 
+    print("="*5 + "Pandas original DataReader" + "="*5)
+
     f = web.DataReader(symbol, 'yahoo', start, end)
     print(f)
     print(type(f))

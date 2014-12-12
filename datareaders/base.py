@@ -17,6 +17,9 @@ except ImportError:
 else:
     _HAS_REQUESTS_CACHE = True
 
+
+from cachecontrol import CacheControl
+
 import logging
 import traceback
 

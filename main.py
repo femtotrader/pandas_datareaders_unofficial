@@ -39,7 +39,7 @@ def main(expire_after):
     end_date = datetime.datetime.now()
     num_days = 200
     start_date = end_date - datetime.timedelta(days=num_days)
-    data = MyDataReader("GoogleFinanceDaily").get(symbol, start_date, end_date)
+    data = MyDataReader("GoogleFinanceDaily", expire_after=expire_after).get(symbol, start_date, end_date)
     print(data)
     """
 
@@ -49,11 +49,10 @@ def main(expire_after):
     symbol = ["GOOG", "AAPL"]
     interval_seconds = 60
     num_days = 3
-    data = MyDataReader("GoogleFinanceIntraday").get(symbol, exchange="NASD", interval_seconds=interval_seconds, num_days=num_days)
+    data = MyDataReader("GoogleFinanceIntraday", expire_after=expire_after).get(symbol, exchange="NASD", interval_seconds=interval_seconds, num_days=num_days)
     print(data)
     """
 
-    """
     # Yahoo Finance Daily
     start = datetime.datetime(2010, 1, 1)
     end = datetime.datetime(2013, 1, 27)
@@ -62,13 +61,13 @@ def main(expire_after):
     symbol = "AAPL"
     #symbol = ["AAPL", 'F']
 
-    data = MyDataReader("YahooFinanceDaily").get(symbol, start, end)
+    data = MyDataReader("YahooFinanceDaily", expire_after=expire_after).get(symbol, start, end)
     print(data)
     print(type(data))
     print(data.dtypes)
-    """
 
     # FRED
+    """
     start = datetime.datetime(2010, 1, 1)
     end = datetime.datetime(2013, 1, 27)
 
@@ -78,13 +77,14 @@ def main(expire_after):
     name = ["CPIAUCSL", "CPILFESL"]
     #name = ["CPIAUCSL", "CPILFESL", "ERROR"]
 
-    data = MyDataReader("FRED", expire_after=5*60).get(name, start, end)
+    data = MyDataReader("FRED", expire_after=expire_after).get(name, start, end)
     print(data)
+    """
 
     """
     # Yahoo Finance Options
     symbol = "AAPL"
-    option = MyDataReader("YahooFinanceOptions").get(symbol)
+    option = MyDataReader("YahooFinanceOptions", expire_after=expire_after).get(symbol)
     data = option.get_all_data() # get all data
     print(data)
     #data = option.get_call_data(expiry=expiry) # get call data
