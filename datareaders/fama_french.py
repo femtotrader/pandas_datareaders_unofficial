@@ -19,6 +19,9 @@ from pandas.compat import(
 )
 
 class DataReaderFamaFrench(DataReaderBase):
+    def init(self, *args, **kwargs):
+        self._get_multi = self._get_multi_todic
+
     def _get_one(self, name, *args, **kwargs):
         url = 'http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/{name}.zip'\
             .format(name=name)

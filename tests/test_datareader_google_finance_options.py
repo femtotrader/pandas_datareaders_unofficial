@@ -14,12 +14,12 @@ from datareader_femto import *
 from pandas.io.data import Options
 
 import requests_cache
-expire_after = None #60*60 # seconds - 0:no cache - None:no cache expiration
+expire_after = 60*60 # seconds - 0:no cache - None:no cache expiration
 
 def test_google_finance_options():
 
-    symbol = 'NASDAQ:AAPL'
-    #symbol = 'NASDAQ:GOOG'
+    #symbol = 'NASDAQ:AAPL'
+    symbol = 'NASDAQ:GOOG'
     symbol = ['NASDAQ:AAPL', 'NASDAQ:GOOG'] # ToFix: get returns now a dict not a DataFrame
 
     option = MyDataReader("GoogleFinanceOptions", expire_after=expire_after).get(symbol)

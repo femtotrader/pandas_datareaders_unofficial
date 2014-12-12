@@ -111,6 +111,13 @@ class DataReaderBase(object):
         self.session.mount('http://', a)
         self.session.mount('https://', b)
 
+        #self._get_multi = self._get_multi_topanel
+
+        try:
+            self.init(*args, **kwargs)
+        except:
+            pass
+
     def get(self, name, *args, **kwargs):
         if isinstance(name, basestring):
             return(self._get_one(name, *args, **kwargs))
@@ -121,7 +128,7 @@ class DataReaderBase(object):
     def _get_one(self, name, *args, **kwargs):
         raise(NotImplementedError)
 
-    def _get_multi(self, names, *args, **kwargs):
+    def _get_multi_topanel(self, names, *args, **kwargs):
         d_data = {}
         lst_failed = []
 
@@ -147,6 +154,21 @@ class DataReaderBase(object):
             # cannot construct a panel with just 1D nans indicating no data
             raise RemoteDataError("No data fetched using "
                                   "{0!r}".format(type(self).__name__))
+
+    def _get_multi_todict(self, names, *args, **kwargs):
+        d_data = {}
+        lst_failed = []
+
+        for name in names:
+            try:
+                data_one = self._get_one(name, *args, **kwargs)
+                d_data[name] = data_one
+            except IOError:
+                logging.warning("Failed to read symbol: {0!r}, replacing with 'NaN.".format(name))
+                d_data[name] = None
+                lst_failed.append(name)
+        return(d_data)
+
 
     def _url(self, endpoint='/'):
         return(self.BASE_URL + endpoint)

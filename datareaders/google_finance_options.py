@@ -93,6 +93,8 @@ class DataReaderGoogleFinanceOptions(DataReaderBase):
     https://github.com/makmac213/python-google-option-chain
     http://www.drtomstarke.com/index.php/option-chains-from-google-finance-api
     """
+    def init(self, *args, **kwargs):
+        self._get_multi = self._get_multi_todict
 
     def _get_one(self, name, *args, **kwargs):
         return(self._get_one_raw(name, 'All', 'json'))
@@ -100,33 +102,11 @@ class DataReaderGoogleFinanceOptions(DataReaderBase):
     def _get_one_raw(self, symbol, typ='All', output='json', y='2014', m='12', d='1'):
         url = "https://www.google.com/finance/option_chain"
 
-        #http://www.google.com/finance/option_chain?cid=358464&expd=21&expm=4&expy=2012&output=json
-
         params = {
             'q': symbol,
             'type': typ,
             'output': output,
         }
-
-        """
-        params = {
-            'q': symbol,
-            'output': output,
-            'expy': y,
-            'expm': m,
-            'expd': d,
-        }
-        """
-
-        """
-        params = {
-            'q': symbol,
-            'output': output,
-            'expy': 2015,
-            'expm': 1,
-            'expd': 2,
-        }
-        """
 
         data = self._get_content(url, params)
 
@@ -221,20 +201,6 @@ class DataReaderGoogleFinanceOptions(DataReaderBase):
             content_json = response.content
             data = json_decode(content_json)
             return(data)
-
-    def _get_multi(self, names, *args, **kwargs):
-        d_data = {}
-        lst_failed = []
-
-        for name in names:
-            try:
-                data_one = self._get_one(name, *args, **kwargs)
-                d_data[name] = data_one
-            except IOError:
-                logging.warning("Failed to read symbol: {0!r}, replacing with 'NaN.".format(name))
-                d_data[name] = None
-                lst_failed.append(name)
-        return(d_data)
 
 if __name__ == "__main__":
     import doctest
