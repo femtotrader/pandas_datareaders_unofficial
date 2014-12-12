@@ -48,6 +48,8 @@ class DataReaderYahooFinanceQuotes(DataReaderBase):
         Get current Yahoo Quote for a symbol
         Returns a DataFrame
         """
+
+        # ['symbol', 'last', 'change_pct', 'PE', 'time', 'short_ratio']
         # for codes see: http://www.gummy-stuff.org/Yahoo-data.htm
         request = ''.join(compat.itervalues(self._yahoo_codes))  # code request string
         header = list(self._yahoo_codes.keys())
