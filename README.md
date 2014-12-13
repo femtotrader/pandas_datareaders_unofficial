@@ -35,7 +35,7 @@ It make also possible to use some remote API calls offline (if same query was pe
     from datareader import *
     import datetime
 
-    expire_after = 60*5 # seconds - 0: no cache - None: no cache expiration
+    expire_after = 60*60 # seconds - 0: no cache - None: no cache expiration
     
     symbol = ["GOOG", "AAPL", "MSFT"]
     end_date = datetime.datetime.now()
