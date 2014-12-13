@@ -78,10 +78,7 @@ class DataReaderFactory(object):
             logging.error(traceback.format_exc())
             raise(NotImplementedError("DataReader '%s' not implemented" % name))
 
-#DATA_READER_FACTORY = DataReaderFactory()
-
-#def MyDataReader(name):
-#    return(DATA_READER_FACTORY.factory(name))
+DATA_READER_FACTORY = DataReaderFactory()
 
 def MyDataReader(name, *args, **kwargs):
     """
@@ -109,4 +106,4 @@ def MyDataReader(name, *args, **kwargs):
     start, end = _sanitize_dates(start, end)
 
     """
-    return(DataReaderFactory().factory(name, *args, **kwargs))
+    return(DATA_READER_FACTORY.factory(name))
