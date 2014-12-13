@@ -32,6 +32,9 @@ to avoid too much requests to remote servers
 (and speed-up execution of sprits when they are run several times). 
 It make also possible to use some remote API calls offline (if same query was performed before).
 
+    from datareader import *
+    import datetime
+
     expire_after = 60*5 # seconds - 0: no cache - None: no cache expiration
     
     symbol = ["GOOG", "AAPL", "MSFT"]
@@ -41,4 +44,35 @@ It make also possible to use some remote API calls offline (if same query was pe
     data = MyDataReader("GoogleFinanceDaily", expire_after=expire_after).get(symbol, start_date, end_date)
     print(data)
 
-This is still experimental.
+It should return a Pandas Panel with OHLCV data like:
+
+    <class 'pandas.core.panel.Panel'>
+    Dimensions: 3 (items) x 141 (major_axis) x 5 (minor_axis)
+    Items axis: AAPL to MSFT
+    Major_axis axis: 2014-05-27 00:00:00 to 2014-12-12 00:00:00
+    Minor_axis axis: Open to Volume
+
+We can get a Pandas DataFrame with OHLCV data of "GOOG" using:
+
+    print(data["GOOG"])
+
+It should display:
+
+                  Open    High     Low   Close   Volume
+    Date
+    2014-05-27  556.00  566.00  554.35  565.95  2100298
+    2014-05-28  564.57  567.84  561.00  561.68  1647717
+    2014-05-29  563.35  564.00  558.71  560.08  1350657
+    2014-05-30  560.80  561.35  555.91  559.89  1766794
+    2014-06-02  560.70  560.90  545.73  553.93  1434989
+    ...            ...     ...     ...     ...      ...
+    2014-12-08  527.13  531.00  523.79  526.98  2327127
+    2014-12-09  522.14  534.19  520.50  533.37  1871268
+    2014-12-10  533.08  536.33  525.56  526.06  1716835
+    2014-12-11  527.80  533.92  527.10  528.34  1610964
+    2014-12-12  523.51  528.50  518.66  518.66  1989117
+
+    [141 rows x 5 columns]
+
+
+Caution! This project is still experimental.
