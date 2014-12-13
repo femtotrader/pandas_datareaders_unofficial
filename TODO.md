@@ -61,5 +61,7 @@ ou http://www.batstrading.com/market_data/symbol_listing/csv/
 CBOE - Option Chain Download
 http://www.cboe.com/DelayedQuote/QuoteTableDownload.aspx
 
+Quandl
+https://github.com/quandl/Python/
 
 * Fix Google Finance Intraday with cache and several symbols
