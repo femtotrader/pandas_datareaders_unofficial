@@ -34,7 +34,6 @@ class DataReaderYahooFinanceDaily(DataReaderBase):
 
 import pandas.compat as compat
 from collections import defaultdict
-from pandas.io.common import urlopen
 
 class DataReaderYahooFinanceQuotes(DataReaderBase):
     _yahoo_codes = {'symbol': 's', 'last': 'l1', 'change_pct': 'p2', 'PE': 'r',
