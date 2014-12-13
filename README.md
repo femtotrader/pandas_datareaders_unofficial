@@ -30,7 +30,7 @@ we can now use [SQLite](http://www.sqlite.org/), [mongoDB](http://www.mongodb.or
 [Redis](http://redis.io/) or memory as cache database (backend) and expiration time 
 to avoid too much requests to remote servers 
 (and speed-up execution of sprits when they are run several times). 
-It make also possible to use some remote API call offline (if same query was performed before).
+It make also possible to use some remote API calls offline (if same query was performed before).
 
     expire_after = 60*5 # seconds - 0: no cache - None: no cache expiration
     
