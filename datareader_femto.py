@@ -28,7 +28,8 @@ from StringIO import StringIO
 
 from datareaders.base import DataReaderBase
 
-from datareaders.google_finance import DataReaderGoogleFinanceDaily, DataReaderGoogleFinanceIntraday
+from datareaders.google_finance_daily import DataReaderGoogleFinanceDaily
+from datareaders.google_finance_intraday import DataReaderGoogleFinanceIntraday
 from datareaders.google_finance_options import DataReaderGoogleFinanceOptions
 from datareaders.yahoo_finance import DataReaderYahooFinanceDaily, DataReaderYahooFinanceQuotes
 from datareaders.yahoo_finance_options import DataReaderYahooFinanceOptions

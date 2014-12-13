@@ -53,6 +53,3 @@ def test_google_finance_daily():
 
     print(diff)
     assert(diff.sum().sum()==0)
-
-#def test_google_finance_intraday():
-#    pass
