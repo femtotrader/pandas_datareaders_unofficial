@@ -25,7 +25,12 @@ This project is an unofficial rewrite of DataReaders using [requests](http://www
 
 see https://github.com/pydata/pandas/issues/8713
 
-Thanks to [requests-cache](https://readthedocs.org/projects/requests-cache/) we can now use [SQLite](http://www.sqlite.org/), [mongoDB](http://www.mongodb.org/), [Redis](http://redis.io/) or memory as cache database (backend) and expiration time to avoid too much requests to remote servers (and speed-up execution of sprits when they are run several times).
+Thanks to [requests-cache](https://readthedocs.org/projects/requests-cache/) 
+we can now use [SQLite](http://www.sqlite.org/), [mongoDB](http://www.mongodb.org/), 
+[Redis](http://redis.io/) or memory as cache database (backend) and expiration time 
+to avoid too much requests to remote servers 
+(and speed-up execution of sprits when they are run several times). 
+It make also possible to use some remote API call offline (if same query was performed before).
 
     expire_after = 60*5 # seconds - 0: no cache - None: no cache expiration
     
