@@ -48,36 +48,23 @@ class DataReaderYahooFinanceQuotes(DataReaderBase):
         Get current Yahoo Quote for a symbol
         Returns a DataFrame
         """
-
+        
         # ['symbol', 'last', 'change_pct', 'PE', 'time', 'short_ratio']
         # for codes see: http://www.gummy-stuff.org/Yahoo-data.htm
         request = ''.join(compat.itervalues(self._yahoo_codes))  # code request string
         header = list(self._yahoo_codes.keys())
-
+        
         data = defaultdict(list)
-
-        url = self._YAHOO_QUOTE_URL + 's=%s&f=%s' % (symbol, request)
-
-        #url = self._url('/d/quotes.csv')
-        #params = {
-        #    's': symbol,
-        #    'f': request
-        #}
-
-        # ToFix: AttributeError: '_Store' object has no attribute 'read'
-        # see https://github.com/kennethreitz/requests/issues/2378
-        # https://github.com/reclosedev/requests-cache/issues/33
-        #print(url) #http://finance.yahoo.com/d/quotes.csv?s=AAPL+F&f=l1srs7t1p2
-        with urlopen(url) as resp:
-            lines = resp.readlines()
-        #print(lines) #['111.62,"AAPL",17.36,1.90,"4:00pm","-0.29%"\r\n', '15.28,"F",9.91,2.10,"4:00pm","+0.79%"\r\n']
-        #response = self.session.get(url, params=params, stream=True)
-        #lines = response.content
-        #print(lines)
-
-        #for line in response.iter_lines():
-        for line in lines:
-            print(line)
+        
+        url = self._url('/d/quotes.csv')
+        params = {
+            's': symbol,
+            'f': request
+        }
+        
+        response = self.session.get(url, params=params, stream=True)
+        
+        for line in response.iter_lines():
             fields = line.decode('utf-8').strip().split(',')
             for i, field in enumerate(fields):
                 if field[-2:] == '%"':
