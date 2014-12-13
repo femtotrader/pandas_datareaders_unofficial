@@ -41,4 +41,4 @@ It make also possible to use some remote API calls offline (if same query was pe
     data = MyDataReader("GoogleFinanceDaily", expire_after=expire_after).get(symbol, start_date, end_date)
     print(data)
 
-This is still very experimental. Not every DataReaders are functional.
+This is still experimental.
