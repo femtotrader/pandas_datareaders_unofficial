@@ -688,6 +688,9 @@ class Options(object):
         return frame
 
 class DataReaderYahooFinanceOptions(DataReaderBase):
+    def init(self, *args, **kwargs):
+        pass
+
     def _get_one(self, symbol):
         return(Options(symbol, self))
 

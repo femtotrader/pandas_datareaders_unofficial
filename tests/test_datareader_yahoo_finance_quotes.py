@@ -17,15 +17,17 @@ expire_after = 60*60 # seconds - 0:no cache - None:no cache expiration
 
 def test_yahoo_finance_quotes():
 
-    #symbol = "F"
+    symbol = "F"
     #symbol = "AAPL"
-    symbol = ["AAPL", 'F']
+    #symbol = ["AAPL", 'F']
 
+    print("="*5 + "New DataReader" + "="*5)
     data = MyDataReader("YahooFinanceQuotes", expire_after=expire_after).get(symbol)
     print(data)
     #print(type(data))
     #print(data.dtypes)
 
+    #print("="*5 + "Pandas original DataReader" + "="*5)
     #f = web.get_quote_yahoo(symbol)
     #print(f)
     #print(type(f))
@@ -35,3 +37,7 @@ def test_yahoo_finance_quotes():
     
     #assert(diff.sum().sum()==0)
 
+    print("="*5 + "New DataReader with multi symbols" + "="*5)
+    symbol = ["AAPL", 'F']
+    data = MyDataReader("YahooFinanceQuotes", expire_after=expire_after).get(symbol)
+    print(data)

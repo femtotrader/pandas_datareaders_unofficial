@@ -23,8 +23,10 @@ import logging
 def test_famafrench():
 
     #name = "5_Industry_Portfolios"
-    #name = "10_Industry_Portfolios"
-    name = ["5_Industry_Portfolios", "10_Industry_Portfolios"]
+    name = "10_Industry_Portfolios"
+    #name = ["5_Industry_Portfolios", "10_Industry_Portfolios"]
+
+    print("="*5 + "New DataReader" + "="*5)
 
     data = MyDataReader("FamaFrench", expire_after=expire_after).get(name)
     print(data)
@@ -39,3 +41,8 @@ def test_famafrench():
         diff[key] = data[key] - ip[key]
         diff[key] = diff[key].sum().sum()
         assert(diff[key]==0.0)
+
+    print("="*5 + "New DataReader with multi symbols" + "="*5)
+    name = ["5_Industry_Portfolios", "10_Industry_Portfolios"]
+    data = MyDataReader("FamaFrench", expire_after=expire_after).get(name)
+    print(data)

@@ -83,6 +83,9 @@ class DataReaderWorldBank(DataReaderBase):
                      'VIR', 'VNM', 'VUT', 'WLF', 'WSM', 'YEM', 'ZAF', 'ZMB', \
                      'ZWE', 'all', 'ALL', 'All']
 
+    def init(self, *args, **kwargs):
+        pass
+
     def download(self, country=['MX', 'CA', 'US'], indicator=['NY.GDP.MKTP.CD', 'NY.GNS.ICTR.ZS'],
                  start=2003, end=2005,errors='warn'):
         """

@@ -17,6 +17,9 @@ class DataReaderYahooFinanceQuotes(DataReaderBase):
     _YAHOO_QUOTE_URL = 'http://finance.yahoo.com/d/quotes.csv?'
     BASE_URL = 'http://finance.yahoo.com'
 
+    def init(self, *args, **kwargs):
+        pass
+
     def _get_one(self, symbol, *args, **kwargs):
         """
         Get current Yahoo Quote for a symbol

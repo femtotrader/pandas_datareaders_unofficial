@@ -10,6 +10,9 @@ import traceback
 import requests
 
 class DataReaderFRED(DataReaderBase):
+    def init(self, *args, **kwargs):
+        pass
+
     def _get_one(self, name, *args, **kwargs):
         """
         Get data for the given name from the St. Louis FED (FRED).

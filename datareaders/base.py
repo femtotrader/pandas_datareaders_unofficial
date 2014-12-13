@@ -114,13 +114,7 @@ class DataReaderBase(object):
         self.session.mount('http://', a)
         self.session.mount('https://', b)
 
-        #self._get_multi = self._get_multi_topanel
-
-        try:
-            self.init(*args, **kwargs)
-        except:
-            pass
-            #logging.error(traceback.format_exc())
+        self.init(*args, **kwargs)
 
     def get(self, name, *args, **kwargs):
         if isinstance(name, basestring):
