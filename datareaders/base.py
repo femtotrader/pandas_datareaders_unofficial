@@ -120,6 +120,7 @@ class DataReaderBase(object):
             self.init(*args, **kwargs)
         except:
             pass
+            #logging.error(traceback.format_exc())
 
     def get(self, name, *args, **kwargs):
         if isinstance(name, basestring):

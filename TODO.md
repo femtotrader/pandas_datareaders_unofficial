@@ -42,9 +42,6 @@ http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20ur
 
 * use chunksize
 
-* CBOE - Option Chain Download
-  http://www.cboe.com/DelayedQuote/QuoteTableDownload.aspx
-
 * Fix caching mechanism using requests_cache monkey patch method
 and my own requests Session (RequestsSessionWithLog)
 for now I'm using RequestsCachedSessionWithLog and I'm passing paramaters
@@ -60,3 +57,9 @@ http://www.eoddata.com/download.aspx
 
 http://www.batstrading.com/market_data/symbol_listing/xml/
 ou http://www.batstrading.com/market_data/symbol_listing/csv/
+
+CBOE - Option Chain Download
+http://www.cboe.com/DelayedQuote/QuoteTableDownload.aspx
+
+
+* Fix Google Finance Intraday with cache and several symbols

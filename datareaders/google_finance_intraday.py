@@ -10,6 +10,9 @@ import logging
 import traceback
 
 class DataReaderGoogleFinanceIntraday(DataReaderBase):
+    def init(self):
+        self._get_multi = self._get_multi_topanel
+
     def _get_one(self, name, *args, **kwargs):
         interval_seconds = kwargs['interval_seconds']
 

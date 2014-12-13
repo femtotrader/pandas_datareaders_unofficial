@@ -24,7 +24,13 @@ from datareaders.tools import to_float, to_int
 
 def test_google_finance_intraday():
 
-    #symbol = "GOOG"
+    symbol = "GOOG"
+    #symbol = ["GOOG", "AAPL"]
+    interval_seconds = 60
+    num_days = 3
+    data = MyDataReader("GoogleFinanceIntraday", expire_after=expire_after).get(symbol, exchange="NASD", interval_seconds=interval_seconds, num_days=num_days)
+    print(data)
+
     symbol = ["GOOG", "AAPL"]
     interval_seconds = 60
     num_days = 3
