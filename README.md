@@ -44,7 +44,7 @@ It make also possible to use some remote API calls offline (if same query was pe
     data = MyDataReader("GoogleFinanceDaily", expire_after=expire_after).get(symbol, start_date, end_date)
     print(data)
 
-It should return a Pandas Panel with OHLCV data like:
+It should return a [Pandas Panel](http://pandas.pydata.org/pandas-docs/dev/dsintro.html#panel) with OHLCV data like:
 
     <class 'pandas.core.panel.Panel'>
     Dimensions: 3 (items) x 141 (major_axis) x 5 (minor_axis)
@@ -52,7 +52,7 @@ It should return a Pandas Panel with OHLCV data like:
     Major_axis axis: 2014-05-27 00:00:00 to 2014-12-12 00:00:00
     Minor_axis axis: Open to Volume
 
-We can get a Pandas DataFrame with OHLCV data of "GOOG" using:
+We can get a [Pandas DataFrame](http://pandas.pydata.org/pandas-docs/dev/dsintro.html#dataframe) with OHLCV data of "GOOG" using:
 
     print(data["GOOG"])
 
