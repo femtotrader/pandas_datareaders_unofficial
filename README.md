@@ -11,8 +11,8 @@ easy and intuitive.
 
 DataReaders are objects to fetch data from remote source:
 
-* [Google Finance](https://www.google.com/finance)
-* [Yahoo Finance](https://finance.yahoo.com)
+* [Google Finance](https://www.google.com/finance) (daily, intraday, options)
+* [Yahoo Finance](https://finance.yahoo.com) (daily, quotes, options)
 * [Federal Reserve Economic Data - FRED - St. Louis Fed](http://research.stlouisfed.org/fred2/)
 * [Fama-French](http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html)
 * [World Bank](http://data.worldbank.org/)
