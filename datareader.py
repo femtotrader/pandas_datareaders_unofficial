@@ -11,12 +11,6 @@ on top of this.
 
 http://pandas.pydata.org/pandas-docs/stable/remote_data.html
 https://github.com/pydata/pandas/blob/master/pandas/io/data.py
-
-
-ToDo:
-get OHLCV Google Finance Intraday with start_date, end_date, period
--> chunksize ?
-
 """
 
 import pandas as pd
@@ -37,38 +31,6 @@ from datareaders.yahoo_finance_options import DataReaderYahooFinanceOptions
 from datareaders.fred import DataReaderFRED
 from datareaders.fama_french import DataReaderFamaFrench
 from datareaders.world_bank import DataReaderWorldBank
-
-"""
-def DataReader_femto(name, data_source=None, start=None, end=None,
-               retry_count=3, pause=0.001):
-
-    # see Pandas DataReader
-    # see get_pricing sur Quantopian Research
-
-    # frequency?
-
-    Imports data from a number of online sources.
-
-    Currently supports 
-
-
-    Parameters
-    ----------
-    name : str or list of strs
-        the name of the dataset. Some data sources (yahoo, google, fred) will
-        accept a list of names.
-    data_source: str
-        the data source ("yahoo", "google", "fred", or "ff")
-    start : {datetime, None}
-        left boundary for range (defaults to 1/1/2010)
-    end : {datetime, None}
-        right boundary for range (defaults to today)
-
-    start, end = _sanitize_dates(start, end)
-
-    raise(NotImplementedError)
-"""
-
 
 
 class DataReaderFactory(object):
@@ -118,6 +80,29 @@ class DataReaderFactory(object):
 #    return(DATA_READER_FACTORY.factory(name))
 
 def MyDataReader(name, *args, **kwargs):
+    """
+    Imports data from a number of online sources.
+
+    Currently supports 
+        * [Google Finance](https://www.google.com/finance) (daily, intraday, options)
+        * [Yahoo Finance](https://finance.yahoo.com) (daily, quotes, options)
+        * [Federal Reserve Economic Data - FRED - St. Louis Fed](http://research.stlouisfed.org/fred2/)
+        * [Fama-French](http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html)
+        * [World Bank](http://data.worldbank.org/)
+
+    Parameters
+    ----------
+    name : str or list of strs
+        the name of the dataset. Some data sources (yahoo, google, fred) will
+        accept a list of names.
+    data_source: str
+        the data source ("yahoo", "google", "fred", or "ff")
+    start : {datetime, None}
+        left boundary for range (defaults to 1/1/2010)
+    end : {datetime, None}
+        right boundary for range (defaults to today)
+
+    start, end = _sanitize_dates(start, end)
+
+    """
     return(DataReaderFactory().factory(name, *args, **kwargs))
-
-
