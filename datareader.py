@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Implements some DataReader like
+Implements some DataReaders like
 classical Python Pandas DataReader
 but with requests
 (so it's easy to have cache)
@@ -25,11 +25,15 @@ from datareaders.base import DataReaderBase
 from datareaders.google_finance_daily import DataReaderGoogleFinanceDaily
 from datareaders.google_finance_intraday import DataReaderGoogleFinanceIntraday
 from datareaders.google_finance_options import DataReaderGoogleFinanceOptions
+
 from datareaders.yahoo_finance_daily import DataReaderYahooFinanceDaily
 from datareaders.yahoo_finance_quotes import DataReaderYahooFinanceQuotes
 from datareaders.yahoo_finance_options import DataReaderYahooFinanceOptions
+
 from datareaders.fred import DataReaderFRED
+
 from datareaders.fama_french import DataReaderFamaFrench
+
 from datareaders.world_bank import DataReaderWorldBank
 
 
