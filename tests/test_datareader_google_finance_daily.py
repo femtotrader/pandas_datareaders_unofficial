@@ -28,6 +28,9 @@ def test_google_finance_daily():
     end = datetime.datetime(2013, 1, 27)
 
     symbol = "F"
+    #symbol = "GOOG"
+
+    print("="*5 + "New DataReader" + "="*5)
 
     dr_gfd = MyDataReader("GoogleFinanceDaily", expire_after=expire_after)
     data = dr_gfd.get(symbol, start, end)
@@ -53,3 +56,11 @@ def test_google_finance_daily():
 
     print(diff)
     assert(diff.sum().sum()==0)
+
+    print("="*5 + "New DataReader with multi symbols" + "="*5)
+    symbol = ["F", "GOOG"]
+    dr_gfd = MyDataReader("GoogleFinanceDaily", expire_after=expire_after)
+    data = dr_gfd.get(symbol, start, end)
+    print(data)
+    print(type(data))
+    print(data.dtypes)

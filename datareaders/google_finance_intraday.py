@@ -10,7 +10,7 @@ import logging
 import traceback
 
 class DataReaderGoogleFinanceIntraday(DataReaderBase):
-    def init(self):
+    def init(self, *args, **kwargs):
         self._get_multi = self._get_multi_topanel
 
     def _get_one(self, name, *args, **kwargs):

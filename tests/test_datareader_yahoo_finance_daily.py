@@ -24,6 +24,7 @@ def test_yahoo_finance_daily():
     symbol = "AAPL"
     #symbol = ["AAPL", 'F']
 
+    print("="*5 + "New DataReader" + "="*5)
     data = MyDataReader("YahooFinanceDaily", expire_after=expire_after).get(symbol, start, end)
     print(data)
     print(type(data))
@@ -41,3 +42,9 @@ def test_yahoo_finance_daily():
     
     assert(diff.sum().sum()==0)
 
+    print("="*5 + "New DataReader with multi symbols" + "="*5)
+    symbol = ["AAPL", 'F']
+    data = MyDataReader("YahooFinanceDaily", expire_after=expire_after).get(symbol, start, end)
+    print(data)
+    print(type(data))
+    print(data.dtypes)

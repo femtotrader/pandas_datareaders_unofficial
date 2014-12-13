@@ -10,6 +10,9 @@ import logging
 import traceback
 
 class DataReaderGoogleFinanceDaily(DataReaderBase):
+    def init(self, *args, **kwargs):
+        self._get_multi = self._get_multi_topanel
+
     def _get_one(self, name, *args, **kwargs):
         start_date, end_date = _get_dates(0, *args, **kwargs)
 
