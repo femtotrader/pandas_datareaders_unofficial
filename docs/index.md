@@ -1,4 +1,4 @@
-Pandas DataReaders with support of [`requests`](http://www.python-requests.org/) and [`requests-cache`](https://readthedocs.org/projects/requests-cache/)
+Pandas DataReaders with support of [`requests`](http://www.python-requests.org/) and [`requests-cache`](http://requests-cache.readthedocs.org/)
 
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/femtotrader/pandas_datareaders?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -27,7 +27,7 @@ This project is an unofficial rewrite of DataReaders using [requests](http://www
 
 see [pandas/issues/8713](https://github.com/pydata/pandas/issues/8713)
 
-Thanks to [requests-cache](https://readthedocs.org/projects/requests-cache/) 
+Thanks to [requests-cache](http://requests-cache.readthedocs.org/) 
 we can now use [SQLite](http://www.sqlite.org/), [mongoDB](http://www.mongodb.org/), 
 [Redis](http://redis.io/) or memory as cache database (backend) and expiration time 
 to avoid too much requests to remote servers 
