@@ -40,3 +40,5 @@
       * http://www.cboe.com/DelayedQuote/QuoteTableDownload.aspx
     * Quandl
       * https://github.com/quandl/Python/
+
+* Continuous Integration
