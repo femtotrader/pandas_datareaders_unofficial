@@ -6,6 +6,8 @@ Pandas DataReaders with support of [`requests`](http://www.python-requests.org/)
 
 [![Documentation Status](https://readthedocs.org/projects/pandas-datareaders/badge/?version=latest)](https://readthedocs.org/projects/pandas-datareaders/?badge=latest)
 
+[![Build Status](https://travis-ci.org/femtotrader/pandas_datareaders.svg)](https://travis-ci.org/femtotrader/pandas_datareaders)
+
 ## Links
 * Documentation can be found at [Read The Docs](http://pandas-datareaders.readthedocs.org/) ;
 * Source code and issue tracking can be found at [GitHub](https://github.com/femtotrader/pandas_datareaders).
