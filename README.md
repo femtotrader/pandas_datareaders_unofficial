@@ -76,3 +76,6 @@ It should display:
 
 
 Caution! This project is still experimental.
+
+
+See doc at [http://pandas-datareaders.readthedocs.org/](http://pandas-datareaders.readthedocs.org/)
