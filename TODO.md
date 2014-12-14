@@ -26,13 +26,10 @@ http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20ur
 * use chunksize (when several symbols or when large number of data for a given symbol)
 
 * Other data provider to consider
-http://www.eoddata.com/download.aspx
-
-http://www.batstrading.com/market_data/symbol_listing/xml/
-or http://www.batstrading.com/market_data/symbol_listing/csv/
-
-CBOE - Option Chain Download
-http://www.cboe.com/DelayedQuote/QuoteTableDownload.aspx
-
-Quandl
-https://github.com/quandl/Python/
+    * EOD Data http://www.eoddata.com/download.aspx
+    * batstrading
+        http://www.batstrading.com/market_data/symbol_listing/xml/
+        or http://www.batstrading.com/market_data/symbol_listing/csv/
+    * CBOE - Option Chain Download
+        http://www.cboe.com/DelayedQuote/QuoteTableDownload.aspx
+    * Quandl https://github.com/quandl/Python/
