@@ -79,5 +79,6 @@ It should display:
 
 Caution! This project is still experimental.
 
-
-See doc at [http://pandas-datareaders.readthedocs.org/](http://pandas-datareaders.readthedocs.org/)
+## Links
+* Documentation at can be found at [Read The Docs](http://pandas-datareaders.readthedocs.org/) ;
+* Source code and issue tracking can be found at [GitHub](https://github.com/reclosedev/requests-cache>).
