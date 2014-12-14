@@ -9,6 +9,10 @@ import logging
 import traceback
 
 class DataReaderYahooFinanceDaily(DataReaderBase):
+    """
+    DataReader to fetch data from Yahoo Finance Daily
+    """
+
     def init(self, *args, **kwargs):
         self._get_multi = self._get_multi_topanel
 

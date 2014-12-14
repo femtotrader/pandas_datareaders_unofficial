@@ -11,6 +11,10 @@ import pandas.compat as compat
 from collections import defaultdict
 
 class DataReaderYahooFinanceQuotes(DataReaderBase):
+    """
+    DataReader to fetch data from Yahoo Finance Quotes
+    """
+
     _yahoo_codes = {'symbol': 's', 'last': 'l1', 'change_pct': 'p2', 'PE': 'r',
                 'time': 't1', 'short_ratio': 's7'}
 

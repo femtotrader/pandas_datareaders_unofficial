@@ -10,6 +10,10 @@ import traceback
 import requests
 
 class DataReaderFRED(DataReaderBase):
+    """
+    DataReader to fetch data from FRED
+    """
+
     def init(self, *args, **kwargs):
         pass
 

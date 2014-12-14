@@ -688,6 +688,10 @@ class Options(object):
         return frame
 
 class DataReaderYahooFinanceOptions(DataReaderBase):
+    """
+    DataReader to fetch data from Yahoo Finance Options
+    """
+
     def init(self, *args, **kwargs):
         pass
 

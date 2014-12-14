@@ -10,6 +10,10 @@ import logging
 import traceback
 
 class DataReaderGoogleFinanceIntraday(DataReaderBase):
+    """
+    DataReader to fetch data from Google Finance Intraday
+    """
+
     def init(self, *args, **kwargs):
         self._get_multi = self._get_multi_topanel
 

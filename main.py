@@ -17,7 +17,7 @@ import requests_cache
 
 import matplotlib.pyplot as plt
 
-import ts_charting as charting #https://github.com/dalejung/ts-charting
+#import ts_charting as charting #https://github.com/dalejung/ts-charting
 
 from datareader import *
 

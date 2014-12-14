@@ -2,15 +2,21 @@
 # -*- coding: utf-8 -*-
 
 """
-Implements some DataReaders like
-classical Python Pandas DataReader
-but with requests
-(so it's easy to have cache)
-moreover it's easy to implement your own DataReaderBase
-on top of this.
+    pandas_datareaders.datareader
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-http://pandas.pydata.org/pandas-docs/stable/remote_data.html
-https://github.com/pydata/pandas/blob/master/pandas/io/data.py
+    Implements some DataReaders like
+    classical Python Pandas DataReader
+    but with requests
+    (so it's easy to have cache)
+    moreover it's easy to implement your own DataReaderBase
+    on top of this.
+
+    http://pandas.pydata.org/pandas-docs/stable/remote_data.html
+    https://github.com/pydata/pandas/blob/master/pandas/io/data.py
+
+    This file contains factory class and method to build DataReader
+
 """
 
 import pandas as pd
@@ -38,6 +44,17 @@ from datareaders.world_bank import DataReaderWorldBank
 
 
 class DataReaderFactory(object):
+    """
+    DataReaderFactory
+
+    Factory of DataReader
+
+    Only ONE factory need to be defined : DATA_READER_FACTORY
+
+    Additional DataReader can be add using:
+
+    DATA_READER_FACTORY.add('datareadername', DataReaderClassName)
+    """
     def __init__(self):
         self._d_factory = {}
 
@@ -82,7 +99,7 @@ DATA_READER_FACTORY = DataReaderFactory()
 
 def MyDataReader(name, *args, **kwargs):
     """
-    Imports data from a number of online sources.
+    Creates a DataReader to fetch data from a number of online sources.
 
     Currently supports 
         * [Google Finance](https://www.google.com/finance) (daily, intraday, options)
@@ -93,17 +110,38 @@ def MyDataReader(name, *args, **kwargs):
 
     Parameters
     ----------
-    name : str or list of strs
-        the name of the dataset. Some data sources (yahoo, google, fred) will
-        accept a list of names.
-    data_source: str
-        the data source ("yahoo", "google", "fred", or "ff")
-    start : {datetime, None}
-        left boundary for range (defaults to 1/1/2010)
-    end : {datetime, None}
-        right boundary for range (defaults to today)
 
-    start, end = _sanitize_dates(start, end)
+    :param name: data source
+    :type name: str
+
+        * "YahooFinanceDaily" (can also be simply "yahoo"),
+        * "YahooFinanceQuotes"
+        * "YahooFinanceOptions"
+        * "GoogleFinanceDaily" (can also be simply "google"),
+        * "GoogleFinanceIntraday",
+        * "GoogleFinanceOptions",
+        * "fred",
+        * "FamaFrench" (or "ff")
+        * "WorldBank" (or "wb")
+
+    :param *args: positional arguments (can depends of datasource)
+    :param **kwargs: keywords arguments (can depends of datasource)
+
+    :param cache_name: for ``sqlite`` backend: cache file will start with this prefix,
+                       e.g ``cache.sqlite``
+                       for ``mongodb``: it's used as database name
+                       
+                       for ``redis``: it's used as the namespace. This means all keys
+                       are prefixed with ``'cache_name:'``
+    :param backend: cache backend name e.g ``'sqlite'``, ``'mongodb'``, ``'redis'``, ``'memory'``.
+                    (see :ref:`persistence`). Or instance of backend implementation.
+                    Default value is ``None``, which means use ``'sqlite'`` if available,
+                    otherwise fallback to ``'memory'``.
+    :param expire_after: number of seconds after cache will be expired
+                         or `None` (default) to ignore expiration
+    :type expire_after: float
+
+    (see also `requests-cache` doc)
 
     """
     return(DATA_READER_FACTORY.factory(name))

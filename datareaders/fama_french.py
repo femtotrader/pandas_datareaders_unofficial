@@ -19,6 +19,10 @@ from pandas.compat import(
 )
 
 class DataReaderFamaFrench(DataReaderBase):
+    """
+    DataReader to fetch data from FamaFrench
+    """
+
     def init(self, *args, **kwargs):
         self._get_multi = self._get_multi_todict
 

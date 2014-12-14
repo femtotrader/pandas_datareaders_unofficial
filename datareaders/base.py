@@ -1,6 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""
+    pandas_datareaders.datareaders.base
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Implements DataReadersBase base class for DataReaders
+"""
+
+
 #from abc import ABCMeta, abstractmethod
 
 try:
@@ -17,8 +25,7 @@ except ImportError:
 else:
     _HAS_REQUESTS_CACHE = True
 
-
-from cachecontrol import CacheControl
+#from cachecontrol import CacheControl
 
 import logging
 import traceback
@@ -28,10 +35,11 @@ from urllib import urlencode
 import pandas as pd
 from tools import RemoteDataError
 
-#see http://requests-cache.readthedocs.org/en/latest/user_guide.html#usage
-#cache_name='cache', backend=None, expire_after=None, allowable_codes=(200, ), allowable_methods=('GET', ), **backend_options
-
 class RequestsSessionWithLog(requests.Session):
+    """
+    Requests Session with log (but without cache mechanism)
+    """
+
     #def __init__(self):
     #    super(RequestsSessionWithLog, self).__init__()
 
@@ -48,6 +56,10 @@ class RequestsSessionWithLog(requests.Session):
         return(response)
 
 class RequestsCachedSessionWithLog(requests_cache.CachedSession):
+    """
+    Requests Session with log and cache mechanism
+    """
+
     def get(self, url, **kwargs):
         try:
             params = kwargs['params']
@@ -61,6 +73,10 @@ class RequestsCachedSessionWithLog(requests_cache.CachedSession):
         return(response)
 
 class DataReaderBase(object):
+    """Abstract class for DataReader
+    """
+
+
     #__metaclass__ = ABCMeta
 
     MAX_RETRIES_DEFAULT = 3
@@ -117,16 +133,25 @@ class DataReaderBase(object):
         self.init(*args, **kwargs)
 
     def get(self, name, *args, **kwargs):
+        """Get data
+        if name is a string ``_get_one`` will be launch
+        if name is a list ``_get_multi`` will be launch
+        """
         if isinstance(name, basestring):
             return(self._get_one(name, *args, **kwargs))
-        else:
+        elif isinstance(name, list):
             return(self._get_multi(name, *args, **kwargs))
+        else:
+            raise(NotImplementedError)
 
     #@abstractmethod
     def _get_one(self, name, *args, **kwargs):
         raise(NotImplementedError)
 
     def _get_multi_topanel(self, names, *args, **kwargs):
+        """
+        When _get_one returns a DataFrame `_get_multi` should returns a Panel
+        """
         d_data = {}
         lst_failed = []
 
@@ -154,6 +179,9 @@ class DataReaderBase(object):
                                   "{0!r}".format(type(self).__name__))
 
     def _get_multi_todict(self, names, *args, **kwargs):
+        """
+        When _get_one returns a dict or a composed object `_get_multi` should returns a dict
+        """
         d_data = {}
         lst_failed = []
 
@@ -169,4 +197,7 @@ class DataReaderBase(object):
 
 
     def _url(self, endpoint='/'):
+        """
+        Returns url from ``BASE_URL`` and ``endpoint`
+        """
         return(self.BASE_URL + endpoint)

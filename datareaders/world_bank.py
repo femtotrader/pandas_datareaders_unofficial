@@ -15,6 +15,10 @@ import logging
 import traceback
 
 class DataReaderWorldBank(DataReaderBase):
+    """
+    DataReader to fetch data from World Bank
+    """
+
     _cached_series = None
 
     BASE_URL = 'http://api.worldbank.org'

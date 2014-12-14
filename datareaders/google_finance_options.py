@@ -89,6 +89,8 @@ def json_decode(json_string):
 
 class DataReaderGoogleFinanceOptions(DataReaderBase):
     """
+    DataReader to fetch data from Google Finance Options
+
     see https://www.google.com/finance/option_chain
     https://github.com/makmac213/python-google-option-chain
     http://www.drtomstarke.com/index.php/option-chains-from-google-finance-api
