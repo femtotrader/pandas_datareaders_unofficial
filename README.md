@@ -19,11 +19,11 @@ DataReaders are objects to fetch data from remote source:
 * ...
 
 
-see http://pandas.pydata.org/pandas-docs/stable/remote_data.html
+see [pandas-docs / remote data](http://pandas.pydata.org/pandas-docs/stable/remote_data.html)
 
 This project is an unofficial rewrite of DataReaders using [requests](http://www.python-requests.org/) also called "HTTP for Humans". But it can be easy to use classic `urlopen` using this code.
 
-see https://github.com/pydata/pandas/issues/8713
+see [pandas/issues/8713](https://github.com/pydata/pandas/issues/8713)
 
 Thanks to [requests-cache](https://readthedocs.org/projects/requests-cache/) 
 we can now use [SQLite](http://www.sqlite.org/), [mongoDB](http://www.mongodb.org/), 
