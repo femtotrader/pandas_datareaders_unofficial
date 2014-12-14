@@ -27,7 +27,11 @@
 
 * use chunksize (when several symbols or when large number of data for a given symbol)
 
+* Original Pandas DataReader
+  * Google Analytics
+
 * Other data provider to consider
+
     * EOD Data http://www.eoddata.com/download.aspx
     * BATS
       * http://www.batstrading.com/market_data/symbol_listing/xml/
