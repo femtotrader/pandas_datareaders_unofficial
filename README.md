@@ -81,4 +81,4 @@ Caution! This project is still experimental.
 
 ## Links
 * Documentation can be found at [Read The Docs](http://pandas-datareaders.readthedocs.org/) ;
-* Source code and issue tracking can be found at [GitHub](https://github.com/reclosedev/requests-cache>).
+* Source code and issue tracking can be found at [GitHub](https://github.com/femtotrader/pandas_datareaders).
