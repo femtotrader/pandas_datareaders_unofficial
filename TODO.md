@@ -1,3 +1,10 @@
+* Doc
+  Write doc
+  see Read The Docs https://readthedocs.org/
+  Sphinx (reStructuredText) or MkDocs http://www.mkdocs.org/ (Markdown)
+
+* Create pip package
+
 * Yahoo Options
   current version is using lxml to parse web page
   maybe there is better to do (YQL ?)
@@ -27,7 +34,7 @@ http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20ur
 
 * Other data provider to consider
     * EOD Data http://www.eoddata.com/download.aspx
-    * batstrading
+    * BATS
         http://www.batstrading.com/market_data/symbol_listing/xml/
         or http://www.batstrading.com/market_data/symbol_listing/csv/
     * CBOE - Option Chain Download

@@ -4,6 +4,8 @@ Pandas DataReaders with support of `requests` and `requests-cache`
 
 [![status](https://sourcegraph.com/api/repos/github.com/femtotrader/pandas_datareaders/.badges/status.png)](https://sourcegraph.com/github.com/femtotrader/pandas_datareaders)
 
+[![Documentation Status](https://readthedocs.org/projects/pandas-datareaders/badge/?version=latest)](https://readthedocs.org/projects/pandas-datareaders/?badge=latest)
+
 ## What is it ?
 [**pandas**](http://pandas.pydata.org/) is a Python package providing fast, flexible, and expressive data
 structures designed to make working with "relational" or "labeled" data both
