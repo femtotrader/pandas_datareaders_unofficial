@@ -1,6 +1,6 @@
 Pandas DataReaders with support of [`requests`](http://www.python-requests.org/) and [`requests-cache`](http://requests-cache.readthedocs.org/)
 
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/femtotrader/pandas_datareaders?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/femtotrader/pandas_datareaders?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [![status](https://sourcegraph.com/api/repos/github.com/femtotrader/pandas_datareaders/.badges/status.png)](https://sourcegraph.com/github.com/femtotrader/pandas_datareaders)
 
