@@ -6,6 +6,8 @@ Pandas DataReaders with support of [`requests`](http://www.python-requests.org/)
 
 [![Documentation Status](https://readthedocs.org/projects/pandas-datareaders/badge/?version=latest)](https://readthedocs.org/projects/pandas-datareaders/?badge=latest)
 
+[![Build Status](https://travis-ci.org/femtotrader/pandas_datareaders.svg)](https://travis-ci.org/femtotrader/pandas_datareaders)
+
 ## What is it ?
 [**pandas**](http://pandas.pydata.org/) is a Python package providing fast, flexible, and expressive data
 structures designed to make working with "relational" or "labeled" data both
