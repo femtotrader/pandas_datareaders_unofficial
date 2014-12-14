@@ -3,7 +3,7 @@
   see Read The Docs https://readthedocs.org/
   Sphinx (reStructuredText) or MkDocs http://www.mkdocs.org/ (Markdown)
 
-* Create pip package
+* Create pip package https://pypi.python.org/pypi
 
 * Yahoo Options
   current version is using lxml to parse web page
