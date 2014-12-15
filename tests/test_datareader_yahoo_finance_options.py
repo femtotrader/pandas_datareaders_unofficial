@@ -9,7 +9,7 @@ nosetests -s -v
 import time
 import datetime
 
-from pandas_datareaders.datareader import *
+from pandas_datareaders.datareader import DataReader
 
 from pandas.io.data import Options
 
@@ -30,7 +30,7 @@ def test_yahoo_finance_options():
     #symbol = '^spxpm'
     #symbol = ["AAPL", 'F']
     
-    option = MyDataReader("YahooFinanceOptions", expire_after=expire_after).get(symbol)
+    option = DataReader("YahooFinanceOptions", expire_after=expire_after).get(symbol)
     data = option.get_all_data() # get all data
     print(data)
     #data = option.get_call_data(expiry=expiry) # get call data

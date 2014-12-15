@@ -97,7 +97,7 @@ class DataReaderFactory(object):
 
 DATA_READER_FACTORY = DataReaderFactory()
 
-def MyDataReader(name, *args, **kwargs):
+def DataReader(name, *args, **kwargs):
     """
     Creates a DataReader to fetch data from a number of online sources.
 

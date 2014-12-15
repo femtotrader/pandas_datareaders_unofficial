@@ -9,7 +9,7 @@ nosetests -s -v
 import time
 import datetime
 
-from pandas_datareaders.datareader import *
+from pandas_datareaders.datareader import DataReader
 
 import pandas.io.data as web
 
@@ -32,7 +32,7 @@ def test_fred():
     #name = ["CPIAUCSL", "CPILFESL", "ERROR"]
 
 
-    data = MyDataReader("FRED", expire_after=expire_after).get(name, start, end)
+    data = DataReader("FRED", expire_after=expire_after).get(name, start, end)
     print(data)
 
     print("="*5 + "Pandas original DataReader" + "="*5)

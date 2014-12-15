@@ -9,7 +9,7 @@ nosetests -s -v
 import time
 import datetime
 
-from pandas_datareaders.datareader import *
+from pandas_datareaders.datareader import DataReader
 
 import pandas.io.data as web
 
@@ -22,7 +22,7 @@ def test_yahoo_finance_quotes():
     #symbol = ["AAPL", 'F']
 
     print("="*5 + "New DataReader" + "="*5)
-    data = MyDataReader("YahooFinanceQuotes", expire_after=expire_after).get(symbol)
+    data = DataReader("YahooFinanceQuotes", expire_after=expire_after).get(symbol)
     print(data)
     #print(type(data))
     #print(data.dtypes)
@@ -39,5 +39,5 @@ def test_yahoo_finance_quotes():
 
     print("="*5 + "New DataReader with multi symbols" + "="*5)
     symbol = ["AAPL", 'F']
-    data = MyDataReader("YahooFinanceQuotes", expire_after=expire_after).get(symbol)
+    data = DataReader("YahooFinanceQuotes", expire_after=expire_after).get(symbol)
     print(data)

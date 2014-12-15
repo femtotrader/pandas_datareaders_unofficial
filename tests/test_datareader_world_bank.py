@@ -9,7 +9,7 @@ nosetests -s -v
 import time
 import datetime
 
-from pandas_datareaders.datareader import *
+from pandas_datareaders.datareader import DataReader
 
 import pandas.io.data as web
 
@@ -34,7 +34,7 @@ def test_datareader_world_bank():
 
     #assert(isinstance(wb.country_codes, list))
 
-    world_bank = MyDataReader("WorldBank", expire_after=expire_after)
+    world_bank = DataReader("WorldBank", expire_after=expire_after)
     assert(isinstance(world_bank.country_codes, list))
 
     dat = world_bank.search('gdp.*capita.*const')

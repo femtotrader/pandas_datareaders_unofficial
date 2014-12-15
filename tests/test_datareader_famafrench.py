@@ -9,7 +9,7 @@ nosetests -s -v
 import time
 import datetime
 
-from pandas_datareaders.datareader import *
+from pandas_datareaders.datareader import DataReader
 
 import pandas.io.data as web
 
@@ -28,7 +28,7 @@ def test_famafrench():
 
     print("="*5 + "New DataReader" + "="*5)
 
-    data = MyDataReader("FamaFrench", expire_after=expire_after).get(name)
+    data = DataReader("FamaFrench", expire_after=expire_after).get(name)
     print(data)
 
     print("="*5 + "Pandas original DataReader" + "="*5)
@@ -44,5 +44,5 @@ def test_famafrench():
 
     print("="*5 + "New DataReader with multi symbols" + "="*5)
     name = ["5_Industry_Portfolios", "10_Industry_Portfolios"]
-    data = MyDataReader("FamaFrench", expire_after=expire_after).get(name)
+    data = DataReader("FamaFrench", expire_after=expire_after).get(name)
     print(data)

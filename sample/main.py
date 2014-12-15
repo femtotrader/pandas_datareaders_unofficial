@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 
 #import ts_charting as charting #https://github.com/dalejung/ts-charting
 
-from pandas_datareaders.datareader import *
+from pandas_datareaders.datareader import DataReader
 
 @click.command()
 @click.option('--expire_after', default=60*15, help=u"Cache expiration (-1: no cache, 0: no expiration, d: d seconds expiration cache)")
@@ -39,7 +39,7 @@ def main(expire_after):
     end_date = datetime.datetime.now()
     num_days = 200
     start_date = end_date - datetime.timedelta(days=num_days)
-    data = MyDataReader("GoogleFinanceDaily", expire_after=expire_after).get(symbol, start_date, end_date)
+    data = DataReader("GoogleFinanceDaily", expire_after=expire_after).get(symbol, start_date, end_date)
     print(data)
     """
 
@@ -49,7 +49,7 @@ def main(expire_after):
     symbol = ["GOOG", "AAPL"]
     interval_seconds = 60
     num_days = 3
-    data = MyDataReader("GoogleFinanceIntraday", expire_after=expire_after).get(symbol, exchange="NASD", interval_seconds=interval_seconds, num_days=num_days)
+    data = DataReader("GoogleFinanceIntraday", expire_after=expire_after).get(symbol, exchange="NASD", interval_seconds=interval_seconds, num_days=num_days)
     print(data)
     """
 
@@ -61,7 +61,7 @@ def main(expire_after):
     symbol = "AAPL"
     #symbol = ["AAPL", 'F']
 
-    data = MyDataReader("YahooFinanceDaily", expire_after=expire_after).get(symbol, start, end)
+    data = DataReader("YahooFinanceDaily", expire_after=expire_after).get(symbol, start, end)
     print(data)
     print(type(data))
     print(data.dtypes)
@@ -77,14 +77,14 @@ def main(expire_after):
     name = ["CPIAUCSL", "CPILFESL"]
     #name = ["CPIAUCSL", "CPILFESL", "ERROR"]
 
-    data = MyDataReader("FRED", expire_after=expire_after).get(name, start, end)
+    data = DataReader("FRED", expire_after=expire_after).get(name, start, end)
     print(data)
     """
 
     """
     # Yahoo Finance Options
     symbol = "AAPL"
-    option = MyDataReader("YahooFinanceOptions", expire_after=expire_after).get(symbol)
+    option = DataReader("YahooFinanceOptions", expire_after=expire_after).get(symbol)
     data = option.get_all_data() # get all data
     print(data)
     #data = option.get_call_data(expiry=expiry) # get call data
@@ -99,7 +99,7 @@ def main(expire_after):
     name = "5_Industry_Portfolios"
     #name = "10_Industry_Portfolios"
     #name = ["5_Industry_Portfolios", "10_Industry_Portfolios"]
-    data = MyDataReader("FamaFrench").get(name)
+    data = DataReader("FamaFrench").get(name)
     print(data)
     """
 

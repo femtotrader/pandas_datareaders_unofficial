@@ -9,8 +9,7 @@ nosetests -s -v
 import time
 import datetime
 
-#import pandas_datareaders
-from pandas_datareaders.datareader import *
+from pandas_datareaders.datareader import DataReader
 
 import pandas.io.data as web
 
@@ -33,7 +32,7 @@ def test_google_finance_daily():
 
     print("="*5 + "New DataReader" + "="*5)
 
-    dr_gfd = MyDataReader("GoogleFinanceDaily", expire_after=expire_after)
+    dr_gfd = DataReader("GoogleFinanceDaily", expire_after=expire_after)
     data = dr_gfd.get(symbol, start, end)
     print(data)
     print(type(data))
@@ -60,7 +59,7 @@ def test_google_finance_daily():
 
     print("="*5 + "New DataReader with multi symbols" + "="*5)
     symbol = ["F", "GOOG"]
-    dr_gfd = MyDataReader("GoogleFinanceDaily", expire_after=expire_after)
+    dr_gfd = DataReader("GoogleFinanceDaily", expire_after=expire_after)
     data = dr_gfd.get(symbol, start, end)
     print(data)
     print(type(data))

@@ -9,7 +9,7 @@ nosetests -s -v
 import time
 import datetime
 
-from pandas_datareaders.datareader import *
+from pandas_datareaders.datareader import DataReader
 
 from pandas.io.data import Options
 
@@ -22,7 +22,7 @@ def test_google_finance_options():
     symbol = 'NASDAQ:GOOG'
     symbol = ['NASDAQ:AAPL', 'NASDAQ:GOOG'] # ToFix: get returns now a dict not a DataFrame
 
-    option = MyDataReader("GoogleFinanceOptions", expire_after=expire_after).get(symbol)
+    option = DataReader("GoogleFinanceOptions", expire_after=expire_after).get(symbol)
     print(option)
     #print(option['options'].dtypes)
     #option = option.rename(items={

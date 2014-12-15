@@ -36,7 +36,7 @@ to avoid too much requests to remote servers
 (and speed-up execution of sprits when they are run several times). 
 It make also possible to use some remote API calls offline (if same query was performed before).
 
-    from datareader import *
+    from pandas_datareaders.datareader import DataReader
     import datetime
 
     expire_after = 60*60 # seconds - 0: no cache - None: no cache expiration
@@ -45,7 +45,7 @@ It make also possible to use some remote API calls offline (if same query was pe
     end_date = datetime.datetime.now()
     num_days = 200
     start_date = end_date - datetime.timedelta(days=num_days)
-    data = MyDataReader("GoogleFinanceDaily", expire_after=expire_after).get(symbol, start_date, end_date)
+    data = DataReader("GoogleFinanceDaily", expire_after=expire_after).get(symbol, start_date, end_date)
     print(data)
 
 It should return a [Pandas Panel](http://pandas.pydata.org/pandas-docs/dev/dsintro.html#panel) with OHLCV data like:
