@@ -5,8 +5,17 @@ from os import path
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the relevant file
-with open(path.join(here, 'docs', 'index.md'), encoding='utf-8') as f:
-    long_description = f.read()
+filename = path.join(here, 'docs', 'index.md')
+
+#with open(filename, encoding='utf-8') as f:
+#    long_description = f.read()
+try:
+    import pypandoc
+    long_description = pypandoc.convert(filename, 'rst')
+except (IOError, ImportError):
+    msg = "can't find pypandoc"
+    raise(NotImplementedError(msg))
+    #long_description = open(filename).read()
 
 setup(
     name='pandas_datareaders',

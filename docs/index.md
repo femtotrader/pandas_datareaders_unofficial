@@ -4,7 +4,7 @@ Pandas DataReaders with support of [`requests`](http://www.python-requests.org/)
 
 [![status](https://sourcegraph.com/api/repos/github.com/femtotrader/pandas_datareaders/.badges/status.png)](https://sourcegraph.com/github.com/femtotrader/pandas_datareaders)
 
-[![Documentation Status](https://readthedocs.org/projects/pandas-datareaders/badge/?version=latest)](https://readthedocs.org/projects/pandas-datareaders/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/pandas-datareaders/badge/?version=latest)](https://pandas-datareaders.readthedocs.org/)
 
 [![Build Status](https://travis-ci.org/femtotrader/pandas_datareaders.svg)](https://travis-ci.org/femtotrader/pandas_datareaders)
 
