@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import datetime
-from chunk import *
-from chunk import _in_chunks
+from pandas_datareaders.chunk import *
+from pandas_datareaders.chunk import _in_chunks
 import math
 
 def chunks_number(start, end, period, chunksize):

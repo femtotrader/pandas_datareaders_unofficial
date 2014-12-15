@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from datareaders.base import DataReaderBase
-from datareaders.tools import COL, _get_dates
+from pandas_datareaders.datareaders.base import DataReaderBase
+from pandas_datareaders.datareaders.tools import COL, _get_dates
 #from datareaders.tools import to_float, to_int
 import pandas as pd
 from StringIO import StringIO

@@ -9,7 +9,8 @@ nosetests -s -v
 import time
 import datetime
 
-from datareader import *
+#import pandas_datareaders
+from pandas_datareaders.datareader import *
 
 import pandas.io.data as web
 
@@ -20,7 +21,7 @@ import logging
 #import logging.config
 #import os
 
-from datareaders.tools import to_float, to_int
+from pandas_datareaders.datareaders.tools import to_float, to_int
 
 def test_google_finance_daily():
 

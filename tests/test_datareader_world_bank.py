@@ -9,7 +9,7 @@ nosetests -s -v
 import time
 import datetime
 
-from datareader import *
+from pandas_datareaders.datareader import *
 
 import pandas.io.data as web
 
@@ -20,7 +20,7 @@ import logging
 #import logging.config
 #import os
 
-from datareaders import world_bank as wb
+from pandas_datareaders.datareaders import world_bank as wb
 
 def test_datareader_world_bank():
 

@@ -10,7 +10,7 @@ import warnings
 
 
 
-from datareaders.base import DataReaderBase
+from pandas_datareaders.datareaders.base import DataReaderBase
 import logging
 import traceback
 

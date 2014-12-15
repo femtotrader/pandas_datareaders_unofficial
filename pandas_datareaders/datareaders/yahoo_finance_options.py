@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from datareaders.base import DataReaderBase
-from datareaders.tools import COL, _get_dates, RemoteDataError
+from pandas_datareaders.datareaders.base import DataReaderBase
+from pandas_datareaders.datareaders.tools import COL, _get_dates, RemoteDataError
 from pandas.util.testing import _network_error_classes
 import pandas as pd
 from StringIO import StringIO
