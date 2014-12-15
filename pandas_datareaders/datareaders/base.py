@@ -33,7 +33,7 @@ import traceback
 from urllib import urlencode
 
 import pandas as pd
-from tools import RemoteDataError
+from pandas_datareaders.tools import RemoteDataError
 
 class RequestsSessionWithLog(requests.Session):
     """

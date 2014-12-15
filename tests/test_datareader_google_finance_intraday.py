@@ -20,7 +20,7 @@ import logging
 #import logging.config
 #import os
 
-from datareaders.tools import to_float, to_int
+from pandas_datareaders.tools import to_float, to_int
 
 def test_google_finance_intraday():
 
