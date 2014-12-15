@@ -6,4 +6,3 @@ build
 _build
 dist
 MANIFEST
-.pypirc
