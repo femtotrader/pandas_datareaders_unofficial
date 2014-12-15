@@ -76,7 +76,6 @@ class DataReaderBase(object):
     """Abstract class for DataReader
     """
 
-
     #__metaclass__ = ABCMeta
 
     MAX_RETRIES_DEFAULT = 3
