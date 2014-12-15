@@ -19,7 +19,7 @@ import requests_cache
 
 #import ts_charting as charting #https://github.com/dalejung/ts-charting
 
-from pandas_datareaders.datareader import DataReader
+from pandas_datareaders import DataReader
 
 @click.command()
 @click.option('--expire_after', default=60*15, help=u"Cache expiration (-1: no cache, 0: no expiration, d: d seconds expiration cache)")

@@ -144,4 +144,4 @@ def DataReader(name, *args, **kwargs):
     (see also `requests-cache` doc)
 
     """
-    return(DATA_READER_FACTORY.factory(name))
+    return(DATA_READER_FACTORY.factory(name, *args, **kwargs))

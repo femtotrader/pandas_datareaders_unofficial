@@ -36,7 +36,7 @@ to avoid too much requests to remote servers
 (and speed-up execution of sprits when they are run several times). 
 It make also possible to use some remote API calls offline (if same query was performed before).
 
-    from pandas_datareaders.datareader import DataReader
+    from pandas_datareaders import DataReader
     import datetime
 
     expire_after = 60*60 # seconds - 0: no cache - None: no cache expiration

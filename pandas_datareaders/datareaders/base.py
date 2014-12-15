@@ -85,7 +85,7 @@ class DataReaderBase(object):
 
     BASE_URL = ""
 
-    def __init__(self, *args, **kwargs):        
+    def __init__(self, *args, **kwargs):
         try:
             cache_name = kwargs['cache_name']
         except:
