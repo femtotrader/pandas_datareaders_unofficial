@@ -2,7 +2,7 @@
 
 [Open Exchange Rates](https://openexchangerates.org/) provides an API to fetch currency rates.
 
-You need to signup to get an API key (named app_id)
+You need to signup to get an API key (named `app_id`)
 
     from pandas_datareaders import DataReader
     dr = DataReader("OpenExchangeRates", expire_after=5*60, app_id='...')
@@ -30,6 +30,6 @@ should display:
 
     79.68350168350169
 
-It means that 100 EUR are worth 79.68 GBP.
+It means that 100 EUR are worth 79.68 GBP (at this date: 2014-12-16 10:45).
 
 Caution! use this at your own risk. That's still very experimental.
