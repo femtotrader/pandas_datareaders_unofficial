@@ -20,6 +20,7 @@ DataReaders are objects to fetch data from remote source:
 * [Federal Reserve Economic Data - FRED - St. Louis Fed](http://research.stlouisfed.org/fred2/)
 * [Fama-French](http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html)
 * [World Bank](http://data.worldbank.org/)
+* [Open Exchange Rates](https://openexchangerates.org/)
 * ...
 
 
