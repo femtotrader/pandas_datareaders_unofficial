@@ -6,3 +6,4 @@ build
 _build
 dist
 MANIFEST
+tests.config.yml

@@ -10,9 +10,17 @@
     import json
     from StringIO import StringIO
     dr = DataReaderBase(expire_after=60*60)
-    response = dr.session.get(url)
+    BASE_URL = 'http://openexchangerates.org/api'
+    endpoint = '/latest.json'
+    url = BASE_URL + endpoint
+    params = {
+        'app_id': ''
+    }
+    response = dr.session.get(url, params=params)
     raw_data = response.text # or .content if binary data is expected
-    data = json.loads(StringIO(raw_data))
+    data = json.loads(raw_data)
+    ...
+
 
 * Create pip package
   * https://pypi.python.org/pypi

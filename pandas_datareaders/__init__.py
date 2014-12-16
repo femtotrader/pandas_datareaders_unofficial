@@ -42,6 +42,8 @@ from pandas_datareaders.datareaders.fama_french import DataReaderFamaFrench
 
 from pandas_datareaders.datareaders.world_bank import DataReaderWorldBank
 
+from pandas_datareaders.datareaders.openexchangerates import DataReaderOpenExchangeRates
+
 
 class DataReaderFactory(object):
     """
@@ -85,6 +87,9 @@ class DataReaderFactory(object):
         self.add('wb', DataReaderWorldBank)
         self.add('WorldBank', DataReaderWorldBank)
 
+        # === OpenExchangeRates ===
+        self.add('OpenExchangeRates', DataReaderOpenExchangeRates)
+
     def add(self, name, cls):
         self._d_factory[name.lower()] = cls
 
@@ -93,7 +98,7 @@ class DataReaderFactory(object):
             return(self._d_factory[name.lower()](*args, **kwargs))
         except:
             logging.error(traceback.format_exc())
-            raise(NotImplementedError("DataReader '%s' not implemented" % name))
+            raise(NotImplementedError("DataReader '%s' not implemented - should be in %s" % (name, self._d_factory.keys())))
 
 DATA_READER_FACTORY = DataReaderFactory()
 
