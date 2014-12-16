@@ -14,7 +14,7 @@ You can display conversion rates matrix using:
     data["matrix"]
 
 
-You should see
+You should see conversion rates matrix (as DataFrame)
 
                EUR       GBP       CHF       USD
     EUR          1  0.796835  1.201372  1.247038
