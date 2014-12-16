@@ -30,6 +30,6 @@ should display:
 
     79.68350168350169
 
-It means that 100 EUR are worth 9.68 GBP.
+It means that 100 EUR are worth 79.68 GBP.
 
 Caution! use this at your own risk. That's still very experimental.
