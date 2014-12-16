@@ -2,6 +2,17 @@
   * Write doc
   * see Read The Docs https://readthedocs.org/
   * Sphinx (reStructuredText) or MkDocs http://www.mkdocs.org/ (Markdown)
+  * One file per DataReader
+  * custom :
+    
+    from pandas_datareaders.datareaders.base import DataReaderBase
+    import pandas as pd
+    import json
+    from StringIO import StringIO
+    dr = DataReaderBase(expire_after=60*60)
+    response = dr.session.get(url)
+    raw_data = response.text # or .content if binary data is expected
+    data = json.loads(StringIO(raw_data))
 
 * Create pip package
   * https://pypi.python.org/pypi
@@ -40,5 +51,9 @@
       * http://www.cboe.com/DelayedQuote/QuoteTableDownload.aspx
     * Quandl
       * https://github.com/quandl/Python/
+      * convert to requests / requests-cache
+
+    * OpenExchangeRates
+      * http://openexchangerates.org/api/latest.json?app_id=...
 
 * Continuous Integration

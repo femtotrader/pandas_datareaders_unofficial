@@ -131,6 +131,9 @@ class DataReaderBase(object):
 
         self.init(*args, **kwargs)
 
+    def init(*args, **kwargs):
+        pass
+
     def get(self, name, *args, **kwargs):
         """Get data
         if name is a string ``_get_one`` will be launch
