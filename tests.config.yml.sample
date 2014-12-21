@@ -1,4 +1,0 @@
-tests:
-    datareaders:
-        OpenExchancheRates:
-            app_id: . . .
