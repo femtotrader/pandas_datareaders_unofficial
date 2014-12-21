@@ -20,7 +20,7 @@ setup(
     version='0.0.2',
 
     description='Pandas DataReaders with requests and requests-cache',
-    long_description=long_description,
+    long_description=readme(),
 
     # The project's main homepage.
     url='https://github.com/femtotrader/pandas_datareaders',
