@@ -2,4 +2,4 @@ pytest
 nose
 pandas
 lxml
-yaml
+pyyaml
