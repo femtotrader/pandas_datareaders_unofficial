@@ -3,3 +3,4 @@ nose
 pandas
 lxml
 pyyaml
+html5lib
