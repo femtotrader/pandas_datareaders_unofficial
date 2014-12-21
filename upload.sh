@@ -1,2 +1,4 @@
 #!/usr/bin/env bash
-python setup.py sdist bdist upload
+# ~/.pypirc should be set correctly
+#python setup.py sdist bdist upload
+python setup.py sdist upload
