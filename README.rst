@@ -1,8 +1,8 @@
 |Gitter| |Source graph status| |Documentation Status| |Build Status|
 
 Pandas DataReaders with support of
-```requests`` <http://www.python-requests.org/>`__ and
-```requests-cache`` <http://requests-cache.readthedocs.org/>`__
+`requests <http://www.python-requests.org/>`__ and
+`requests-cache <http://requests-cache.readthedocs.org/>`__
 
 Links
 -----
