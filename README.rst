@@ -7,9 +7,9 @@ Pandas DataReaders with support of
 Links
 -----
 
- - Documentation can be found at `Read The Docs <http://pandas-datareaders.readthedocs.org/>`__ ;
- - Source code and issue tracking can be found at `GitHub <https://github.com/femtotrader/pandas_datareaders>`__.
- - Feel free to `tip me <https://gratipay.com/femtotrader/>`__!
+- Documentation can be found at `Read The Docs <http://pandas-datareaders.readthedocs.org/>`__ ;
+- Source code and issue tracking can be found at `GitHub <https://github.com/femtotrader/pandas_datareaders>`__.
+- Feel free to `tip me <https://gratipay.com/femtotrader/>`__!
 
 .. |Latest Version| image:: https://pypip.in/version/pandas_datareaders/badge.svg
     :target: https://pypi.python.org/pypi/pandas_datareaders/
