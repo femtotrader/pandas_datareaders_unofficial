@@ -86,3 +86,19 @@ Caution! This project is still experimental.
 * Documentation can be found at [Read The Docs](http://pandas-datareaders.readthedocs.org/) ;
 * Source code and issue tracking can be found at [GitHub](https://github.com/femtotrader/pandas_datareaders).
 * Feel free to [tip me](https://gratipay.com/femtotrader/)!
+
+
+## Install
+
+### From Python package index
+
+
+    $ pip install pandas_datareaders
+
+### From source
+
+Get latest version using Git
+
+    $ git clone https://github.com/femtotrader/pandas_datareaders.git
+    $ cd pandas_datareaders
+    $ python setup.py install
