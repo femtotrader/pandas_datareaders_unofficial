@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from base import DataReaderBase
-from pandas_datareaders_unofficial.tools import COL, _get_dates, RemoteDataError
+from pandas_datareaders_unofficial.tools import COL, _get_dates, RemoteDataError, to_float
 
 from pandas.util.testing import _network_error_classes
 import pandas as pd
