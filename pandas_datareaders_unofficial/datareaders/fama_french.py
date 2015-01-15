@@ -5,7 +5,7 @@
 import logging
 import traceback
 
-from pandas_datareaders.datareaders.base import DataReaderBase
+from base import DataReaderBase
 
 import pandas as pd
 import numpy as np

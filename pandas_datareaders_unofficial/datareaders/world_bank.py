@@ -8,9 +8,7 @@ import pandas
 import numpy as np
 import warnings
 
-
-
-from pandas_datareaders.datareaders.base import DataReaderBase
+from base import DataReaderBase
 import logging
 import traceback
 

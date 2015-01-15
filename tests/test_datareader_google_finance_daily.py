@@ -10,6 +10,7 @@ import time
 import datetime
 
 from pandas_datareaders_unofficial import DataReader
+from pandas_datareaders_unofficial.tools import to_float, to_int
 
 import pandas.io.data as web
 
@@ -19,8 +20,6 @@ expire_after = 60*60 # seconds - 0:no cache - None:no cache expiration
 import logging
 #import logging.config
 #import os
-
-from pandas_datareaders.tools import to_float, to_int
 
 def test_google_finance_daily():
 

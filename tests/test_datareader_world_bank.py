@@ -10,6 +10,7 @@ import time
 import datetime
 
 from pandas_datareaders_unofficial import DataReader
+from pandas_datareaders_unofficial.datareaders import world_bank as wb
 
 import pandas.io.data as web
 
@@ -20,7 +21,6 @@ import logging
 #import logging.config
 #import os
 
-from pandas_datareaders.datareaders import world_bank as wb
 
 def test_datareader_world_bank():
 
