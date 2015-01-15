@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from base import DataReaderBase
-from pandas_datareaders_unofficial.tools import COL, _get_dates
+from pandas_datareaders_unofficial.tools import COL, _get_dates, to_float, to_int
 
 import pandas as pd
 #from pandas.tseries.frequencies import to_offset
