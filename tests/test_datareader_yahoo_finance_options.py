@@ -9,7 +9,7 @@ nosetests -s -v
 import time
 import datetime
 
-from pandas_datareaders import DataReader
+from pandas_datareaders_unofficial import DataReader
 
 from pandas.io.data import Options
 

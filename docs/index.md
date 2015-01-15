@@ -87,14 +87,14 @@ Caution! This project is still experimental.
 ### From Python package index
 
 
-    $ pip install pandas_datareaders
+    $ pip install pandas_datareaders_unofficial
 
 ### From source
 
 Get latest version using Git
 
-    $ git clone https://github.com/femtotrader/pandas_datareaders.git
-    $ cd pandas_datareaders
+    $ git clone https://github.com/femtotrader/pandas_datareaders_unofficial.git
+    $ cd pandas_datareaders_unofficial
     $ python setup.py install
 
 ## Links

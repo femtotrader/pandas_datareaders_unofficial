@@ -9,7 +9,7 @@ nosetests -s -v
 import time
 import datetime
 import yaml
-from pandas_datareaders import DataReader
+from pandas_datareaders_unofficial import DataReader
 import os
 
 expire_after = 60*60 # seconds - 0:no cache - None:no cache expiration
