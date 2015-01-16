@@ -5,3 +5,4 @@ lxml
 pyyaml
 html5lib
 BeautifulSoup4
+six
