@@ -5,7 +5,7 @@ from __future__ import absolute_import
 
 from pandas_datareaders_unofficial.datareaders.base import DataReaderBase
 from pandas_datareaders_unofficial.tools import COL, _get_dates
-#from datareaders.tools import to_float, to_int
+#from pandas_datareaders_unofficial.tools import to_float, to_int
 import pandas as pd
 from StringIO import StringIO
 import logging
