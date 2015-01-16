@@ -10,6 +10,7 @@ Links
 - Documentation can be found at `Read The Docs <http://pandas-datareaders-unofficial.readthedocs.org/>`__ ;
 - Source code and issue tracking can be found at `GitHub <https://github.com/femtotrader/pandas_datareaders_unofficial>`__.
 - Feel free to `tip me <https://gratipay.com/femtotrader/>`__!
+- Official Pandas DataReader can be found at https://github.com/pydata/pandas-datareader
 
 .. |Latest Version| image:: https://pypip.in/version/pandas_datareaders_unofficial/badge.svg
     :target: https://pypi.python.org/pypi/pandas_datareaders_unofficial/

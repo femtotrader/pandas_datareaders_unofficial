@@ -101,4 +101,4 @@ Get latest version using Git
 * Documentation can be found at [Read The Docs](http://pandas-datareaders.readthedocs.org/) ;
 * Source code and issue tracking can be found at [GitHub](https://github.com/femtotrader/pandas_datareaders).
 * Feel free to [tip me](https://gratipay.com/femtotrader/)!
-
+* Official Pandas DataReader can be found at https://github.com/pydata/pandas-datareader
