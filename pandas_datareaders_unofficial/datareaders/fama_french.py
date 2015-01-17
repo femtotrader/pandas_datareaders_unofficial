@@ -18,7 +18,7 @@ from pandas.compat import(
     range, lmap, zip
 )
 
-from six import StringIO
+from six.moves import cStringIO
 
 class DataReaderFamaFrench(DataReaderBase):
     """

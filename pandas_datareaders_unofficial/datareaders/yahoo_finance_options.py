@@ -6,7 +6,7 @@ from pandas_datareaders_unofficial.tools import COL, _get_dates, RemoteDataError
 
 from pandas.util.testing import _network_error_classes
 import pandas as pd
-from six import StringIO
+from six.moves import cStringIO
 import logging
 import traceback
 import datetime 
