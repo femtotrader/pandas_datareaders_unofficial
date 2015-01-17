@@ -24,7 +24,7 @@ import pandas as pd
 import logging
 import traceback
 
-from StringIO import StringIO
+from six import StringIO
 
 from .datareaders.base import DataReaderBase
 
