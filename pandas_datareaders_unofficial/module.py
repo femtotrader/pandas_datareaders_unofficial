@@ -26,23 +26,23 @@ import traceback
 
 from six import StringIO
 
-from .datareaders.base import DataReaderBase
+from pandas_datareaders_unofficial.datareaders.base import DataReaderBase
 
-from .datareaders.google_finance_daily import DataReaderGoogleFinanceDaily
-from .datareaders.google_finance_intraday import DataReaderGoogleFinanceIntraday
-from .datareaders.google_finance_options import DataReaderGoogleFinanceOptions
+from pandas_datareaders_unofficial.datareaders.google_finance_daily import DataReaderGoogleFinanceDaily
+from pandas_datareaders_unofficial.datareaders.google_finance_intraday import DataReaderGoogleFinanceIntraday
+from pandas_datareaders_unofficial.datareaders.google_finance_options import DataReaderGoogleFinanceOptions
 
-from .datareaders.yahoo_finance_daily import DataReaderYahooFinanceDaily
-from .datareaders.yahoo_finance_quotes import DataReaderYahooFinanceQuotes
-from .datareaders.yahoo_finance_options import DataReaderYahooFinanceOptions
+from pandas_datareaders_unofficial.datareaders.yahoo_finance_daily import DataReaderYahooFinanceDaily
+from pandas_datareaders_unofficial.datareaders.yahoo_finance_quotes import DataReaderYahooFinanceQuotes
+from pandas_datareaders_unofficial.datareaders.yahoo_finance_options import DataReaderYahooFinanceOptions
 
-from .datareaders.fred import DataReaderFRED
+from pandas_datareaders_unofficial.datareaders.fred import DataReaderFRED
 
-from .datareaders.fama_french import DataReaderFamaFrench
+from pandas_datareaders_unofficial.datareaders.fama_french import DataReaderFamaFrench
 
-from .datareaders.world_bank import DataReaderWorldBank
+from pandas_datareaders_unofficial.datareaders.world_bank import DataReaderWorldBank
 
-from .datareaders.openexchangerates import DataReaderOpenExchangeRates
+from pandas_datareaders_unofficial.datareaders.openexchangerates import DataReaderOpenExchangeRates
 
 from pandas_datareaders_unofficial.tools import RemoteDataError
 
