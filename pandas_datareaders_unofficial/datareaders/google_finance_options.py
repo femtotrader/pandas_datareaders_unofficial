@@ -6,7 +6,7 @@ from pandas_datareaders_unofficial.tools import COL, _get_dates, to_float, to_in
 
 import pandas as pd
 #from pandas.tseries.frequencies import to_offset
-from pandas.compat import StringIO
+from six import StringIO
 import logging
 import traceback
 import datetime

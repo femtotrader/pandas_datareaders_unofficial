@@ -5,7 +5,7 @@ from base import DataReaderBase
 from pandas_datareaders_unofficial.tools import _get_dates
 
 import pandas as pd
-from pandas.compat import StringIO
+from six import StringIO
 import logging
 import traceback
 import requests

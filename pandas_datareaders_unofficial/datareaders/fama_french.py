@@ -15,8 +15,10 @@ import tempfile
 from pandas.io.common import ZipFile
 
 from pandas.compat import(
-    StringIO, range, lmap, zip
+    range, lmap, zip
 )
+
+from six import StringIO
 
 class DataReaderFamaFrench(DataReaderBase):
     """

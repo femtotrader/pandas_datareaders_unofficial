@@ -7,7 +7,7 @@ from pandas_datareaders_unofficial.datareaders.base import DataReaderBase
 from pandas_datareaders_unofficial.tools import COL, _get_dates
 #from pandas_datareaders_unofficial.tools import to_float, to_int
 import pandas as pd
-from pandas.compat import StringIO
+from six import StringIO
 import logging
 import traceback
 
