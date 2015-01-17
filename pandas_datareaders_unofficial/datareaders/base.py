@@ -30,7 +30,8 @@ else:
 import logging
 import traceback
 
-from urllib import urlencode
+#from urllib import urlencode
+from pandas.io.common import urlencode
 
 import pandas as pd
 
