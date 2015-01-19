@@ -199,7 +199,7 @@ class DataReaderGoogleFinanceOptions(DataReaderBase):
         #response = requests.get(url, params=params)
         response = self.session.get(url, params=params)
         if response.status_code == 200:
-            content_json = response.content
+            content_json = response.text
             data = json_decode(content_json)
             return(data)
 

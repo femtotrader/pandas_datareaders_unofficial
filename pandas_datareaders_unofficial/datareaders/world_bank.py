@@ -11,6 +11,7 @@ import warnings
 from .base import DataReaderBase
 import logging
 import traceback
+import six
 
 class DataReaderWorldBank(DataReaderBase):
     """
@@ -129,7 +130,7 @@ class DataReaderWorldBank(DataReaderBase):
     
         """
 
-        if isinstance(country, basestring):
+        if isinstance(country, six.string_types):
             country = [country]
 
         bad_countries = np.setdiff1d(country, self.country_codes)
@@ -143,7 +144,7 @@ class DataReaderWorldBank(DataReaderBase):
                 warnings.warn('Non-standard ISO country codes: %s' % tmp)
 
         # Work with a list of indicators
-        if isinstance(indicator, basestring):
+        if isinstance(indicator, six.string_types):
             indicator = [indicator]
         
         # Download
@@ -181,7 +182,7 @@ class DataReaderWorldBank(DataReaderBase):
     def _get_data(self, indicator="NY.GNS.ICTR.GN.ZS", country='US',
                   start=2002, end=2005):
     
-        if isinstance(country, basestring):
+        if isinstance(country, six.string_types):
             country = [country]
     
         countries = ';'.join(country)
