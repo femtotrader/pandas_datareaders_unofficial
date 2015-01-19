@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from pandas_datareaders_unofficial.datareaders.base import DataReaderBase
-from pandas_datareaders_unofficial.tools import COL, _get_dates, to_float, to_int
+from .base import DataReaderBase
+from ..tools import COL, _get_dates, to_float, to_int
 
 import pandas as pd
 #from pandas.tseries.frequencies import to_offset
@@ -13,8 +13,6 @@ import datetime
 
 import json
 import token, tokenize
-
-from StringIO import StringIO
 
 
 def ymd_to_date(y, m, d):

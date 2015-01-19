@@ -3,9 +3,9 @@
 
 #from __future__ import absolute_import
 
-from pandas_datareaders_unofficial.datareaders.base import DataReaderBase
-from pandas_datareaders_unofficial.tools import COL, _get_dates
-#from pandas_datareaders_unofficial.tools import to_float, to_int
+from .base import DataReaderBase
+from ..tools import COL, _get_dates
+#from ..tools import to_float, to_int
 import pandas as pd
 from six.moves import cStringIO as StringIO
 import logging

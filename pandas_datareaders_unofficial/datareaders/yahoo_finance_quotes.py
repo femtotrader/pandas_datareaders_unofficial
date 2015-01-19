@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from pandas_datareaders_unofficial.datareaders.base import DataReaderBase
-from pandas_datareaders_unofficial.tools import COL, _get_dates
+from .base import DataReaderBase
+from ..tools import COL, _get_dates
 import pandas as pd
 from six.moves import cStringIO as StringIO
 import logging

@@ -34,6 +34,7 @@ import traceback
 from pandas.io.common import urlencode
 
 import pandas as pd
+import six
 
 class RequestsSessionWithLog(requests.Session):
     """
@@ -139,7 +140,7 @@ class DataReaderBase(object):
         if name is a string ``_get_one`` will be launch
         if name is a list ``_get_multi`` will be launch
         """
-        if isinstance(name, basestring) or name is None:
+        if isinstance(name, six.string_types) or name is None:
             return(self._get_one(name, *args, **kwargs))
         elif isinstance(name, list):
             return(self._get_multi(name, *args, **kwargs))

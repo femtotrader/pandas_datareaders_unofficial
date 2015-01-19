@@ -5,7 +5,7 @@
 import logging
 import traceback
 
-from base import DataReaderBase
+from .base import DataReaderBase
 
 import pandas as pd
 import numpy as np

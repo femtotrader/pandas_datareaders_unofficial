@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from pandas_datareaders_unofficial.datareaders.base import DataReaderBase
-from pandas_datareaders_unofficial.tools import COL, _get_dates, RemoteDataError, to_float
+from .base import DataReaderBase
+from ..tools import COL, _get_dates, RemoteDataError, to_float
 
 from pandas.util.testing import _network_error_classes
 import pandas as pd
@@ -162,7 +162,8 @@ class Options(object):
     def _option_frames_from_url(self, url, params):
         #frames = pd.read_html(url) # session should be passed to read_html to have a cache mechanism - see https://github.com/pydata/pandas/issues/6456
         response = self.session.get(url)
-        data = response.content
+        #data = response.content
+        data = response.text
         frames = pd.read_html(StringIO(data))
         nframes = len(frames)
         frames_req = max(self._TABLE_LOC.values())
