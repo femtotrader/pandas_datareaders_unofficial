@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from .base import DataReaderBase
-from ..tools import COL, _get_dates, to_float, to_int
+from ..tools import COL, _get_dates, to_float, to_int, timestamp_to_unix
 
 import pandas as pd
 #from pandas.tseries.frequencies import to_offset
@@ -19,7 +19,10 @@ class DataReaderGoogleFinanceIntraday(DataReaderBase):
         self._get_multi = self._get_multi_topanel
 
     def _get_one(self, name, *args, **kwargs):
-        interval_seconds = kwargs['interval_seconds']
+        try:
+            interval_seconds = kwargs['interval']
+        except:
+            interval_seconds = 60
 
         try:
             num_days = kwargs['num_days']
@@ -33,7 +36,16 @@ class DataReaderGoogleFinanceIntraday(DataReaderBase):
         except:
             exchange = 'ETR'
 
-        return(self._get_one_raw(name, exchange, interval_seconds, period, 'd,c,h,l,o,v'))
+        format_data = 'd,c,h,l,o,v'
+        auto = ''
+        ei = ''
+
+        try:
+            ts = timestamp_to_unix(kwargs['start_date'])
+        except:
+            ts = ''
+
+        return(self._get_one_raw(name, exchange, interval_seconds, period, format_data, auto, ei, ts))
 
     def _get_one_raw(self, query, exchange, interval_seconds, period, format_data, df='', auto='', ei='', ts=''):
         """

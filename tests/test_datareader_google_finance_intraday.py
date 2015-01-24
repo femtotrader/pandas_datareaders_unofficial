@@ -27,12 +27,12 @@ def test_google_finance_intraday():
     #symbol = ["GOOG", "AAPL"]
     interval_seconds = 60
     num_days = 3
-    data = DataReader("GoogleFinanceIntraday", expire_after=expire_after).get(symbol, exchange="NASD", interval_seconds=interval_seconds, num_days=num_days)
+    data = DataReader("GoogleFinanceIntraday", expire_after=expire_after).get(symbol, exchange="NASD", interval=interval_seconds, num_days=num_days)
     print(data)
 
     symbol = ["GOOG", "AAPL"]
     interval_seconds = 60
     num_days = 3
-    data = DataReader("GoogleFinanceIntraday", expire_after=expire_after).get(symbol, exchange="NASD", interval_seconds=interval_seconds, num_days=num_days)
+    data = DataReader("GoogleFinanceIntraday", expire_after=expire_after).get(symbol, exchange="NASD", interval=interval_seconds, num_days=num_days)
     print(data)
 

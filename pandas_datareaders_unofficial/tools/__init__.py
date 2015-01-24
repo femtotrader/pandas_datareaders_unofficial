@@ -124,3 +124,14 @@ def _in_chunks(seq, size):
     """
     return (seq[pos:pos + size] for pos in range(0, len(seq), size))
 
+def timestamp_to_unix(dt, unit='s'):
+    """
+    Return unix timestamp from Pandas Timestamp
+    """
+    d = {
+        's': 1000000000,
+        'ms': 1000000,
+        'us': 1000,
+        'ns': 1
+    }
+    return(dt.value/d[unit])

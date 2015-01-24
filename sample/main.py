@@ -22,13 +22,15 @@ import requests_cache
 from pandas_datareaders_unofficial import DataReader
 
 @click.command()
+@click.option('--datareader', default='GoogleFinanceDaily', help=u'DataReader ("GoogleFinanceDaily", "YahooFinanceDaily"...)')
 @click.argument('symbol', nargs=1)
+@click.option('--start', default='2010-01-01', help=u"Start date")
+@click.option('--end', default='', help=u"End date")
+@click.option('--interval', default=60, help=u'Interval (seconds)')
+@click.option('--exchange', default='NASD', help=u'Exchange (NASD, ETR, ...)')
 #@click.option('--expire_after', default=60*15, help=u"Cache expiration (-1: no cache, 0: no expiration, d: d seconds expiration cache)")
 @click.option('--expire_after', default='00:15:00.0', help=u"Cache expiration (-1: no cache, 0: no expiration, d: d seconds expiration cache)")
-@click.option('--start', default='2010-01-01', help=u"Start date")
-@click.option('--end', default='2013-01-27', help=u"End date")
-@click.option('--datareader', default='GoogleFinanceDaily', help=u'DataReader ("GoogleFinanceDaily", "YahooFinanceDaily"...)')
-def main(datareader, symbol, start, end, expire_after):
+def main(datareader, symbol, start, end, interval, exchange, expire_after):
     """
     SYMBOL: AAPL, ...
     """
@@ -49,8 +51,12 @@ def main(datareader, symbol, start, end, expire_after):
     #    logging.warning("expire_after==0 no cache expiration!")
 
     start = pd.to_datetime(start)
-    end = pd.to_datetime(end)
-    data = DataReader(datareader, expire_after=expire_after).get(symbol, start, end)
+
+    if end=='':
+        end = pd.to_datetime(datetime.datetime.utcnow().date())
+    else:
+        end = pd.to_datetime(end)
+    data = DataReader(datareader, expire_after=expire_after).get(symbol, start_date=start, end_date=end, interval=interval, exchange=exchange)
     print(data)
     print(type(data))
     print(data.dtypes)
