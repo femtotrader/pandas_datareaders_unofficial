@@ -37,6 +37,7 @@ class DataReaderGoogleFinanceIntraday(DataReaderBase):
             exchange = 'ETR'
 
         format_data = 'd,c,h,l,o,v'
+        df = ''
         auto = ''
         ei = ''
 
@@ -45,7 +46,7 @@ class DataReaderGoogleFinanceIntraday(DataReaderBase):
         except:
             ts = ''
 
-        return(self._get_one_raw(name, exchange, interval_seconds, period, format_data, auto, ei, ts))
+        return(self._get_one_raw(name, exchange, interval_seconds, period, format_data, df, auto, ei, ts))
 
     def _get_one_raw(self, query, exchange, interval_seconds, period, format_data, df='', auto='', ei='', ts=''):
         """
