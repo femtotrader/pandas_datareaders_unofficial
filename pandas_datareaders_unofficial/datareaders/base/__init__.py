@@ -163,7 +163,7 @@ class DataReaderBase(object):
                 d_data[name] = self._get_one(name, *args, **kwargs)
             except IOError:
                 logging.warning("Failed to read symbol: {0!r}, replacing with 'NaN.".format(name))
-                lst_failed.append(sym)
+                lst_failed.append(name)
 
         try:
             if len(d_data) > 0 and len(lst_failed) > 0:

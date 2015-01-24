@@ -37,5 +37,6 @@ class DataReaderYahooFinanceDaily(DataReaderBase):
         data = response.text
 
         df = pd.read_csv(StringIO(data), sep=',', index_col=0, parse_dates=True)
+        df = df[::-1]
 
         return(df)

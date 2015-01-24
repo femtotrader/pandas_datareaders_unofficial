@@ -19,17 +19,42 @@ import requests_cache
 
 #import ts_charting as charting #https://github.com/dalejung/ts-charting
 
-from pandas_datareaders import DataReader
+from pandas_datareaders_unofficial import DataReader
 
 @click.command()
-@click.option('--expire_after', default=60*15, help=u"Cache expiration (-1: no cache, 0: no expiration, d: d seconds expiration cache)")
-def main(expire_after):
+@click.argument('symbol', nargs=1)
+#@click.option('--expire_after', default=60*15, help=u"Cache expiration (-1: no cache, 0: no expiration, d: d seconds expiration cache)")
+@click.option('--expire_after', default='00:15:00.0', help=u"Cache expiration (-1: no cache, 0: no expiration, d: d seconds expiration cache)")
+@click.option('--start', default='2010-01-01', help=u"Start date")
+@click.option('--end', default='2013-01-27', help=u"End date")
+@click.option('--datareader', default='GoogleFinanceDaily', help=u'DataReader ("GoogleFinanceDaily", "YahooFinanceDaily"...)')
+def main(datareader, symbol, start, end, expire_after):
+    """
+    SYMBOL: AAPL, ...
+    """
+
+    symbol = symbol.split(',')
+    if len(symbol)==1:
+        symbol = symbol[0]
+
+    expire_after = pd.to_timedelta(expire_after)
+    if expire_after==pd.to_timedelta(-1):
+        expire_after = None
+
     #filename = os.path.join(basepath, "request_cache")
     #if expire_after>=0:
     #    requests_cache.install_cache(filename, backend='sqlite', expire_after=expire_after) # expiration seconds
     #    logging.info("Installing cache '%s.sqlite' with expire_after=%d (seconds)" % (filename, expire_after))
     #if expire_after==0:
     #    logging.warning("expire_after==0 no cache expiration!")
+
+    start = pd.to_datetime(start)
+    end = pd.to_datetime(end)
+    data = DataReader(datareader, expire_after=expire_after).get(symbol, start, end)
+    print(data)
+    print(type(data))
+    print(data.dtypes)
+
 
     """
     # Google Finance Daily
@@ -54,6 +79,7 @@ def main(expire_after):
     """
 
     # Yahoo Finance Daily
+    """
     start = datetime.datetime(2010, 1, 1)
     end = datetime.datetime(2013, 1, 27)
 
@@ -63,8 +89,7 @@ def main(expire_after):
 
     data = DataReader("YahooFinanceDaily", expire_after=expire_after).get(symbol, start, end)
     print(data)
-    print(type(data))
-    print(data.dtypes)
+    """
 
     # FRED
     """
