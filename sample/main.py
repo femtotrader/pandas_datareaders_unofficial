@@ -37,7 +37,7 @@ def main(datareader, symbol, start, end, expire_after):
     if len(symbol)==1:
         symbol = symbol[0]
 
-    expire_after = pd.to_timedelta(expire_after)
+    expire_after = pd.to_timedelta(expire_after, unit='s')
     if expire_after==pd.to_timedelta(-1):
         expire_after = None
 
