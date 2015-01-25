@@ -7,3 +7,5 @@ _build
 dist
 MANIFEST
 tests.config.yml
+_config.py
+config_.py
