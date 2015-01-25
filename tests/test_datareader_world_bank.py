@@ -8,14 +8,15 @@ nosetests -s -v
 
 import time
 import datetime
+from datetime import timedelta
 
+import pandas as pd
 from pandas_datareaders_unofficial import DataReader
 from pandas_datareaders_unofficial.datareaders import world_bank as wb
 
 import pandas.io.data as web
 
-import requests_cache
-expire_after = 60*60 # seconds - 0:no cache - None:no cache expiration
+expire_after = timedelta(hours=1) # 0:no cache - None:no cache expiration
 
 import logging
 #import logging.config
@@ -37,8 +38,10 @@ def test_datareader_world_bank():
     world_bank = DataReader("WorldBank", expire_after=expire_after)
     assert(isinstance(world_bank.country_codes, list))
 
-    dat = world_bank.search('gdp.*capita.*const')
-    print(dat.iloc[:,:2])
+    data = world_bank.search('gdp.*capita.*const')
+    print(data.iloc[:,:2])
+    assert(isinstance(data, pd.DataFrame))
 
-    dat = world_bank.download(indicator='NY.GDP.PCAP.KD', country=['US', 'CA', 'MX'], start=2005, end=2008)
-    print(dat)
+    data = world_bank.download(indicator='NY.GDP.PCAP.KD', country=['US', 'CA', 'MX'], start=2005, end=2008)
+    print(data)
+    assert(isinstance(data, pd.DataFrame))

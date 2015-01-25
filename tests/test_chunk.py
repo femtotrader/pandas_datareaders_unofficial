@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import datetime
+from datetime import timedelta
+
 from pandas_datareaders_unofficial.tools import *
 from pandas_datareaders_unofficial.tools import _in_chunks
 import math

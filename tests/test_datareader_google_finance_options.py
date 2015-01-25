@@ -8,22 +8,29 @@ nosetests -s -v
 
 import time
 import datetime
+from datetime import timedelta
 
+import pandas as pd
 from pandas_datareaders_unofficial import DataReader
 
 from pandas.io.data import Options
 
-import requests_cache
-expire_after = 60*60 # seconds - 0:no cache - None:no cache expiration
+expire_after = timedelta(hours=1) # 0:no cache - None:no cache expiration
 
 def test_google_finance_options():
 
     #symbol = 'NASDAQ:AAPL'
     symbol = 'NASDAQ:GOOG'
-    symbol = ['NASDAQ:AAPL', 'NASDAQ:GOOG'] # ToFix: get returns now a dict not a DataFrame
-
     option = DataReader("GoogleFinanceOptions", expire_after=expire_after).get(symbol)
     print(option)
+    assert(isinstance(option, dict))
+
+    symbol = ['NASDAQ:AAPL', 'NASDAQ:GOOG'] # ToFix: get returns now a dict not a DataFrame
+    option = DataReader("GoogleFinanceOptions", expire_after=expire_after).get(symbol)
+    print(option)
+    assert(isinstance(option, dict))
+
+
     #print(option['options'].dtypes)
     #option = option.rename(items={
     #    'NASDAQ:AAPL': 'NASDAQ_AAPL',

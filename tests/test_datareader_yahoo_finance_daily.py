@@ -8,12 +8,14 @@ nosetests -s -v
 
 import time
 import datetime
+from datetime import timedelta
 
+import pandas as pd
 from pandas_datareaders_unofficial import DataReader
 
 import pandas.io.data as web
 
-expire_after = 60*60 # seconds - 0:no cache - None:no cache expiration
+expire_after = timedelta(hours=1) # 0:no cache - None:no cache expiration
 
 def test_yahoo_finance_daily():
 
@@ -26,6 +28,7 @@ def test_yahoo_finance_daily():
 
     print("="*5 + "New DataReader" + "="*5)
     data = DataReader("YahooFinanceDaily", expire_after=expire_after).get(symbol, start, end)
+    assert(isinstance(data, pd.DataFrame))
     print(data)
     print(type(data))
     print(data.dtypes)

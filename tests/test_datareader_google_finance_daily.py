@@ -8,14 +8,14 @@ nosetests -s -v
 
 import time
 import datetime
+from datetime import timedelta
 
 from pandas_datareaders_unofficial import DataReader
 from pandas_datareaders_unofficial.tools import to_float, to_int
 
 import pandas.io.data as web
 
-import requests_cache
-expire_after = 60*60 # seconds - 0:no cache - None:no cache expiration
+expire_after = timedelta(hours=1) # 0:no cache - None:no cache expiration
 
 import logging
 #import logging.config

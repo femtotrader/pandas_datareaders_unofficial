@@ -8,11 +8,15 @@ nosetests -s -v
 
 import time
 import datetime
-import yaml
-from pandas_datareaders_unofficial import DataReader
-import os
+from datetime import timedelta
 
-expire_after = 60*60 # seconds - 0:no cache - None:no cache expiration
+import pandas as pd
+import os
+import yaml
+
+from pandas_datareaders_unofficial import DataReader
+
+expire_after = timedelta(hours=1) # 0:no cache - None:no cache expiration
 
 def test_openexchangerates():
     app_id = os.environ['OPEN_EXCHANGE_RATES_API_KEY']
@@ -26,7 +30,12 @@ def test_openexchangerates():
 
     currencies = ["EUR", "GBP", "CHF", "USD", "AUD", "CAD", "HKD", "INR", "JPY", "SAR", "SGD", "ZAR", "SEK", "AED"]
     data = dr.get(currencies)
+
+    #print(data)
+    assert(isinstance(data, dict))
+
     print(data["matrix"])
+    assert(isinstance(data["matrix"], pd.DataFrame))
 
     print(dr.convert(100, "EUR", "USD"))
     print(dr.convert(100, "USD", "EUR"))

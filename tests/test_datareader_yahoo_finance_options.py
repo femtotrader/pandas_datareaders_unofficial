@@ -8,13 +8,14 @@ nosetests -s -v
 
 import time
 import datetime
+from datetime import timedelta
 
+import pandas as pd
 from pandas_datareaders_unofficial import DataReader
 
 from pandas.io.data import Options
 
-import requests_cache
-expire_after = 60*60 # seconds - 0:no cache - None:no cache expiration
+expire_after = timedelta(hours=1) # 0:no cache - None:no cache expiration
 
 def test_yahoo_finance_options():
 
@@ -33,6 +34,8 @@ def test_yahoo_finance_options():
     option = DataReader("YahooFinanceOptions", expire_after=expire_after).get(symbol)
     data = option.get_all_data() # get all data
     print(data)
+    assert(isinstance(data, pd.DataFrame))
+
     #data = option.get_call_data(expiry=expiry) # get call data
 
     """
