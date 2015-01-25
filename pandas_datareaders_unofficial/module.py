@@ -35,6 +35,7 @@ from pandas_datareaders_unofficial.datareaders.google_finance_options import Dat
 from pandas_datareaders_unofficial.datareaders.yahoo_finance_daily import DataReaderYahooFinanceDaily
 from pandas_datareaders_unofficial.datareaders.yahoo_finance_quotes import DataReaderYahooFinanceQuotes
 from pandas_datareaders_unofficial.datareaders.yahoo_finance_options import DataReaderYahooFinanceOptions
+from pandas_datareaders_unofficial.datareaders.yahoo_finance_intraday import DataReaderYahooFinanceIntraday
 
 from pandas_datareaders_unofficial.datareaders.fred import DataReaderFRED
 
@@ -76,6 +77,8 @@ class DataReaderFactory(object):
         self.add('YahooFinanceQuotes', DataReaderYahooFinanceQuotes)
 
         self.add('YahooFinanceOptions', DataReaderYahooFinanceOptions)
+
+        self.add('YahooFinanceIntraday', DataReaderYahooFinanceIntraday)
 
         # === FRED ===
         self.add('fred', DataReaderFRED)

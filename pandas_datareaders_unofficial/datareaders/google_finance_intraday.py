@@ -13,6 +13,12 @@ import traceback
 class DataReaderGoogleFinanceIntraday(DataReaderBase):
     """
     DataReader to fetch data from Google Finance Intraday
+
+    Ref:
+    http://www.google.com/intl/en/googlefinance/disclaimer/
+    http://www.quantshare.com/sa-426-6-ways-to-download-free-intraday-and-tick-data-for-the-us-stock-market
+    Google Undocumented Finance API
+        http://www.networkerror.org/component/content/article/1-technical-wootness/44-googles-undocumented-finance-api.html
     """
 
     def init(self, *args, **kwargs):
@@ -25,7 +31,7 @@ class DataReaderGoogleFinanceIntraday(DataReaderBase):
             interval_seconds = 60
 
         try:
-            num_days = kwargs['num_days']
+            num_days = kwargs['duration']
         except:
             num_days = 1
 
@@ -37,7 +43,7 @@ class DataReaderGoogleFinanceIntraday(DataReaderBase):
             exchange = 'ETR'
 
         format_data = 'd,c,h,l,o,v'
-        df = ''
+        df = 'cpct'
         auto = ''
         ei = ''
 
@@ -49,11 +55,6 @@ class DataReaderGoogleFinanceIntraday(DataReaderBase):
         return(self._get_one_raw(name, exchange, interval_seconds, period, format_data, df, auto, ei, ts))
 
     def _get_one_raw(self, query, exchange, interval_seconds, period, format_data, df='', auto='', ei='', ts=''):
-        """
-        From Google Undocumented Finance API
-        http://www.networkerror.org/component/content/article/1-technical-wootness/44-googles-undocumented-finance-api.html
-        """
-
         url = 'https://www.google.com/finance/getprices'
         params = {
             'q': query, # Stock symbol

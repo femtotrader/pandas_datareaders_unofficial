@@ -27,10 +27,11 @@ from pandas_datareaders_unofficial import DataReader
 @click.option('--start', default='2010-01-01', help=u"Start date")
 @click.option('--end', default='', help=u"End date")
 @click.option('--interval', default=60, help=u'Interval (seconds)')
+@click.option('--duration', default=1, help=u'Number of days')
 @click.option('--exchange', default='NASD', help=u'Exchange (NASD, ETR, ...)')
 #@click.option('--expire_after', default=60*15, help=u"Cache expiration (-1: no cache, 0: no expiration, d: d seconds expiration cache)")
 @click.option('--expire_after', default='00:15:00.0', help=u"Cache expiration (-1: no cache, 0: no expiration, d: d seconds expiration cache)")
-def main(datareader, symbol, start, end, interval, exchange, expire_after):
+def main(datareader, symbol, start, end, interval, duration, exchange, expire_after):
     """
     SYMBOL: AAPL, ...
     """
@@ -56,10 +57,13 @@ def main(datareader, symbol, start, end, interval, exchange, expire_after):
         end = pd.to_datetime(datetime.datetime.utcnow().date())
     else:
         end = pd.to_datetime(end)
-    data = DataReader(datareader, expire_after=expire_after).get(symbol, start_date=start, end_date=end, interval=interval, exchange=exchange)
+    data = DataReader(datareader, expire_after=expire_after).get(symbol, start_date=start, end_date=end, interval=interval, duration=duration, exchange=exchange)
     print(data)
     print(type(data))
-    print(data.dtypes)
+    try:
+        print(data.dtypes)
+    except:
+        pass
 
 
     """
