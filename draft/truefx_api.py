@@ -9,26 +9,23 @@ http://www.truefx.com/?page=download&description=api
 http://www.truefx.com/dev/data/TrueFX_MarketDataWebAPI_DeveloperGuide.pdf
 """
 
-#from truefx_config import config
-#class config(object):
-#    username = "" # put your own TrueFX username
-#    password = "" # put your own TrueFX password
-
 import click
 
+import os
 import requests
 import requests_cache
 import datetime
 import pandas as pd
 from datetime import timedelta
 from pandas.io.common import urlencode
+import six
 from six.moves import cStringIO as StringIO
 
 def send_request(session, params):
     base_url = "http://webrates.truefx.com/rates"
     endpoint = "/connect.html"
     url = base_url + endpoint
-    print("Request to '%s' with '%s' using '%s'" % (url, params, url+'?'+urlencode(params)))
+    #print("Request to '%s' with '%s' using '%s'" % (url, params, url+'?'+urlencode(params)))
     response = session.get(url, params=params)
     return(response)
 
@@ -98,55 +95,40 @@ def query_not_auth(session, lst_symbols, format='csv', snapshot=True):
 def registered(username, password):
     return(not (username=='' and password==''))
 
-SYMBOLS_NOT_AUTH = "EUR/USD,USD/JPY,GBP/USD,EUR/GBP,USD/CHF,EUR/JPY,EUR/CHF"
-SYMBOLS_NOT_AUTH = "," + "USD/CAD,AUD/USD,GBP/JPY"
+def get_session(session=None):
+    if session is None:
+        return(requests.Session())
+    else:
+        return(session)
 
-SYMBOLS_ALL = "EUR/USD,USD/JPY,GBP/USD,EUR/GBP,USD/CHF,AUD/NZD,CAD/CHF,CHF/JPY,EUR/AUD"
-SYMBOLS_ALL = SYMBOLS_ALL + "," + "EUR/CAD,EUR/JPY,EUR/CHF,USD/CAD,AUD/USD,GBP/JPY,AUD/CAD"
-SYMBOLS_ALL = SYMBOLS_ALL + "," + "AUD/CHF,AUD/JPY,EUR/NOK,EUR/NZD,GBP/CAD,GBP/CHF,NZD/JPY"
-SYMBOLS_ALL = SYMBOLS_ALL + "," + "NZD/USD,USD/NOK,USD/SEK"
-
-@click.command()
-@click.option('--symbols', default='', help="Symbols list (serated with ','")
-@click.option('--username', default='', help="Username")
-@click.option('--password', default='', help="Password")
-def main(symbols, username, password):
-    #session = requests.Session()
-
-    expire_after = timedelta(hours=1)
-    session = requests_cache.CachedSession(cache_name='cache', expire_after=expire_after)
+def query(symbols='', qualifier='default', format='csv', snapshot=True, username='', password='', flag_parse_data=True, session=None):
+    (username, password) = credentials(username, password)
+    session = get_session(session)
 
     is_registered = registered(username, password)
-    if not is_registered:
-        print("""You should register to TrueFX
-and pass username and password using CLI flag
---username your_username
---password your_password""")
 
-    if symbols == '':
+    if isinstance(symbols, six.string_types):
+        symbols = symbols.upper()
+        symbols = symbols.split(',')
+
+    if isinstance(symbols, list):
+        symbols = map(lambda s: s.upper(), symbols)
+
+    if symbols == ['']:
         if not is_registered:
             symbols = SYMBOLS_NOT_AUTH
         else:
             symbols = SYMBOLS_ALL
     
-    symbols = symbols.split(',')
-
-    qualifier = 'default'
-
-    format = 'csv'
-    snapshot = True
-
     if not is_registered:
         response = query_not_auth(session, symbols, format, snapshot)
         data = response.text
-        print("Query response:\n%s" % data)
-        df = parse_data(data)
-        print("Query parsed response:\n%s" % df)
-        print(df)
+        if flag_parse_data:
+            df = parse_data(data)
+            return(df)
+        else:
+            return(data)
     else:
-        print("Connect")
-        #(username, password) = (config.username, config.password)
-        #(username, password) = ('', '')
         session_data = connect(session, username, password, symbols, qualifier, format, snapshot)
         error_msg = 'not authorized'
         if error_msg in session_data:
@@ -154,15 +136,78 @@ and pass username and password using CLI flag
 
         response = query_auth_send(session, session_data)
         data = response.text
-        print("Query response:\n%s" % data)
-        df = parse_data(data)
-        print("Query parsed response:\n%s" % df)
-        print(df)
 
-        print("Disconnect")
         response = disconnect(session, session_data)
-        data = response.text
-        print(data)
+
+        if flag_parse_data:
+            df = parse_data(data)
+            return(df)
+        else:
+            return(data)
+
+def credentials(username='', password=''):
+    if username=='':
+        try:
+            username = os.environ['TRUEFX_USERNAME']
+        except:
+            pass
+
+    if password=='':
+        try:
+            password = os.environ['TRUEFX_PASSWORD']
+        except:
+            pass
+    return(username, password)
+
+SYMBOLS_NOT_AUTH = ['EUR/USD', 'USD/JPY', 'GBP/USD', 'EUR/GBP', 'USD/CHF', \
+ 'EUR/JPY', 'EUR/CHF', 'USD/CAD', 'AUD/USD', 'GBP/JPY']
+
+SYMBOLS_ALL = ['EUR/USD', 'USD/JPY', 'GBP/USD', 'EUR/GBP', 'USD/CHF', 'AUD/NZD', \
+ 'CAD/CHF', 'CHF/JPY', 'EUR/AUD', 'EUR/CAD', 'EUR/JPY', 'EUR/CHF', 'USD/CAD', \
+ 'AUD/USD', 'GBP/JPY', 'AUD/CAD', 'AUD/CHF', 'AUD/JPY', 'EUR/NOK', 'EUR/NZD', \
+ 'GBP/CAD', 'GBP/CHF', 'NZD/JPY', 'NZD/USD', 'USD/NOK', 'USD/SEK']
+
+@click.command()
+@click.option('--symbols', default='', help="Symbols list (separated with ','")
+@click.option('--username', default='', help="TrueFX username")
+@click.option('--password', default='', help="TrueFX password")
+@click.option('--expire_after', default='00:15:00.0', help=u"Cache expiration (-1: no cache, 0: no expiration, 00:15:00.0: expiration delay)")
+def main(symbols, username, password, expire_after):
+
+    print("""TrueFX - Python API call
+========================
+""")
+
+    expire_after = pd.to_timedelta(expire_after, unit='s')
+    if expire_after==pd.to_timedelta(-1):
+        expire_after = None
+
+    #session = requests.Session()
+    session = requests_cache.CachedSession(cache_name='cache_truefx', expire_after=expire_after)
+
+    (username, password) = credentials(username, password)
+    is_registered = registered(username, password)
+    
+    if not is_registered:
+        print("""You should register to TrueFX at
+http://www.truefx.com/
+and pass username and password using CLI flag
+--username your_username
+--password your_password
+
+or setting environment variables using:
+export TRUEFX_USERNAME="your_username"
+export TRUEFX_PASSWORD="your_password"
+""")
+
+    qualifier = 'default'
+    format = 'csv'
+    snapshot = True
+    flag_parse_data = True
+
+    data = query(symbols, qualifier, format, snapshot, username, password, flag_parse_data, session)
+
+    print(data)
 
 if __name__ == "__main__":
     main()
