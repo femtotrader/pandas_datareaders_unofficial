@@ -21,30 +21,28 @@ from pandas.io.common import urlencode
 import six
 from six.moves import cStringIO as StringIO
 
-def send_request(session, params):
+def send_request(session, params, debug):
     base_url = "http://webrates.truefx.com/rates"
     endpoint = "/connect.html"
     url = base_url + endpoint
-    #print("Request to '%s' with '%s' using '%s'" % (url, params, url+'?'+urlencode(params)))
+    if debug:
+        print("Request to '%s' with '%s' using '%s'" % (url, params, url+'?'+urlencode(params)))
     response = session.get(url, params=params)
     return(response)
 
-def connect(session, username, password, lst_symbols, qualifier='default', format='csv', snapshot=True):
-    if snapshot:
-        s = 'y'
-    else:
-        s = 'n'
+def connect(session, username, password, lst_symbols, qualifier, api_format, snapshot, debug):
+    s = 'y' if snapshot else 'n'
 
     params = {
         'u': username,
         'p': password,
         'q': qualifier,
         'c': ','.join(lst_symbols),
-        'f': format,
+        'f': api_format,
         's': s
     }
 
-    response = send_request(session, params)
+    response = send_request(session, params, debug)
     if response.status_code != 200:
         raise(Exception("Can't connect"))
     
@@ -53,18 +51,18 @@ def connect(session, username, password, lst_symbols, qualifier='default', forma
 
     return(session_data)
 
-def disconnect(session, session_data):
+def disconnect(session, session_data, debug):
     params = {
         'di': session_data,
     }
-    response = send_request(session, params)
+    response = send_request(session, params, debug)
     return(response)
 
-def query_auth_send(session, session_data):
+def query_auth_send(session, session_data, debug):
     params = {
         'id': session_data,
     }
-    response = send_request(session, params)
+    response = send_request(session, params, debug)
     return(response)
 
 def parse_data(data):
@@ -74,19 +72,16 @@ def parse_data(data):
     df = df.set_index('Symbol')
     return(df)
 
-def query_not_auth(session, lst_symbols, format='csv', snapshot=True):
-    if snapshot:
-        s = 'y'
-    else:
-        s = 'n'
+def query_not_auth(session, lst_symbols, api_format, snapshot, debug):
+    s = 'y' if snapshot else 'n'
 
     params = {
         'c': ','.join(lst_symbols),
-        'f': format,
+        'f': api_format,
         's': s
     }
 
-    response = send_request(session, params)
+    response = send_request(session, params, debug)
     if response.status_code != 200:
         raise(Exception("Can't connect"))
 
@@ -101,7 +96,7 @@ def get_session(session=None):
     else:
         return(session)
 
-def query(symbols='', qualifier='default', format='csv', snapshot=True, username='', password='', flag_parse_data=True, session=None):
+def query(symbols='', qualifier='default', api_format='csv', snapshot=True, username='', password='', flag_parse_data=True, session=None, debug=True):
     (username, password) = credentials(username, password)
     session = get_session(session)
 
@@ -121,7 +116,7 @@ def query(symbols='', qualifier='default', format='csv', snapshot=True, username
             symbols = SYMBOLS_ALL
     
     if not is_registered:
-        response = query_not_auth(session, symbols, format, snapshot)
+        response = query_not_auth(session, symbols, api_format, snapshot, debug)
         data = response.text
         if flag_parse_data:
             df = parse_data(data)
@@ -129,15 +124,15 @@ def query(symbols='', qualifier='default', format='csv', snapshot=True, username
         else:
             return(data)
     else:
-        session_data = connect(session, username, password, symbols, qualifier, format, snapshot)
+        session_data = connect(session, username, password, symbols, qualifier, api_format, snapshot, debug)
         error_msg = 'not authorized'
         if error_msg in session_data:
             raise(Exception(error_msg))
 
-        response = query_auth_send(session, session_data)
+        response = query_auth_send(session, session_data, debug)
         data = response.text
 
-        response = disconnect(session, session_data)
+        response = disconnect(session, session_data, debug)
 
         if flag_parse_data:
             df = parse_data(data)
@@ -201,11 +196,12 @@ export TRUEFX_PASSWORD="your_password"
 """)
 
     qualifier = 'default'
-    format = 'csv'
+    api_format = 'csv'
     snapshot = True
     flag_parse_data = True
+    debug = True
 
-    data = query(symbols, qualifier, format, snapshot, username, password, flag_parse_data, session)
+    data = query(symbols, qualifier, api_format, snapshot, username, password, flag_parse_data, session, debug)
 
     print(data)
 
