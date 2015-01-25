@@ -64,4 +64,109 @@
     * OpenExchangeRates
       * http://openexchangerates.org/api/latest.json?app_id=...
 
+    * TrueFX
+
 * Continuous Integration
+
+
+* Sample for test a new data source
+
+    import requests
+    import requests_cache
+    import datetime
+    import pandas as pd
+    from datetime import timedelta
+    session = requests.Session()
+    expire_after = timedelta(hours=1)
+    #session = requests_cache.CachedSession(cache_name='cache', expire_after=expire_after)
+    class config(object):
+        username = "" # put your own TrueFX username
+        password = "" # put your own TrueFX password
+    
+    lst_symbols = ["EUR/USD", "USD/JPY"]
+    #lst_symbols = ["EUR/USD", "USD/JPY", "GBP/USD", "EUR/GBP", "USD/CHF", \
+    #"EUR/JPY", "EUR/CHF", "USD/CAD", "AUD/USD", "GBP/JPY", \
+    #"AUD/JPY", "AUD/NZD", "CAD/JPY", "CHF/JPY", "NZD/USD"]
+
+    qualifier = 'default'
+    #qualifier = 'eurates'
+
+    base_url = "http://webrates.truefx.com/rates"
+    endpoint = "/connect.html"
+    url = base_url + endpoint
+
+    params = {
+        'u': config.username,
+        'p': config.password,
+        'q': qualifier,
+        #'id': '',
+        #'di': '',
+        'c': ','.join(symbols),
+        'f': 'csv'
+    }
+
+    response = session.get(url, params=params)
+    data = response.text
+    (username, password, qualifier, session_id) = data.split(':')
+    print(data)
+
+    # Query
+    params = {
+        'id': session_id,
+    }
+    response = session.get(url, params=params)
+    data = response.text
+    print("Query: %s" % data)
+
+    # Disconnect
+    params = {
+        'di': session_id,
+    }
+    response = session.get(url, params=params)
+    data = response.text
+    print(data)
+    
+
+http://webrates.truefx.com/rates/connect.html?di=
+
+
+    import requests_cache
+    import datetime
+    import pandas as pd
+    from datetime import timedelta
+    expire_after = timedelta(days=1)
+    session = requests_cache.CachedSession(cache_name='cache', expire_after=expire_after)
+
+    import pandas as pd
+    from pandas.io.common import ZipFile
+    from six.moves import cStringIO as StringIO
+
+    dt = pd.to_datetime("2014-01-01")
+    symbol = "AUD/USD"
+    symbol = symbol.replace("/", "").upper()
+    year = dt.year
+    month = dt.month
+    month_name = datetime.datetime(year=1970, month=month, day=1).strftime('%B').upper()
+    #url = "http://www.truefx.com/dev/data/2014/JANUARY-2014/AUDUSD-2014-01.zip"
+    url = "http://www.truefx.com/dev/data/{year:04d}/{month_name}-{year:04d}/{symbol}-{year:04d}-{month:02d}.zip".format(year=year, month=month, symbol=symbol, month_name=month_name)
+    response = session.get(url)
+    zip_data = StringIO(response.content)
+    filename = "{symbol}-{year:04d}-{month:02d}.csv".format(year=year, month=month, symbol=symbol)
+
+    with ZipFile(zip_data, 'r') as zf:
+        #filename = zf.namelist()[0]
+        zfile = zf.open(filename)
+        #print(zfile)
+        #(symb, dt, ask, bid) = zfile.read().split(',')        
+        data = zfile.readlines()
+        
+    df = pd.DataFrame(data)
+    #df = df[:100] # just for test
+    df[0] = df[0].str.replace('\n', '')
+    df[0] = df[0].map(lambda s: s.split(','))
+    df['Symbol'] = df[0].map(lambda t: t[0])
+    df['Date'] = df[0].map(lambda t: pd.to_datetime(t[1]))
+    df['Bid'] = df[0].map(lambda t: t[2]).astype(float)
+    df['Ask'] = df[0].map(lambda t: t[3]).astype(float)
+    del df[0]
+    df = df.set_index('Date')
