@@ -25,7 +25,7 @@ import logging
 
 def test_datareader_world_bank():
 
-    print("="*5 + "Pandas original DataReader" + "="*5)
+    #print("="*5 + "Pandas original DataReader" + "="*5)
 
     #dat = wb.search('gdp.*capita.*const')
     #print(dat.iloc[:,:2])
@@ -34,6 +34,8 @@ def test_datareader_world_bank():
     #print(dat)
 
     #assert(isinstance(wb.country_codes, list))
+
+    print("="*5 + "New DataReader" + "="*5)
 
     world_bank = DataReader("WorldBank", expire_after=expire_after)
     assert(isinstance(world_bank.country_codes, list))
