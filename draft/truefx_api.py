@@ -26,11 +26,14 @@ def send_request(session, params, debug):
     endpoint = "/connect.html"
     url = base_url + endpoint
     if debug:
-        print("Request to '%s' with '%s' using '%s'" % (url, params, url+'?'+urlencode(params)))
+        s_url = url+'?'+urlencode(params)
+        print("Request to '%s' with '%s' using '%s'" % (url, params, s_url))
     response = session.get(url, params=params)
     return(response)
 
-def connect(session, username, password, lst_symbols, qualifier, api_format, snapshot, debug):
+def connect(session, username, password, lst_symbols, qualifier, \
+        api_format, snapshot, debug):
+
     s = 'y' if snapshot else 'n'
 
     params = {
@@ -67,7 +70,10 @@ def query_auth_send(session, session_data, debug):
 
 def parse_data(data):
     data_io = StringIO(data)
-    df = pd.read_csv(data_io, header=None, names=['Symbol', 'Date', 'Bid', 'Bid_point', 'Ask', 'Ask_point', 'High', 'Low', 'Open'])
+    df = pd.read_csv(data_io, header=None, \
+        names=['Symbol', 'Date', 'Bid', 'Bid_point', \
+            'Ask', 'Ask_point', 'High', 'Low', 'Open'])
+
     df['Date'] = pd.to_datetime(df['Date'], unit='ms')
     df = df.set_index('Symbol')
     return(df)
@@ -96,7 +102,9 @@ def get_session(session=None):
     else:
         return(session)
 
-def query(symbols='', qualifier='default', api_format='csv', snapshot=True, username='', password='', flag_parse_data=True, session=None, debug=True):
+def query(symbols='', qualifier='default', api_format='csv', snapshot=True, \
+        username='', password='', flag_parse_data=True, session=None, debug=True):
+
     (username, password) = credentials(username, password)
     session = get_session(session)
 
@@ -124,7 +132,8 @@ def query(symbols='', qualifier='default', api_format='csv', snapshot=True, user
         else:
             return(data)
     else:
-        session_data = connect(session, username, password, symbols, qualifier, api_format, snapshot, debug)
+        session_data = connect(session, username, password, symbols, qualifier, \
+            api_format, snapshot, debug)
         error_msg = 'not authorized'
         if error_msg in session_data:
             raise(Exception(error_msg))
@@ -155,30 +164,33 @@ def credentials(username='', password=''):
     return(username, password)
 
 SYMBOLS_NOT_AUTH = ['EUR/USD', 'USD/JPY', 'GBP/USD', 'EUR/GBP', 'USD/CHF', \
- 'EUR/JPY', 'EUR/CHF', 'USD/CAD', 'AUD/USD', 'GBP/JPY']
+    'EUR/JPY', 'EUR/CHF', 'USD/CAD', 'AUD/USD', 'GBP/JPY']
 
 SYMBOLS_ALL = ['EUR/USD', 'USD/JPY', 'GBP/USD', 'EUR/GBP', 'USD/CHF', 'AUD/NZD', \
- 'CAD/CHF', 'CHF/JPY', 'EUR/AUD', 'EUR/CAD', 'EUR/JPY', 'EUR/CHF', 'USD/CAD', \
- 'AUD/USD', 'GBP/JPY', 'AUD/CAD', 'AUD/CHF', 'AUD/JPY', 'EUR/NOK', 'EUR/NZD', \
- 'GBP/CAD', 'GBP/CHF', 'NZD/JPY', 'NZD/USD', 'USD/NOK', 'USD/SEK']
+    'CAD/CHF', 'CHF/JPY', 'EUR/AUD', 'EUR/CAD', 'EUR/JPY', 'EUR/CHF', 'USD/CAD', \
+    'AUD/USD', 'GBP/JPY', 'AUD/CAD', 'AUD/CHF', 'AUD/JPY', 'EUR/NOK', 'EUR/NZD', \
+    'GBP/CAD', 'GBP/CHF', 'NZD/JPY', 'NZD/USD', 'USD/NOK', 'USD/SEK']
 
 @click.command()
 @click.option('--symbols', default='', help="Symbols list (separated with ','")
 @click.option('--username', default='', help="TrueFX username")
 @click.option('--password', default='', help="TrueFX password")
-@click.option('--expire_after', default='00:15:00.0', help=u"Cache expiration (-1: no cache, 0: no expiration, 00:15:00.0: expiration delay)")
+@click.option('--expire_after', default='00:15:00.0', \
+    help=u"Cache expiration (-1: no cache, 0: no expiration, 00:15:00.0: expiration delay)")
 def main(symbols, username, password, expire_after):
 
     print("""TrueFX - Python API call
 ========================
 """)
 
-    expire_after = pd.to_timedelta(expire_after, unit='s')
-    if expire_after==pd.to_timedelta(-1):
+    if expire_after=='-1':
         expire_after = None
+    else:
+        expire_after = pd.to_timedelta(expire_after, unit='s')
 
     #session = requests.Session()
-    session = requests_cache.CachedSession(cache_name='cache_truefx', expire_after=expire_after)
+    session = requests_cache.CachedSession(\
+        cache_name='cache_truefx', expire_after=expire_after)
 
     (username, password) = credentials(username, password)
     is_registered = registered(username, password)
@@ -201,7 +213,8 @@ export TRUEFX_PASSWORD="your_password"
     flag_parse_data = True
     debug = True
 
-    data = query(symbols, qualifier, api_format, snapshot, username, password, flag_parse_data, session, debug)
+    data = query(symbols, qualifier, api_format, snapshot, username, password, \
+        flag_parse_data, session, debug)
 
     print(data)
 

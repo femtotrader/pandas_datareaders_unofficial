@@ -40,9 +40,10 @@ def main(datareader, symbol, start, end, interval, duration, exchange, expire_af
     if len(symbol)==1:
         symbol = symbol[0]
 
-    expire_after = pd.to_timedelta(expire_after, unit='s')
-    if expire_after==pd.to_timedelta(-1):
+    if expire_after=='-1':
         expire_after = None
+    else:
+        expire_after = pd.to_timedelta(expire_after, unit='s')
 
     #filename = os.path.join(basepath, "request_cache")
     #if expire_after>=0:
