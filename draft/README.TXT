@@ -6,3 +6,9 @@ http://www.quantshare.com/sa-426-6-ways-to-download-free-intraday-and-tick-data-
 http://stooq.com/db/h/
 https://quantquote.com/historical-stock-data
 http://www.eoddata.com/
+
+Ticks
+http://ticks.alpari.org/
+http://www.strategyquant.com/tickdatadownloader/
+Birt's Tick Data Suite 
+http://eareview.net/tick-data
