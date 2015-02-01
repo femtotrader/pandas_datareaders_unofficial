@@ -95,7 +95,13 @@ def get_data(geo, resolution, session):
     d = {}
     cols = None
     with ZipFile(zip_data, 'r') as zf:
-        for zinfo in zf.filelist:
+        filelist = zf.filelist
+        df_info = pd.DataFrame(filelist)
+        df_info['filename'] = df_info[0].map(lambda x: x.filename)
+        df_info['file_size'] = df_info[0].map(lambda x: x.file_size)
+        df_info['date_time'] = df_info[0].map(lambda x: x.date_time)
+        #del df_info[0]
+        for zinfo in filelist:
             filename = zinfo.filename
             filename_short, filename_ext = os.path.splitext(filename)
             zfile = zf.open(filename)
@@ -116,19 +122,18 @@ def get_data(geo, resolution, session):
                         if cols is None:
                             cols = df.columns
                     except:
-                        print("Can't build DataFrame for '%s' at '%s' from '%s'" % (file_symbol, file_exchange, filename))
+                        print("Can't build DataFrame for '%s' at '%s' from '%s'" % (file_symbol, file_exchange, filename.replace(' ', '\ ')))
                         print(traceback.format_exc())
                         d[file_symbol] = None
+                        df['Exchange'] = file_exchange
                 else:
-                    print("Can't build DataFrame for '%s' at '%s' from '%s' (empty file)" % (file_symbol, file_exchange, filename))
+                    print("Can't build DataFrame for '%s' at '%s' from '%s' (empty file)" % (file_symbol, file_exchange, filename.replace(' ', '\ ')))
                     d[file_symbol] = None
-                    
-
+                    df['Exchange'] = file_exchange
     print("Create Panel from DataFrame")
     panel = pd.Panel(d)
     panel = panel.transpose(2,1,0)
-
-    return(panel)    
+    return(panel, df_info)
 
 @click.command()
 @click.argument('geo')
