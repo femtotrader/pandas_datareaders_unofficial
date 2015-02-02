@@ -14,3 +14,9 @@ http://ticks.alpari.org/
 http://www.strategyquant.com/tickdatadownloader/
 Birt's Tick Data Suite 
 http://eareview.net/tick-data
+
+Quotes
+http://cran.r-project.org/web/packages/tseries/tseries.pdf
+get.hist.quote
+
+cf Quandl
