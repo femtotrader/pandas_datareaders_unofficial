@@ -25,7 +25,7 @@ See code:
 
 
 * Create pip package
-    * https://pypi.python.org/pypi
+    * <https://pypi.python.org/pypi>
 
 * Yahoo Options
     * current version is using lxml to parse web page
