@@ -3,8 +3,10 @@
     * see Read The Docs https://readthedocs.org/
     * Sphinx (reStructuredText) or MkDocs http://www.mkdocs.org/ (Markdown)
     * One file per DataReader
-    * custom :
-    
+    * Custom :
+ 
+See code:
+
     from pandas_datareaders.datareaders.base import DataReaderBase
     import pandas as pd
     import json
