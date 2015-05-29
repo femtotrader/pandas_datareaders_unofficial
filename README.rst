@@ -1,4 +1,4 @@
-|Latest Version| |Supported Python versions| |Download format| |License| |Development Status| |Documentation Status| |Source graph status| |Gitter| |Build Status|
+|Latest Version| |Supported Python versions| |Download format| |License| |Development Status| |Documentation Status| |Source graph status| |Gitter| |Code Health| |Build Status|
 
 Pandas DataReaders with support of
 `requests <http://www.python-requests.org/>`__ and
@@ -36,9 +36,8 @@ Links
 .. |Documentation Status| image:: https://readthedocs.org/projects/pandas-datareaders-unofficial/badge/?version=latest
    :target: https://pandas-datareaders-unofficial.readthedocs.org/
 
-.. image:: https://landscape.io/github/femtotrader/pandas_datareaders_unofficial/master/landscape.svg?style=flat
+.. |Code Health| image:: https://landscape.io/github/femtotrader/pandas_datareaders_unofficial/master/landscape.svg?style=flat
    :target: https://landscape.io/github/femtotrader/pandas_datareaders_unofficial/master
-   :alt: Code Health
 
 .. |Build Status| image:: https://travis-ci.org/femtotrader/pandas_datareaders_unofficial.svg
    :target: https://travis-ci.org/femtotrader/pandas_datareaders_unofficial
