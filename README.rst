@@ -36,5 +36,9 @@ Links
 .. |Documentation Status| image:: https://readthedocs.org/projects/pandas-datareaders-unofficial/badge/?version=latest
    :target: https://pandas-datareaders-unofficial.readthedocs.org/
 
+.. image:: https://landscape.io/github/femtotrader/pandas_datareaders_unofficial/master/landscape.svg?style=flat
+   :target: https://landscape.io/github/femtotrader/pandas_datareaders_unofficial/master
+   :alt: Code Health
+
 .. |Build Status| image:: https://travis-ci.org/femtotrader/pandas_datareaders_unofficial.svg
    :target: https://travis-ci.org/femtotrader/pandas_datareaders_unofficial
