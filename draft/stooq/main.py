@@ -27,21 +27,24 @@ from clint.textui import progress
 import pandas.compat as compat
 
 """
-from main import conv_resol, conv_geo, download_data, get_data
+from main import get_data
+from datetime import timedelta
+import requests_cache
 expire_after = timedelta(days=1)
 session = requests_cache.CachedSession(cache_name='cache', expire_after=expire_after)
-panel = get_data('poland', 'H', session)
+panel, df_info = get_data('hungary', 'D', session)
+#panel, df_info = get_data('poland', 'H', session)
 """
 
 def conv_resol(resolution):
-    d = {
+    d_resol = {
         to_offset('5Min'): '5',
         to_offset('1H'): 'h',
         to_offset('D'): 'd',
     }
     try:
-        return(d[to_offset(resolution)])
-    except:
+        return(d_resol[to_offset(resolution)])
+    except KeyError:
         logging.error(traceback.format_exc())
         logging.warning("conv_resol returns '%s'" % resolution)
         resolution = resolution.lower()
@@ -61,7 +64,7 @@ def conv_geo(geo):
 
     try:
         return(d_geo[geo.lower()])
-    except:
+    except KeyError:
         logging.error(traceback.format_exc())
         geo = geo.lower()
         logging.warning("conv_geo returns '%s'" % geo)
@@ -70,7 +73,7 @@ def conv_geo(geo):
 def download_data(geo, resolution, session):    
     url = "http://s.stooq.com/db/h/{resolution}_{geo}_txt.zip".format(geo=geo, resolution=resolution)
 
-    print("Request %r" % url)
+    logger.debug("Request %r" % url)
 
     response = session.get(url, stream=True)
     #path = 'temp.tmp'
@@ -114,8 +117,8 @@ def get_data(geo, resolution, session):
                 if filename_ext.lower() == '.txt':
                     file_exchange = filename.split('/')[3]
                     file_symbol = os.path.split(filename_short)[-1].upper()
-                    #print("Building DataFrame for '%s' at '%s' from '%s'" % (file_symbol, file_exchange, filename))
-                    if  zinfo.file_size>0:
+                    logger.info("Building DataFrame for '%s' at '%s' from '%s' (%.1f)" % (file_symbol, file_exchange, filename, float(zinfo.file_size) / 1024))
+                    if  zinfo.file_size > 0:
                         try:
                             if resolution=='d':
                                 df = pd.read_csv(zfile, parse_dates=0)
@@ -127,7 +130,10 @@ def get_data(geo, resolution, session):
                             d[file_symbol] = df
                             if cols is None:
                                 cols = df.columns
-                        except:
+                        except KeyboardInterrupt:
+                            logger.error("CTRL+C was pressed - exit")
+                            break
+                        except Exception as e:
                             logger.error("Can't build DataFrame for '%s' at '%s' from '%s'" % (file_symbol, file_exchange, filename.replace(' ', '\ ')))
                             logger.error(traceback.format_exc())
                             d[file_symbol] = None
@@ -143,9 +149,10 @@ def get_data(geo, resolution, session):
     return(panel, df_info)
 
 @click.command()
-@click.option('--geo', default='HU', help='Geo')
+@click.option('--geo', default='hungary', help='Geo')
 @click.option('--resolution', default='D', help='resolution')
 def main(geo, resolution):
+    logging.basicConfig(level=logging.DEBUG)
     #geo, resolution = 'HU', 'D'
     expire_after = timedelta(days=1)
     session = requests_cache.CachedSession(cache_name='cache', expire_after=expire_after)
