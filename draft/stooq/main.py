@@ -20,7 +20,8 @@ from datetime import timedelta
 
 from clint.textui import progress
 
-from six.moves import cStringIO as StringIO
+#from six.moves import cStringIO as StringIO
+import pandas.compat as compat
 
 """
 from main import conv_resol, conv_geo, download_data, get_data
@@ -40,6 +41,7 @@ def conv_resol(resolution):
     except:
         logging.error(traceback.format_exc())
         logging.warning("conv_resol returns '%s'" % resolution)
+        resolution = resolution.lower()
         return(resolution)
 
 def conv_geo(geo):
@@ -58,11 +60,12 @@ def conv_geo(geo):
         return(d_geo[geo.lower()])
     except:
         logging.error(traceback.format_exc())
+        geo = geo.lower()
         logging.warning("conv_geo returns '%s'" % geo)
         return(geo)
 
 def download_data(geo, resolution, session):    
-    url = "http://stooq.com/db/d/?b={resolution}_{geo}_txt".format(geo=geo, resolution=resolution)
+    url = "http://s.stooq.com/db/h/{resolution}_{geo}_txt.zip".format(geo=geo, resolution=resolution)
 
     print("Request %r" % url)
 
@@ -88,7 +91,7 @@ def get_data(geo, resolution, session):
     print("Request done")
 
     print("Create stream file")
-    zip_data = StringIO(response.content)
+    zip_data = compat.BytesIO(response.content)
 
     print("Creating a DataFrame per symbol")
 
