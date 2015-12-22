@@ -28,7 +28,15 @@ from datetime import timedelta
 from pandas.io.common import urlencode
 import pandas.compat as compat
 
-def send_request(session, params, debug):
+SYMBOLS_NOT_AUTH = ['EUR/USD', 'USD/JPY', 'GBP/USD', 'EUR/GBP', 'USD/CHF', \
+    'EUR/JPY', 'EUR/CHF', 'USD/CAD', 'AUD/USD', 'GBP/JPY']
+
+SYMBOLS_ALL = ['EUR/USD', 'USD/JPY', 'GBP/USD', 'EUR/GBP', 'USD/CHF', 'AUD/NZD', \
+    'CAD/CHF', 'CHF/JPY', 'EUR/AUD', 'EUR/CAD', 'EUR/JPY', 'EUR/CHF', 'USD/CAD', \
+    'AUD/USD', 'GBP/JPY', 'AUD/CAD', 'AUD/CHF', 'AUD/JPY', 'EUR/NOK', 'EUR/NZD', \
+    'GBP/CAD', 'GBP/CHF', 'NZD/JPY', 'NZD/USD', 'USD/NOK', 'USD/SEK']
+
+def _send_request(session, params):
     base_url = "http://webrates.truefx.com/rates"
     endpoint = "/connect.html"
     url = base_url + endpoint
@@ -37,8 +45,8 @@ def send_request(session, params, debug):
     response = session.get(url, params=params)
     return(response)
 
-def connect(session, username, password, lst_symbols, qualifier, \
-        api_format, snapshot, debug):
+def _connect(session, username, password, lst_symbols, qualifier, \
+        api_format, snapshot):
 
     s = 'y' if snapshot else 'n'
 
@@ -51,7 +59,7 @@ def connect(session, username, password, lst_symbols, qualifier, \
         's': s
     }
 
-    response = send_request(session, params, debug)
+    response = _send_request(session, params)
     if response.status_code != 200:
         raise(Exception("Can't connect"))
     
@@ -60,21 +68,21 @@ def connect(session, username, password, lst_symbols, qualifier, \
 
     return(session_data)
 
-def disconnect(session, session_data, debug):
+def _disconnect(session, session_data):
     params = {
         'di': session_data,
     }
-    response = send_request(session, params, debug)
+    response = _send_request(session, params)
     return(response)
 
-def query_auth_send(session, session_data, debug):
+def _query_auth_send(session, session_data):
     params = {
         'id': session_data,
     }
-    response = send_request(session, params, debug)
+    response = _send_request(session, params)
     return(response)
 
-def parse_data(data):
+def _parse_data(data):
     data_io = compat.StringIO(data)
     df = pd.read_csv(data_io, header=None, \
         names=['Symbol', 'Date', 'Bid', 'Bid_point', \
@@ -84,7 +92,7 @@ def parse_data(data):
     df = df.set_index('Symbol')
     return(df)
 
-def query_not_auth(session, lst_symbols, api_format, snapshot, debug):
+def _query_not_auth(session, lst_symbols, api_format, snapshot):
     s = 'y' if snapshot else 'n'
 
     params = {
@@ -93,28 +101,28 @@ def query_not_auth(session, lst_symbols, api_format, snapshot, debug):
         's': s
     }
 
-    response = send_request(session, params, debug)
+    response = _send_request(session, params)
     if response.status_code != 200:
         raise(Exception("Can't connect"))
 
     return(response)
 
-def registered(username, password):
+def _is_registered(username, password):
     return(not (username=='' and password==''))
 
-def get_session(session=None):
+def _init_session(session=None):
     if session is None:
         return(requests.Session())
     else:
         return(session)
 
 def query(symbols='', qualifier='default', api_format='csv', snapshot=True, \
-        username='', password='', force_unregistered=False, flag_parse_data=True, session=None, debug=True):
+        username='', password='', force_unregistered=False, flag_parse_data=True, session=None):
 
-    (username, password) = credentials(username, password)
-    session = get_session(session)
+    (username, password) = _init_credentials(username, password)
+    session = _init_session(session)
 
-    is_registered = registered(username, password)
+    is_registered = _is_registered(username, password)
 
     if isinstance(symbols, compat.string_types):
         symbols = symbols.upper()
@@ -129,45 +137,32 @@ def query(symbols='', qualifier='default', api_format='csv', snapshot=True, \
             symbols = SYMBOLS_ALL
     
     if not is_registered or force_unregistered:
-        response = query_not_auth(session, symbols, api_format, snapshot, debug)
+        response = _query_not_auth(session, symbols, api_format, snapshot)
         data = response.text
-        if flag_parse_data:
-            df = parse_data(data)
-            return(df)
-        else:
-            return(data)
     else:
-        session_data = connect(session, username, password, symbols, qualifier, \
-            api_format, snapshot, debug)
+        session_data = _connect(session, username, password, symbols, qualifier, \
+            api_format, snapshot)
         error_msg = 'not authorized'
         if error_msg in session_data:
             raise(Exception(error_msg))
 
-        response = query_auth_send(session, session_data, debug)
+        response = _query_auth_send(session, session_data)
         data = response.text
 
-        response = disconnect(session, session_data, debug)
+        response = _disconnect(session, session_data)
 
-        if flag_parse_data:
-            df = parse_data(data)
-            return(df)
-        else:
-            return(data)
+    if flag_parse_data:
+        df = _parse_data(data)
+        return(df)
+    else:
+        return(data)
 
-def credentials(username='', password=''):
+def _init_credentials(username='', password=''):
     if username=='':
         username = os.getenv('TRUEFX_USERNAME')
     if password=='':
-        password = os.environ['TRUEFX_PASSWORD']
+        password = os.getenv('TRUEFX_PASSWORD')
     return(username, password)
-
-SYMBOLS_NOT_AUTH = ['EUR/USD', 'USD/JPY', 'GBP/USD', 'EUR/GBP', 'USD/CHF', \
-    'EUR/JPY', 'EUR/CHF', 'USD/CAD', 'AUD/USD', 'GBP/JPY']
-
-SYMBOLS_ALL = ['EUR/USD', 'USD/JPY', 'GBP/USD', 'EUR/GBP', 'USD/CHF', 'AUD/NZD', \
-    'CAD/CHF', 'CHF/JPY', 'EUR/AUD', 'EUR/CAD', 'EUR/JPY', 'EUR/CHF', 'USD/CAD', \
-    'AUD/USD', 'GBP/JPY', 'AUD/CAD', 'AUD/CHF', 'AUD/JPY', 'EUR/NOK', 'EUR/NZD', \
-    'GBP/CAD', 'GBP/CHF', 'NZD/JPY', 'NZD/USD', 'USD/NOK', 'USD/SEK']
 
 @click.command()
 @click.option('--symbols', default='', help="Symbols list (separated with ','")
@@ -192,8 +187,8 @@ def main(symbols, username, password, force_unregistered, expire_after):
     session = requests_cache.CachedSession(\
         cache_name='cache_truefx', expire_after=expire_after)
 
-    (username, password) = credentials(username, password)
-    is_registered = registered(username, password)
+    (username, password) = _init_credentials(username, password)
+    is_registered = _is_registered(username, password)
     
     if not is_registered or force_unregistered:
         print("""You should register to TrueFX at
@@ -211,10 +206,9 @@ export TRUEFX_PASSWORD="your_password"
     api_format = 'csv'
     snapshot = True
     flag_parse_data = True
-    debug = True
 
     data = query(symbols, qualifier, api_format, snapshot, username, password, \
-        force_unregistered, flag_parse_data, session, debug)
+        force_unregistered, flag_parse_data, session)
 
     print(data)
 
