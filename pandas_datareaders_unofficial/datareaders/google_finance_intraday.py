@@ -67,7 +67,8 @@ class DataReaderGoogleFinanceIntraday(DataReaderBase):
             'ei': ei,
             'ts': ts # Starting timestamp (Unix format). If blank, it uses today.
         }
-
+        print(url)
+        print(params)
         #period = to_offset(s_period)
         #period_s = period.delta.total_seconds() # 1H=3600s - number of seconds
 

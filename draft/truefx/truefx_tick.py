@@ -8,11 +8,15 @@ from datetime import timedelta
 
 import pandas as pd
 from pandas.io.common import ZipFile
-from six.moves import cStringIO as StringIO
+from pandas.compat import BytesIO, StringIO, PY2
 
 def main():
     expire_after = timedelta(days=1)
-    session = requests_cache.CachedSession(cache_name='cache', expire_after=expire_after)
+    if PY2:
+        filename = 'cache_py2'    
+    else:
+        filename = 'cache'
+    session = requests_cache.CachedSession(cache_name=filename, expire_after=expire_after)
 
     dt = pd.to_datetime("2014-01-01")
     symbol = "AUD/USD"
@@ -23,7 +27,7 @@ def main():
     #url = "http://www.truefx.com/dev/data/2014/JANUARY-2014/AUDUSD-2014-01.zip"
     url = "http://www.truefx.com/dev/data/{year:04d}/{month_name}-{year:04d}/{symbol}-{year:04d}-{month:02d}.zip".format(year=year, month=month, symbol=symbol, month_name=month_name)
     response = session.get(url)
-    zip_data = StringIO(response.content)
+    zip_data = BytesIO(response.content)
     filename = "{symbol}-{year:04d}-{month:02d}.csv".format(year=year, month=month, symbol=symbol)
 
     with ZipFile(zip_data, 'r') as zf:
@@ -31,10 +35,14 @@ def main():
         zfile = zf.open(filename)
         #print(zfile)
         #(symb, dt, ask, bid) = zfile.read().split(',')        
+        #print(zfile.__dict__)
         data = zfile.readlines()
-    
+        #df = pd.read_csv(zfile._fileobj)  # ToFix: can't make it work correctly
+
+    #return
     df = pd.DataFrame(data)
-    df = df[:100] # just for test
+    #df = df[:100] # just for test
+    df[0] = df[0].str.decode('utf8')
     df[0] = df[0].str.replace('\n', '')
     df[0] = df[0].map(lambda s: s.split(','))
     df['Symbol'] = df[0].map(lambda t: t[0])

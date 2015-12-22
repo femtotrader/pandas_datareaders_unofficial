@@ -40,6 +40,7 @@ class DataReaderYahooFinanceIntraday(DataReaderBase):
 
 def get_raw(symbol, period, session):
     url = "http://chartapi.finance.yahoo.com/instrument/1.0/{symbol}/chartdata;type=quote;range={period}/json".format(symbol=symbol, period=period)
+    print(url)
     response = session.get(url)
     data = response.text
     data = data.replace('finance_charts_json_callback( ','')[:-1]  # strip away the javascript

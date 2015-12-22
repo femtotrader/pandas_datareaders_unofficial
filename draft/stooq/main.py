@@ -11,7 +11,6 @@ import os
 import requests
 import requests_cache
 
-import logging
 import traceback
 
 import pandas as pd
@@ -27,6 +26,8 @@ from clint.textui import progress
 import pandas.compat as compat
 
 """
+import logging
+logging.basicConfig(level=logging.DEBUG)
 from main import get_data
 from datetime import timedelta
 import requests_cache
