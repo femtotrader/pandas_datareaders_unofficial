@@ -9,25 +9,31 @@ http://www.truefx.com/?page=download&description=api
 http://www.truefx.com/dev/data/TrueFX_MarketDataWebAPI_DeveloperGuide.pdf
 """
 
+import logging
+logger = logging.getLogger(__name__)
+
 import click
 
 import os
 import requests
 import requests_cache
 import datetime
+
 import pandas as pd
+#pd.set_option('max_rows', 10)
+pd.set_option('expand_frame_repr', False)
+pd.set_option('max_columns', 8)
+
 from datetime import timedelta
 from pandas.io.common import urlencode
-import six
-from six.moves import cStringIO as StringIO
+import pandas.compat as compat
 
 def send_request(session, params, debug):
     base_url = "http://webrates.truefx.com/rates"
     endpoint = "/connect.html"
     url = base_url + endpoint
-    if debug:
-        s_url = url+'?'+urlencode(params)
-        print("Request to '%s' with '%s' using '%s'" % (url, params, s_url))
+    s_url = url+'?'+urlencode(params)
+    logging.debug("Request to '%s' with '%s' using '%s'" % (url, params, s_url))
     response = session.get(url, params=params)
     return(response)
 
@@ -69,7 +75,7 @@ def query_auth_send(session, session_data, debug):
     return(response)
 
 def parse_data(data):
-    data_io = StringIO(data)
+    data_io = compat.StringIO(data)
     df = pd.read_csv(data_io, header=None, \
         names=['Symbol', 'Date', 'Bid', 'Bid_point', \
             'Ask', 'Ask_point', 'High', 'Low', 'Open'])
@@ -103,19 +109,18 @@ def get_session(session=None):
         return(session)
 
 def query(symbols='', qualifier='default', api_format='csv', snapshot=True, \
-        username='', password='', flag_parse_data=True, session=None, debug=True):
+        username='', password='', force_unregistered=False, flag_parse_data=True, session=None, debug=True):
 
     (username, password) = credentials(username, password)
     session = get_session(session)
 
     is_registered = registered(username, password)
 
-    if isinstance(symbols, six.string_types):
+    if isinstance(symbols, compat.string_types):
         symbols = symbols.upper()
         symbols = symbols.split(',')
-
-    if isinstance(symbols, list):
-        symbols = map(lambda s: s.upper(), symbols)
+    else:
+        symbols = list(map(lambda s: s.upper(), symbols))
 
     if symbols == ['']:
         if not is_registered:
@@ -123,7 +128,7 @@ def query(symbols='', qualifier='default', api_format='csv', snapshot=True, \
         else:
             symbols = SYMBOLS_ALL
     
-    if not is_registered:
+    if not is_registered or force_unregistered:
         response = query_not_auth(session, symbols, api_format, snapshot, debug)
         data = response.text
         if flag_parse_data:
@@ -151,16 +156,9 @@ def query(symbols='', qualifier='default', api_format='csv', snapshot=True, \
 
 def credentials(username='', password=''):
     if username=='':
-        try:
-            username = os.environ['TRUEFX_USERNAME']
-        except:
-            pass
-
+        username = os.getenv('TRUEFX_USERNAME')
     if password=='':
-        try:
-            password = os.environ['TRUEFX_PASSWORD']
-        except:
-            pass
+        password = os.environ['TRUEFX_PASSWORD']
     return(username, password)
 
 SYMBOLS_NOT_AUTH = ['EUR/USD', 'USD/JPY', 'GBP/USD', 'EUR/GBP', 'USD/CHF', \
@@ -175,9 +173,11 @@ SYMBOLS_ALL = ['EUR/USD', 'USD/JPY', 'GBP/USD', 'EUR/GBP', 'USD/CHF', 'AUD/NZD',
 @click.option('--symbols', default='', help="Symbols list (separated with ','")
 @click.option('--username', default='', help="TrueFX username")
 @click.option('--password', default='', help="TrueFX password")
+@click.option('--force-unregistered/--no-force-unregistered', default=False, \
+    help=u"Force unregistered")
 @click.option('--expire_after', default='00:15:00.0', \
     help=u"Cache expiration (-1: no cache, 0: no expiration, 00:15:00.0: expiration delay)")
-def main(symbols, username, password, expire_after):
+def main(symbols, username, password, force_unregistered, expire_after):
 
     print("""TrueFX - Python API call
 ========================
@@ -195,7 +195,7 @@ def main(symbols, username, password, expire_after):
     (username, password) = credentials(username, password)
     is_registered = registered(username, password)
     
-    if not is_registered:
+    if not is_registered or force_unregistered:
         print("""You should register to TrueFX at
 http://www.truefx.com/
 and pass username and password using CLI flag
@@ -214,7 +214,7 @@ export TRUEFX_PASSWORD="your_password"
     debug = True
 
     data = query(symbols, qualifier, api_format, snapshot, username, password, \
-        flag_parse_data, session, debug)
+        force_unregistered, flag_parse_data, session, debug)
 
     print(data)
 
