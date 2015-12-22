@@ -116,7 +116,7 @@ def _init_session(session=None):
     else:
         return(session)
 
-def query(symbols='', qualifier='default', api_format='csv', snapshot=True, \
+def _query(symbols='', qualifier='default', api_format='csv', snapshot=True, \
         username='', password='', force_unregistered=False, flag_parse_data=True, session=None):
 
     (username, password) = _init_credentials(username, password)
@@ -157,12 +157,55 @@ def query(symbols='', qualifier='default', api_format='csv', snapshot=True, \
     else:
         return(data)
 
+def read(symbols, username, password, force_unregistered, session):
+
+    qualifier = 'default'
+    api_format = 'csv'
+    snapshot = True
+    flag_parse_data = True
+
+    data = _query(symbols, qualifier, api_format, snapshot, username, password, \
+        force_unregistered, flag_parse_data, session)
+
+    return data
+
 def _init_credentials(username='', password=''):
     if username=='':
         username = os.getenv('TRUEFX_USERNAME')
     if password=='':
         password = os.getenv('TRUEFX_PASSWORD')
     return(username, password)
+
+def _get_session(expire_after, cache_name='cache'):
+    """
+    Returns a `requests.Session` or a `requests_cache.CachedSession`
+
+    Parameters
+    ----------
+    expire_after : `str`    
+        cache expiration delay
+                    '-1' : no cache
+                     '0' : no expiration
+            '00:15:00.0' : expiration delay
+
+    cache_filename : `str`
+        Name of cache file
+
+    """
+    if expire_after=='-1':
+        expire_after = None
+        logger.debug("expire_after==0 no cache")
+        session = requests.Session()
+    else:
+        if expire_after=='0':
+            expire_after = 0
+            logger.debug("Installing cache '%s.sqlite' without expiration" % cache_name)
+        else:
+            expire_after = pd.to_timedelta(expire_after, unit='s')
+            logger.debug("Installing cache '%s.sqlite' with expire_after=%s (d days hh:mm:ss)" % (cache_name, expire_after))
+        session = requests_cache.CachedSession(\
+            cache_name=cache_name, expire_after=expire_after)
+    return session
 
 @click.command()
 @click.option('--symbols', default='', help="Symbols list (separated with ','")
@@ -173,19 +216,13 @@ def _init_credentials(username='', password=''):
 @click.option('--expire_after', default='00:15:00.0', \
     help=u"Cache expiration (-1: no cache, 0: no expiration, 00:15:00.0: expiration delay)")
 def main(symbols, username, password, force_unregistered, expire_after):
+    logging.basicConfig(level=logging.DEBUG)
 
     print("""TrueFX - Python API call
 ========================
 """)
 
-    if expire_after=='-1':
-        expire_after = None
-    else:
-        expire_after = pd.to_timedelta(expire_after, unit='s')
-
-    #session = requests.Session()
-    session = requests_cache.CachedSession(\
-        cache_name='cache_truefx', expire_after=expire_after)
+    session = _get_session(expire_after)
 
     (username, password) = _init_credentials(username, password)
     is_registered = _is_registered(username, password)
@@ -202,13 +239,7 @@ export TRUEFX_USERNAME="your_username"
 export TRUEFX_PASSWORD="your_password"
 """)
 
-    qualifier = 'default'
-    api_format = 'csv'
-    snapshot = True
-    flag_parse_data = True
-
-    data = query(symbols, qualifier, api_format, snapshot, username, password, \
-        force_unregistered, flag_parse_data, session)
+    data = read(symbols, username=username, password=password, force_unregistered=force_unregistered, session=session)
 
     print(data)
 
