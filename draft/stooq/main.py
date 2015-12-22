@@ -139,8 +139,8 @@ def get_data(geo, resolution, session):
     return(panel, df_info)
 
 @click.command()
-@click.argument('geo')
-@click.argument('resolution')
+@click.option('--geo', default='HU', help='Geo')
+@click.option('--resolution', default='D', help='resolution')
 def main(geo, resolution):
     expire_after = timedelta(days=1)
     session = requests_cache.CachedSession(cache_name='cache', expire_after=expire_after)
