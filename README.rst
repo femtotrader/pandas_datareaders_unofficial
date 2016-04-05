@@ -1,5 +1,9 @@
 |Latest Version| |Supported Python versions| |Download format| |License| |Development Status| |Requirements Status| |Documentation Status| |Source graph status| |Gitter| |Code Health| |Build Status|
 
+
+This project is DEPRECATED ! Please use https://github.com/pydata/pandas-datareader instead.
+
+
 Pandas DataReaders with support of
 `requests <http://www.python-requests.org/>`__ and
 `requests-cache <http://requests-cache.readthedocs.org/>`__
